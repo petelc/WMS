@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using API.Entities;
 using API.Data;
+using API.Middleware;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,23 +15,33 @@ builder.Services.AddDbContext<WMSContext>(options =>
 
 builder.Services.AddCors();
 
+builder.Services.AddTransient<ExceptionMiddleware>();
 
-
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+// ? Add Identity
+builder.Services.AddIdentityApiEndpoints<User>(opt => 
+{
+    opt.User.RequireUniqueEmail = true;
+})
+    .AddRoles<IdentityRole>()
+    .AddEntityFrameworkStores<WMSContext>();
 
 var app = builder.Build();
 
 // ? Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-}
 
-app.UseHttpsRedirection();
 
+app.UseMiddleware<ExceptionMiddleware>();
+
+app.UseCors(opt => {
+    opt.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("http://localhost:3000");
+});
+
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapGroup("api").MapIdentityApi<User>();
+
+DbInitializer.InitDb(app);
 
 app.Run();

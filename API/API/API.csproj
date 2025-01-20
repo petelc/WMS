@@ -13,10 +13,4 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.1" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="DTOs/" />
-    <Folder Include="Extensions/" />
-    <Folder Include="RequestHelpers/" />
-  </ItemGroup>
-
 </Project>
