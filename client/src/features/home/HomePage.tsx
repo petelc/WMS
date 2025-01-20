@@ -1,4 +1,5 @@
 import { Box, Button, Grid2, Typography } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 export default function HomePage() {
   return (
@@ -35,7 +36,12 @@ export default function HomePage() {
           <Typography variant='h5' component='h2' gutterBottom>
             To continue, please log in
           </Typography>
-          <Button variant='contained' color='primary'>
+          <Button
+            component={Link}
+            to={'/login'}
+            variant='contained'
+            color='primary'
+          >
             Log in
           </Button>
         </Box>
