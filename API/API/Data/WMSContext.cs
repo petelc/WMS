@@ -26,6 +26,7 @@ public class WMSContext(DbContextOptions<WMSContext> options) : IdentityDbContex
         /**
          * Create Roles for the users
          * Staff, 
+         
          * Admin, 
          * BoardMember, 
          * ProjectManager, 
