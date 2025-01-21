@@ -14,9 +14,19 @@ import { DarkMode, DesignServices, LightMode } from '@mui/icons-material';
 
 import { useAppDispatch, useAppSelector } from '../store/store';
 import { toggleDarkMode } from './uiSlice';
-import { midLinks, rightLinks } from '../../lib/menus';
+import { midLinks, protectedLinks, rightLinks } from '../../lib/menus';
+import { useUserInfoQuery } from '../../features/account/accountApi';
 
 const navStyles = {
+  color: 'inherit',
+  typography: 'h6',
+  textDecoration: 'none',
+  width: '13.5rem',
+  '&:hover': { color: 'grey.500' },
+  '&.active': { color: '#baecf9' },
+};
+
+const navRightStyles = {
   color: 'inherit',
   typography: 'h6',
   textDecoration: 'none',
@@ -25,6 +35,7 @@ const navStyles = {
 };
 
 export default function NavBar() {
+  const { data: user } = useUserInfoQuery();
   const { isLoading, darkMode } = useAppSelector((state) => state.ui);
   const dispatch = useAppDispatch();
 
@@ -51,13 +62,29 @@ export default function NavBar() {
             {darkMode ? <DarkMode /> : <LightMode sx={{ color: 'yellow' }} />}
           </IconButton>
         </Box>
-        <List sx={{ display: 'flex' }}>
-          {midLinks.map(({ title, path }) => (
-            <ListItem key={path} component={NavLink} to={path} sx={navStyles}>
-              {title.toUpperCase()}
-            </ListItem>
-          ))}
-        </List>
+        {user ? (
+          <List sx={{ display: 'flex' }}>
+            {protectedLinks.map(({ title, path }) => (
+              <ListItem
+                key={path}
+                component={NavLink}
+                to={path}
+                sx={navRightStyles}
+              >
+                {title.toUpperCase()}
+              </ListItem>
+            ))}
+          </List>
+        ) : (
+          <List sx={{ display: 'flex' }}>
+            {midLinks.map(({ title, path }) => (
+              <ListItem key={path} component={NavLink} to={path} sx={navStyles}>
+                {title.toUpperCase()}
+              </ListItem>
+            ))}
+          </List>
+        )}
+
         <Box display='flex' alignItems='center'>
           <IconButton
             component={Link}
@@ -71,7 +98,12 @@ export default function NavBar() {
           </IconButton>
           <List sx={{ display: 'flex' }}>
             {rightLinks.map(({ title, path }) => (
-              <ListItem key={path} component={NavLink} to={path} sx={navStyles}>
+              <ListItem
+                key={path}
+                component={NavLink}
+                to={path}
+                sx={navRightStyles}
+              >
                 {title.toUpperCase()}
               </ListItem>
             ))}
