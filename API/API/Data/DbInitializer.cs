@@ -1,4 +1,5 @@
 using System;
+using System.Net.Http.Headers;
 using API.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -100,78 +101,171 @@ public class DbInitializer
             await userManager.AddToRoleAsync(developer, "Developer");
         }
 
-        // if (context.Requests.Any()) return;
+        if (context.Requests.Any()) return;
 
-        // var requests = new List<Request>
-        // {
-        //     new()
-        //     {
-        //         RequestedDate = DateTime.Now,
-        //         RequestTitle = "Request 1",
-        //         RequestDescription = "Request 1 Description",
-        //         isNew = true,
-        //         isActive = true,
-        //         SendToBoard = false,
-        //         BoardDate = DateTime.Parse("1970-01-01"),
-        //         ApprovalDate = DateTime.Parse("1970-01-01"),
-        //         DenialDate = DateTime.Parse("1970-01-01"),
-        //         ApprovalStatusId = 1,
-        //         PriorityId = 1,
-        //         RequestTypeId = 1,
-        //         RequestStatusId = 1
-        //     },
-        //     new()
-        //     {
-        //         RequestedDate = DateTime.Parse("2025-01-04"),
-        //         RequestTitle = "Request 2",
-        //         RequestDescription = "Request 2 Description",
-        //         isNew = true,
-        //         isActive = true,
-        //         SendToBoard = false,
-        //         BoardDate = DateTime.Parse("1970-01-01"),
-        //         ApprovalDate = DateTime.Parse("1970-01-01"),
-        //         DenialDate = DateTime.Parse("1970-01-01"),
-        //         ApprovalStatusId = 1,
-        //         PriorityId = 2,
-        //         RequestTypeId = 2,
-        //         RequestStatusId = 1
-        //     },
-        //     new()
-        //     {
-        //         RequestedDate = DateTime.Parse("2025-01-12"),
-        //         RequestTitle = "Request 3",
-        //         RequestDescription = "Request 3 Description",
-        //         isNew = true,
-        //         isActive = true,
-        //         SendToBoard = false,
-        //         BoardDate = DateTime.Parse("1970-01-01"),
-        //         ApprovalDate = DateTime.Parse("1970-01-01"),
-        //         DenialDate = DateTime.Parse("1970-01-01"),
-        //         ApprovalStatusId = 1,
-        //         PriorityId = 3,
-        //         RequestTypeId = 3,
-        //         RequestStatusId = 1
-        //     },
-        //     new()
-        //     {
-        //         RequestedDate = DateTime.Parse("2025-01-19"),
-        //         RequestTitle = "Request 4",
-        //         RequestDescription = "Request 4 Description",
-        //         isNew = true,
-        //         isActive = true,
-        //         SendToBoard = false,
-        //         BoardDate = DateTime.Parse("1970-01-01"),
-        //         ApprovalDate = DateTime.Parse("1970-01-01"),
-        //         DenialDate = DateTime.Parse("1970-01-01"),
-        //         ApprovalStatusId = 1,
-        //         PriorityId = 2,
-        //         RequestTypeId = 3,
-        //         RequestStatusId = 1
-        //     }
-        // };
+        var requests = new List<Request>
+        {
+            new() {
+                Id = 1,
+                RequestedDate = DateTime.Now,
+                RequestTitle = "Request 1",
+                RequestDescription = "Request 1 Description",
+                RequestedBy = "Logan", // requested by
+                Department = "OOP", //department
+                ExplainImpact = "Impacts explanation", // explain impact
+                hasStakeHolderConferred = true, // has stake holders conferred
+                ProposedImpDate = DateTime.Parse("2025-05-24"), // proposed implement date
+                BoardDate = DateTime.Parse("1970-01-01"),
+                ApprovalDate = DateTime.Parse("1970-01-01"),
+                DenialDate = DateTime.Parse("1970-01-01"),
+                Policies = new List<string> {"None"}, // policies
+                RelatedProjects = new List<string> {"None"}, // related projects[]
+                isNew = true,
+                isActive = true,
+                SendToBoard = false,
+                ApprovalStatusId = 1,
+                PriorityId = 1,
+                RequestTypeId = 1,
+                RequestStatusId = 1,
+                MandateId = 1,
+                ImpactId = 1,
+                ScopeId = 1
+            },
+            new() {
+                Id = 2,
+                RequestedDate = DateTime.Parse("2025-01-04"),
+                RequestTitle = "Request 2",
+                RequestDescription = "Request 2 Description",
+                RequestedBy = "Heather Thomas", // requested by
+                Department = "MH", //department
+                ExplainImpact = "Impacts explanation", // explain impact
+                hasStakeHolderConferred = true, // has stake holders conferred
+                ProposedImpDate = DateTime.Parse("2025-05-24"), // proposed implement date
+                isNew = true,
+                isActive = true,
+                SendToBoard = false,
+                BoardDate = DateTime.Parse("1970-01-01"),
+                ApprovalDate = DateTime.Parse("1970-01-01"),
+                DenialDate = DateTime.Parse("1970-01-01"),
+                Policies = new List<string> {"None"}, // policies
+                RelatedProjects = new List<string> {"None"}, // related projects[]
+                ApprovalStatusId = 1,
+                PriorityId = 2,
+                RequestTypeId = 2,
+                RequestStatusId = 1,
+                MandateId = 2,
+                ImpactId = 2,
+                ScopeId = 2
+            },
+            new() {
+                Id = 3,
+                RequestedDate = DateTime.Parse("2025-01-12"),
+                RequestTitle = "Request 3",
+                RequestDescription = "Request 3 Description",
+                RequestedBy = "John P Tanner", // requested by
+                Department = "AOCI", //department
+                ExplainImpact = "Impacts explanation", // explain impact
+                hasStakeHolderConferred = true, // has stake holders conferred
+                ProposedImpDate = DateTime.Parse("2025-05-24"), // proposed implement date
+                isNew = true,
+                isActive = true,
+                SendToBoard = false,
+                BoardDate = DateTime.Parse("1970-01-01"),
+                ApprovalDate = DateTime.Parse("1970-01-01"),
+                DenialDate = DateTime.Parse("1970-01-01"),
+                Policies = new List<string> {"None"}, // policies
+                RelatedProjects = new List<string> {"None"}, // related projects[]
+                ApprovalStatusId = 1,
+                PriorityId = 3,
+                RequestTypeId = 3,
+                RequestStatusId = 1,
+                MandateId = 1,
+                ImpactId = 1,
+                ScopeId = 1
+            },
+            new() {
+                Id = 4,
+                RequestedDate = DateTime.Parse("2025-01-19"),
+                RequestTitle = "Request 4",
+                RequestDescription = "Request 4 Description",
+                RequestedBy = "Stacy Cooper", // requested by
+                Department = "EDU", //department
+                ExplainImpact = "Impacts explanation", // explain impact
+                hasStakeHolderConferred = true, // has stake holders conferred
+                ProposedImpDate = DateTime.Parse("2025-05-24"), // proposed implement date
+                isNew = true,
+                isActive = true,
+                SendToBoard = false,
+                BoardDate = DateTime.Parse("1970-01-01"),
+                ApprovalDate = DateTime.Parse("1970-01-01"),
+                DenialDate = DateTime.Parse("1970-01-01"),
+                Policies = new List<string> {"None"}, // policies
+                RelatedProjects = new List<string> {"None"}, // related projects[]
+                ApprovalStatusId = 1,
+                PriorityId = 2,
+                RequestTypeId = 3,
+                RequestStatusId = 1,
+                MandateId = 2,
+                ImpactId = 2,
+                ScopeId = 2
+            }
+        };
 
-        // context.Requests.AddRange(requests);
+        context.Requests.AddRange(requests);
 
-        //context.SaveChanges();
+        var mandates = new List<Mandate>
+        {
+            new() { 
+                Id = 1, 
+                MandateBy = "MandateBy 1", 
+                MandateTitle = "MandateTitle 1", 
+                MandateDescription = "MandateDescription 1", RequiredComplianceDate = DateTime.Parse("2025-01-01") 
+            },
+            new() { 
+                Id = 2, 
+                MandateBy = "MandateBy 2",
+                MandateTitle = "MandateTitle 2", 
+                MandateDescription = "MandateDescription 2", RequiredComplianceDate = DateTime.Parse("2025-01-02") 
+            }
+        };
+
+        context.Mandates.AddRange(mandates);
+
+        var impacts = new List<Impact>
+        {
+            new() { 
+                Id = 1, 
+                InternalUserCount = 100, 
+                ExternalUserCount = 200, NewAutomationExplain = "NewAutomationExplain 1" 
+            },
+            new() { 
+                Id = 2, 
+                InternalUserCount = 150, 
+                ExternalUserCount = 250, 
+                NewAutomationExplain = "NewAutomationExplain 2" 
+            }
+        };
+
+        context.Impacts.AddRange(impacts);
+
+        var scopes = new List<Scope>
+        {
+            new() { 
+                Id = 1, 
+                Objectives = "Objectives 1", 
+                Requirements = "Requirements 1", 
+                Resources = "Resources 1" 
+            },
+            new() { 
+                Id = 2, 
+                Objectives = "Objectives 2", 
+                Requirements = "Requirements 2", 
+                Resources = "Resources 2" 
+            }
+        };
+
+        context.Scopes.AddRange(scopes);
+
+        context.SaveChanges();
     }
 }
