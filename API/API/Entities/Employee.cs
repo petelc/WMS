@@ -1,10 +1,12 @@
 using System;
 using System.ComponentModel.Design.Serialization;
+using System.Text.Json.Serialization;
 
 namespace API.Entities;
 
 public class Employee
 {
+    [JsonIgnore]
     public int Id { get; set; }
     public required string DisplayName { get; set; }
     public required string FirstName { get; set; }

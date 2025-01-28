@@ -87,6 +87,65 @@ namespace API.Data.Migrations
                     b.ToTable("Employees");
                 });
 
+            modelBuilder.Entity("API.Entities.Impact", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ExplainCostSavings")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("ExternalUserCount")
+                        .HasColumnType("INTEGER");
+
+                    b.PrimitiveCollection<string>("ImpactedClassifications")
+                        .HasColumnType("TEXT");
+
+                    b.PrimitiveCollection<string>("ImpactedExternalJobTypes")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("InternalUserCount")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("NewAutomationExplain")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Impacts");
+                });
+
+            modelBuilder.Entity("API.Entities.Mandate", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.PrimitiveCollection<string>("CodeRuleNums")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("MandateBy")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("MandateDescription")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("MandateTitle")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("RequiredComplianceDate")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Mandates");
+                });
+
             modelBuilder.Entity("API.Entities.Priority", b =>
                 {
                     b.Property<int>("Id")
@@ -149,8 +208,29 @@ namespace API.Data.Migrations
                     b.Property<DateTime>("DenialDate")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("Department")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ExplainImpact")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("ImpactId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("MandateId")
+                        .HasColumnType("INTEGER");
+
+                    b.PrimitiveCollection<string>("Policies")
+                        .HasColumnType("TEXT");
+
                     b.Property<int>("PriorityId")
                         .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("ProposedImpDate")
+                        .HasColumnType("TEXT");
+
+                    b.PrimitiveCollection<string>("RelatedProjects")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("RequestDescription")
                         .IsRequired()
@@ -166,10 +246,19 @@ namespace API.Data.Migrations
                     b.Property<int>("RequestTypeId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("RequestedBy")
+                        .HasColumnType("TEXT");
+
                     b.Property<DateTime>("RequestedDate")
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("ScopeId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<bool>("SendToBoard")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("hasStakeHolderConferred")
                         .HasColumnType("INTEGER");
 
                     b.Property<bool>("isActive")
@@ -182,11 +271,17 @@ namespace API.Data.Migrations
 
                     b.HasIndex("ApprovalStatusId");
 
+                    b.HasIndex("ImpactId");
+
+                    b.HasIndex("MandateId");
+
                     b.HasIndex("PriorityId");
 
                     b.HasIndex("RequestStatusId");
 
                     b.HasIndex("RequestTypeId");
+
+                    b.HasIndex("ScopeId");
 
                     b.ToTable("Requests");
                 });
@@ -258,6 +353,29 @@ namespace API.Data.Migrations
                             Id = 3,
                             RequestTypeName = "Work Request"
                         });
+                });
+
+            modelBuilder.Entity("API.Entities.Scope", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Objectives")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Requirements")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Resources")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Scopes");
                 });
 
             modelBuilder.Entity("API.Entities.Step", b =>
@@ -632,6 +750,18 @@ namespace API.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("API.Entities.Impact", "Impact")
+                        .WithMany()
+                        .HasForeignKey("ImpactId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("API.Entities.Mandate", "Mandate")
+                        .WithMany()
+                        .HasForeignKey("MandateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("API.Entities.Priority", "Priority")
                         .WithMany()
                         .HasForeignKey("PriorityId")
@@ -650,13 +780,25 @@ namespace API.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("API.Entities.Scope", "Scope")
+                        .WithMany()
+                        .HasForeignKey("ScopeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("ApprovalStatus");
+
+                    b.Navigation("Impact");
+
+                    b.Navigation("Mandate");
 
                     b.Navigation("Priority");
 
                     b.Navigation("RequestStatus");
 
                     b.Navigation("RequestType");
+
+                    b.Navigation("Scope");
                 });
 
             modelBuilder.Entity("API.Entities.Step", b =>

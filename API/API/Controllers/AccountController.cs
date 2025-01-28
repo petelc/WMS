@@ -37,7 +37,7 @@ public class AccountController(SignInManager<User> signInManager) : BaseApiContr
     [HttpGet("user-info")]
     public async Task<ActionResult> GetUserInfo()
     {
-        if(User.Identity?.IsAuthenticated == false) return NoContent();
+        //if (User.Identity?.IsAuthenticated == false) return NoContent();
 
         var user = await signInManager.UserManager.GetUserAsync(User);
 
@@ -45,7 +45,7 @@ public class AccountController(SignInManager<User> signInManager) : BaseApiContr
 
         var roles = await signInManager.UserManager.GetRolesAsync(user);
 
-        return Ok(new
+        return Ok(new 
         {
             user.Email,
             user.UserName,
@@ -53,7 +53,7 @@ public class AccountController(SignInManager<User> signInManager) : BaseApiContr
         });
     }
 
-    [HttpPost("logout")]
+    [HttpPost("logout")]    
     public async Task<ActionResult> Logout()
     {
         await signInManager.SignOutAsync();

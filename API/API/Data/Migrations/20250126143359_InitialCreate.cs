@@ -61,6 +61,41 @@ namespace API.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Impacts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    InternalUserCount = table.Column<int>(type: "INTEGER", nullable: false),
+                    ExternalUserCount = table.Column<int>(type: "INTEGER", nullable: false),
+                    NewAutomationExplain = table.Column<string>(type: "TEXT", nullable: false),
+                    ExplainCostSavings = table.Column<string>(type: "TEXT", nullable: true),
+                    ImpactedClassifications = table.Column<string>(type: "TEXT", nullable: true),
+                    ImpactedExternalJobTypes = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Impacts", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Mandates",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    MandateBy = table.Column<string>(type: "TEXT", nullable: false),
+                    MandateTitle = table.Column<string>(type: "TEXT", nullable: false),
+                    MandateDescription = table.Column<string>(type: "TEXT", nullable: false),
+                    RequiredComplianceDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    CodeRuleNums = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Mandates", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Priorities",
                 columns: table => new
                 {
@@ -98,6 +133,21 @@ namespace API.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_RequestTypes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Scopes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Objectives = table.Column<string>(type: "TEXT", nullable: false),
+                    Requirements = table.Column<string>(type: "TEXT", nullable: false),
+                    Resources = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Scopes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -174,16 +224,26 @@ namespace API.Data.Migrations
                     RequestedDate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     RequestTitle = table.Column<string>(type: "TEXT", nullable: false),
                     RequestDescription = table.Column<string>(type: "TEXT", nullable: false),
-                    isNew = table.Column<bool>(type: "INTEGER", nullable: false),
-                    isActive = table.Column<bool>(type: "INTEGER", nullable: false),
-                    SendToBoard = table.Column<bool>(type: "INTEGER", nullable: false),
+                    RequestedBy = table.Column<string>(type: "TEXT", nullable: true),
+                    Department = table.Column<string>(type: "TEXT", nullable: true),
+                    ExplainImpact = table.Column<string>(type: "TEXT", nullable: true),
+                    hasStakeHolderConferred = table.Column<bool>(type: "INTEGER", nullable: false),
+                    ProposedImpDate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     BoardDate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     ApprovalDate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     DenialDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Policies = table.Column<string>(type: "TEXT", nullable: true),
+                    RelatedProjects = table.Column<string>(type: "TEXT", nullable: true),
+                    isNew = table.Column<bool>(type: "INTEGER", nullable: false),
+                    isActive = table.Column<bool>(type: "INTEGER", nullable: false),
+                    SendToBoard = table.Column<bool>(type: "INTEGER", nullable: false),
                     ApprovalStatusId = table.Column<int>(type: "INTEGER", nullable: false),
                     PriorityId = table.Column<int>(type: "INTEGER", nullable: false),
                     RequestTypeId = table.Column<int>(type: "INTEGER", nullable: false),
-                    RequestStatusId = table.Column<int>(type: "INTEGER", nullable: false)
+                    RequestStatusId = table.Column<int>(type: "INTEGER", nullable: false),
+                    MandateId = table.Column<int>(type: "INTEGER", nullable: false),
+                    ImpactId = table.Column<int>(type: "INTEGER", nullable: false),
+                    ScopeId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -192,6 +252,18 @@ namespace API.Data.Migrations
                         name: "FK_Requests_ApprovalStatuses_ApprovalStatusId",
                         column: x => x.ApprovalStatusId,
                         principalTable: "ApprovalStatuses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Requests_Impacts_ImpactId",
+                        column: x => x.ImpactId,
+                        principalTable: "Impacts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Requests_Mandates_MandateId",
+                        column: x => x.MandateId,
+                        principalTable: "Mandates",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -210,6 +282,12 @@ namespace API.Data.Migrations
                         name: "FK_Requests_RequestTypes_RequestTypeId",
                         column: x => x.RequestTypeId,
                         principalTable: "RequestTypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Requests_Scopes_ScopeId",
+                        column: x => x.ScopeId,
+                        principalTable: "Scopes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -479,6 +557,16 @@ namespace API.Data.Migrations
                 column: "ApprovalStatusId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Requests_ImpactId",
+                table: "Requests",
+                column: "ImpactId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Requests_MandateId",
+                table: "Requests",
+                column: "MandateId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Requests_PriorityId",
                 table: "Requests",
                 column: "PriorityId");
@@ -492,6 +580,11 @@ namespace API.Data.Migrations
                 name: "IX_Requests_RequestTypeId",
                 table: "Requests",
                 column: "RequestTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Requests_ScopeId",
+                table: "Requests",
+                column: "ScopeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Steps_WorkTaskId",
@@ -548,10 +641,19 @@ namespace API.Data.Migrations
                 name: "ApprovalStatuses");
 
             migrationBuilder.DropTable(
+                name: "Impacts");
+
+            migrationBuilder.DropTable(
+                name: "Mandates");
+
+            migrationBuilder.DropTable(
                 name: "RequestStatuses");
 
             migrationBuilder.DropTable(
                 name: "RequestTypes");
+
+            migrationBuilder.DropTable(
+                name: "Scopes");
 
             migrationBuilder.DropTable(
                 name: "WorkTasks");

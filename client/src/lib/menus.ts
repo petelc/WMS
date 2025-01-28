@@ -1,6 +1,6 @@
 export const midLinks = [
-  { title: 'Submit Requests', path: '/request' },
   { title: 'Dashboard', path: '/dashboard' },
+  { title: 'Submit Requests', path: '/request' },
 ];
 
 export const protectedLinks = [

@@ -15,6 +15,8 @@ import { DarkMode, DesignServices, LightMode } from '@mui/icons-material';
 import { useAppDispatch, useAppSelector } from '../store/store';
 import { toggleDarkMode } from './uiSlice';
 import { midLinks, protectedLinks, rightLinks } from '../../lib/menus';
+
+import UserMenu from './UserMenu';
 import { useUserInfoQuery } from '../../features/account/accountApi';
 
 const navStyles = {
@@ -35,11 +37,13 @@ const navRightStyles = {
 };
 
 export default function NavBar() {
+  //const user = { email: 'bob@test.com', roles: ['Staff', 'Admin'] };
   const { data: user } = useUserInfoQuery();
   const { isLoading, darkMode } = useAppSelector((state) => state.ui);
   const dispatch = useAppDispatch();
 
   const itemCount = 20;
+
   return (
     <AppBar position='fixed'>
       <Toolbar
@@ -96,18 +100,22 @@ export default function NavBar() {
               <DesignServices />
             </Badge>
           </IconButton>
-          <List sx={{ display: 'flex' }}>
-            {rightLinks.map(({ title, path }) => (
-              <ListItem
-                key={path}
-                component={NavLink}
-                to={path}
-                sx={navRightStyles}
-              >
-                {title.toUpperCase()}
-              </ListItem>
-            ))}
-          </List>
+          {user ? (
+            <UserMenu user={user} />
+          ) : (
+            <List sx={{ display: 'flex' }}>
+              {rightLinks.map(({ title, path }) => (
+                <ListItem
+                  key={path}
+                  component={NavLink}
+                  to={path}
+                  sx={navRightStyles}
+                >
+                  {title.toUpperCase()}
+                </ListItem>
+              ))}
+            </List>
+          )}
         </Box>
       </Toolbar>
       {isLoading && (

@@ -3,12 +3,14 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-
 namespace API.Data;
 
 public class WMSContext(DbContextOptions<WMSContext> options) : IdentityDbContext<User>(options)
 {
     public required DbSet<Request> Requests { get; set; }
+    public required DbSet<Mandate> Mandates { get; set; }
+    public required DbSet<Impact> Impacts { get; set; }
+    public required DbSet<Scope> Scopes { get; set; }
     public required DbSet<RequestType> RequestTypes { get; set; }
     public required DbSet<RequestStatus> RequestStatuses { get; set; }
     public required DbSet<ApprovalStatus> ApprovalStatuses { get; set; }
