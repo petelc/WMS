@@ -9,9 +9,10 @@ import {
 } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { LoginSchema } from '../../lib/schemas/LoginSchema';
+
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useLazyUserInfoQuery, useLoginMutation } from './accountApi';
+import { loginSchema, LoginSchema } from '../../lib/schemas/loginSchema';
 
 export default function LoginForm() {
   const [login, { isLoading }] = useLoginMutation();
@@ -25,13 +26,14 @@ export default function LoginForm() {
     formState: { errors },
   } = useForm<LoginSchema>({
     mode: 'onTouched',
-    resolver: zodResolver(LoginSchema),
+    resolver: zodResolver(loginSchema),
   });
 
   const onSubmit = async (data: LoginSchema) => {
     await login(data);
     await fetchUserInfo();
-    navigate(location.state?.from || '/');
+
+    navigate(location.state?.from || '/request');
   };
 
   return (
@@ -59,6 +61,8 @@ export default function LoginForm() {
             fullWidth
             autoFocus
             {...register('email')}
+            error={!!errors.email}
+            helperText={errors.email?.message}
           />
           <TextField
             fullWidth

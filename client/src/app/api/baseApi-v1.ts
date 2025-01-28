@@ -2,13 +2,13 @@ import {
   BaseQueryApi,
   FetchArgs,
   fetchBaseQuery,
-} from '@reduxjs/toolkit/query/react';
-import { startLoading, stopLoading } from '../layout/uiSlice';
+} from '@reduxjs/toolkit/query';
+import { uiSlice } from '../layout/uiSlice';
 import { toast } from 'react-toastify';
 import { router } from '../routes/Routes';
 
-const customBaseQuery = fetchBaseQuery({
-  baseUrl: import.meta.env.VITE_API_URL,
+const customeBaseQuery = fetchBaseQuery({
+  baseUrl: 'https://localhost:5001/api',
   credentials: 'include',
 });
 
@@ -21,12 +21,13 @@ export const baseQueryWithErrorHandling = async (
   api: BaseQueryApi,
   extraOptions: object
 ) => {
-  api.dispatch(startLoading());
-  if (import.meta.env.DEV) await sleep();
-  const result = await customBaseQuery(args, api, extraOptions);
-  api.dispatch(stopLoading());
+  api.dispatch(uiSlice.actions.startLoading());
+  await sleep();
+  const result = await customeBaseQuery(args, api, extraOptions);
+  api.dispatch(uiSlice.actions.stopLoading());
+
   if (result.error) {
-    console.log(result.error);
+    // ? show error
 
     const originalStatus =
       result.error.status === 'PARSING_ERROR' && result.error.originalStatus
@@ -45,9 +46,6 @@ export const baseQueryWithErrorHandling = async (
       case 401:
         if (typeof responseData === 'object' && 'title' in responseData)
           toast.error(responseData.title);
-        break;
-      case 403:
-        if (typeof responseData === 'object') toast.error('403 Forbidden');
         break;
       case 404:
         if (typeof responseData === 'object' && 'title' in responseData)

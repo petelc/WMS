@@ -21,7 +21,7 @@ export const router = createBrowserRouter([
       },
       { path: '', element: <HomePage /> },
       { path: 'request', element: <RequestForm /> }, // to submit request
-      { path: 'requests', element: <RequestPage /> }, // to view requests
+
       { path: 'about', element: <AboutPage /> },
       { path: 'contact', element: <ContactPage /> },
       { path: 'login', element: <LoginForm /> },

@@ -100,78 +100,78 @@ public class DbInitializer
             await userManager.AddToRoleAsync(developer, "Developer");
         }
 
-        if (context.Requests.Any()) return;
+        // if (context.Requests.Any()) return;
 
-        var requests = new List<Request>
-        {
-            new()
-            {
-                RequestedDate = DateTime.Now,
-                RequestTitle = "Request 1",
-                RequestDescription = "Request 1 Description",
-                isNew = true,
-                isActive = true,
-                SendToBoard = false,
-                BoardDate = DateTime.Parse("1970-01-01"),
-                ApprovalDate = DateTime.Parse("1970-01-01"),
-                DenialDate = DateTime.Parse("1970-01-01"),
-                ApprovalStatusId = 1,
-                PriorityId = 1,
-                RequestTypeId = 1,
-                RequestStatusId = 1
-            },
-            new()
-            {
-                RequestedDate = DateTime.Parse("2025-01-04"),
-                RequestTitle = "Request 2",
-                RequestDescription = "Request 2 Description",
-                isNew = true,
-                isActive = true,
-                SendToBoard = false,
-                BoardDate = DateTime.Parse("1970-01-01"),
-                ApprovalDate = DateTime.Parse("1970-01-01"),
-                DenialDate = DateTime.Parse("1970-01-01"),
-                ApprovalStatusId = 1,
-                PriorityId = 2,
-                RequestTypeId = 2,
-                RequestStatusId = 1
-            },
-            new()
-            {
-                RequestedDate = DateTime.Parse("2025-01-12"),
-                RequestTitle = "Request 3",
-                RequestDescription = "Request 3 Description",
-                isNew = true,
-                isActive = true,
-                SendToBoard = false,
-                BoardDate = DateTime.Parse("1970-01-01"),
-                ApprovalDate = DateTime.Parse("1970-01-01"),
-                DenialDate = DateTime.Parse("1970-01-01"),
-                ApprovalStatusId = 1,
-                PriorityId = 3,
-                RequestTypeId = 3,
-                RequestStatusId = 1
-            },
-            new()
-            {
-                RequestedDate = DateTime.Parse("2025-01-19"),
-                RequestTitle = "Request 4",
-                RequestDescription = "Request 4 Description",
-                isNew = true,
-                isActive = true,
-                SendToBoard = false,
-                BoardDate = DateTime.Parse("1970-01-01"),
-                ApprovalDate = DateTime.Parse("1970-01-01"),
-                DenialDate = DateTime.Parse("1970-01-01"),
-                ApprovalStatusId = 1,
-                PriorityId = 2,
-                RequestTypeId = 3,
-                RequestStatusId = 1
-            }
-        };
+        // var requests = new List<Request>
+        // {
+        //     new()
+        //     {
+        //         RequestedDate = DateTime.Now,
+        //         RequestTitle = "Request 1",
+        //         RequestDescription = "Request 1 Description",
+        //         isNew = true,
+        //         isActive = true,
+        //         SendToBoard = false,
+        //         BoardDate = DateTime.Parse("1970-01-01"),
+        //         ApprovalDate = DateTime.Parse("1970-01-01"),
+        //         DenialDate = DateTime.Parse("1970-01-01"),
+        //         ApprovalStatusId = 1,
+        //         PriorityId = 1,
+        //         RequestTypeId = 1,
+        //         RequestStatusId = 1
+        //     },
+        //     new()
+        //     {
+        //         RequestedDate = DateTime.Parse("2025-01-04"),
+        //         RequestTitle = "Request 2",
+        //         RequestDescription = "Request 2 Description",
+        //         isNew = true,
+        //         isActive = true,
+        //         SendToBoard = false,
+        //         BoardDate = DateTime.Parse("1970-01-01"),
+        //         ApprovalDate = DateTime.Parse("1970-01-01"),
+        //         DenialDate = DateTime.Parse("1970-01-01"),
+        //         ApprovalStatusId = 1,
+        //         PriorityId = 2,
+        //         RequestTypeId = 2,
+        //         RequestStatusId = 1
+        //     },
+        //     new()
+        //     {
+        //         RequestedDate = DateTime.Parse("2025-01-12"),
+        //         RequestTitle = "Request 3",
+        //         RequestDescription = "Request 3 Description",
+        //         isNew = true,
+        //         isActive = true,
+        //         SendToBoard = false,
+        //         BoardDate = DateTime.Parse("1970-01-01"),
+        //         ApprovalDate = DateTime.Parse("1970-01-01"),
+        //         DenialDate = DateTime.Parse("1970-01-01"),
+        //         ApprovalStatusId = 1,
+        //         PriorityId = 3,
+        //         RequestTypeId = 3,
+        //         RequestStatusId = 1
+        //     },
+        //     new()
+        //     {
+        //         RequestedDate = DateTime.Parse("2025-01-19"),
+        //         RequestTitle = "Request 4",
+        //         RequestDescription = "Request 4 Description",
+        //         isNew = true,
+        //         isActive = true,
+        //         SendToBoard = false,
+        //         BoardDate = DateTime.Parse("1970-01-01"),
+        //         ApprovalDate = DateTime.Parse("1970-01-01"),
+        //         DenialDate = DateTime.Parse("1970-01-01"),
+        //         ApprovalStatusId = 1,
+        //         PriorityId = 2,
+        //         RequestTypeId = 3,
+        //         RequestStatusId = 1
+        //     }
+        // };
 
-        context.Requests.AddRange(requests);
+        // context.Requests.AddRange(requests);
 
-        context.SaveChanges();
+        //context.SaveChanges();
     }
 }
