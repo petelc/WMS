@@ -74,8 +74,6 @@ public class WMSContext(DbContextOptions<WMSContext> options) : IdentityDbContex
             new Priority { Id = 3, PriorityName = "High" },
             new Priority { Id = 4, PriorityName = "Critical" }
         );
-
-        
     }
 }
 
