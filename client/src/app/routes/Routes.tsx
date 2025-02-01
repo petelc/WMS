@@ -8,7 +8,7 @@ import ContactPage from '../../features/contact/ContactPage';
 import LoginForm from '../../features/account/LoginForm';
 import ServerError from '../errors/ServerError';
 import NotFound from '../errors/NotFound';
-import RequestForm from '../../features/requests/RequestForm';
+import Request from '../../features/requests/Request';
 
 export const router = createBrowserRouter([
   {
@@ -20,7 +20,7 @@ export const router = createBrowserRouter([
         children: [{ path: 'requests', element: <RequestPage /> }],
       },
       { path: '', element: <HomePage /> },
-      { path: 'request', element: <RequestForm /> }, // to submit request
+      { path: 'request', element: <Request /> }, // to submit request
 
       { path: 'about', element: <AboutPage /> },
       { path: 'contact', element: <ContactPage /> },
