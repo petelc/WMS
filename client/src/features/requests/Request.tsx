@@ -11,17 +11,28 @@ import {
   StepLabel,
   Button,
 } from '@mui/material';
+import { FieldValues, useForm } from 'react-hook-form';
 import RequestForm from './RequestForm';
 import MandateForm from './MandateForm';
 import ImpactForm from './ImpactForm';
 import ScopeForm from './ScopeForm';
+import { RequestSchema } from '../../lib/schemas/requestSchema';
+import { handleApiError } from '../../lib/util';
+import { useCreateRequestMutation } from './requestsApi';
 
 const steps = ['Basic Request Information', 'Mandate', 'Impact', 'Scope'];
 
 export default function Request() {
   const [activeStep, setActiveStep] = useState(0);
   const [skipped, setSkipped] = useState(new Set<number>());
-  //const { register, handleSubmit } = useForm();
+
+  const [requestId, setRequestId] = useState<number>(0);
+  const [request, setRequest] = useState<RequestSchema>({
+    title: '',
+    description: '',
+  });
+  const { setError } = useForm<RequestSchema>();
+  const [createRequest] = useCreateRequestMutation();
 
   // ? Stepper Functions
   const isStepOptional = (step: number) => {
@@ -34,11 +45,22 @@ export default function Request() {
 
   const handleNext = () => {
     let newSkipped = skipped;
+    // LEC I think I need to submit the form for each step here and then move to the next step
+    if (activeStep === 0) {
+      onRequestSubmit(request);
+      console.log('Request Form Submitted');
+    } else if (activeStep === 1) {
+      console.log('Mandate Form Submitted');
+    } else if (activeStep === 2) {
+      console.log('Impact Form Submitted');
+    } else if (activeStep === 3) {
+      console.log('Scope Form Submitted');
+    }
+
     if (isStepSkipped(activeStep)) {
       newSkipped = new Set(newSkipped.values());
       newSkipped.delete(activeStep);
     }
-    // LEC I think I need to submit the form for each step here and then move to the next step
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
     setSkipped(newSkipped);
   };
@@ -64,6 +86,30 @@ export default function Request() {
     setActiveStep(0);
   };
 
+  // ? Form Actions
+  const createFormData = (items: FieldValues) => {
+    const formData = new FormData();
+    for (const key in items) {
+      formData.append(key, items[key]);
+    }
+
+    return formData;
+  };
+
+  const onRequestSubmit = async (data: RequestSchema) => {
+    console.log(data);
+    try {
+      const formData = createFormData(data);
+      const response = await createRequest(formData).unwrap();
+      setRequestId(response.id);
+      console.log(requestId);
+      console.log('Request Submitted');
+    } catch (error) {
+      console.error(error);
+      handleApiError<RequestSchema>(error, setError, ['title', 'description']);
+    }
+  };
+
   return (
     <Container component={Paper} maxWidth='lg' sx={{ borderRadius: 2 }}>
       <Box
@@ -79,7 +125,7 @@ export default function Request() {
         <Box sx={{ width: '100%', mt: 4, mb: 4 }}>
           <Divider />
         </Box>
-        <Box sx={{ width: '100%' }}>
+        <Box sx={{ width: '100%', mb: 4 }}>
           <Stepper activeStep={activeStep}>
             {steps.map((label, index) => {
               const stepProps: { completed?: boolean } = {};
