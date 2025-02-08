@@ -97,7 +97,7 @@ export default function Request() {
   };
 
   const onRequestSubmit = async (data: RequestSchema) => {
-    console.log(data);
+    console.log(request);
     try {
       const formData = createFormData(data);
       const response = await createRequest(formData).unwrap();
