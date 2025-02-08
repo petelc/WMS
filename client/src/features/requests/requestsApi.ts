@@ -3,7 +3,7 @@ import { baseQueryWithErrorHandling } from '../../app/api/baseApi';
 
 import { RequestParams } from '../../app/models/requestParams';
 import { Pagination } from '../../app/models/pagination';
-import { Request } from '../../app/models/Request';
+import { Request } from '../../app/models/request';
 import { filterEmptyValues } from '../../lib/util';
 
 export const requestsApi = createApi({
@@ -29,7 +29,14 @@ export const requestsApi = createApi({
         return { items, pagination };
       },
     }),
+    createRequest: builder.mutation<Request, FormData>({
+      query: (data: FormData) => ({
+        url: '/request',
+        method: 'POST',
+        body: data,
+      }),
+    }),
   }),
 });
 
-export const { useFetchRequestsQuery } = requestsApi;
+export const { useFetchRequestsQuery, useCreateRequestMutation } = requestsApi;

@@ -3,6 +3,8 @@ import { createRoot } from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 import { router } from './app/routes/Routes.tsx';
 import { store } from './app/store/store.ts';
@@ -16,8 +18,14 @@ import './app/layout/styles.css';
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Provider store={store}>
-      <ToastContainer position='bottom-right' hideProgressBar theme='colored' />
-      <RouterProvider router={router} />
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <ToastContainer
+          position='bottom-right'
+          hideProgressBar
+          theme='colored'
+        />
+        <RouterProvider router={router} />
+      </LocalizationProvider>
     </Provider>
   </StrictMode>
 );

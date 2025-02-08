@@ -16,17 +16,45 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useState } from 'react';
-// import { useForm } from 'react-hook-form';
+import { RequestSchema } from '../../lib/schemas/requestSchema';
+import { FieldValues, useForm } from 'react-hook-form';
+import AppTextInput from '../../app/store/shared/components/AppTextInput';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { handleApiError } from '../../lib/util';
+import { useCreateRequestMutation } from './requestsApi';
+
+// type Props = {
+//   setRequest: (request: RequestSchema) => void;
+//   request: RequestSchema;
+// };
 
 export default function RequestForm() {
+  const { control, handleSubmit, setError } = useForm<RequestSchema>({
+    mode: 'onTouched',
+    resolver: zodResolver(RequestSchema),
+  });
   const [value, setValue] = useState('');
+  const [stakeHolders, setStakeHolders] = useState('');
   const [policy, setPolicy] = useState(['01-COM-01']);
   const [project, setProject] = useState(['Project 1']);
+  const [createRequest] = useCreateRequestMutation();
+  const [requestId, setRequestId] = useState<number>(0);
+  //const [request, setRequest] = useState<RequestSchema>({
+  //   title: '',
+  //   description: '',
+  // });
 
   // ? Form Action Functions
-  const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleTypeOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value);
+  };
+
+  const handleStakeHoldersOnChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setStakeHolders(event.target.value);
   };
 
   const handleAddPolicy = () => {
@@ -37,10 +65,36 @@ export default function RequestForm() {
     setProject((prev) => [...prev, 'Project 2']);
   };
 
+  const createFormData = (items: FieldValues) => {
+    const formData = new FormData();
+    for (const key in items) {
+      formData.append(key, items[key]);
+    }
+
+    return formData;
+  };
+
+  const handleRequestSubmit = async (data: RequestSchema) => {
+    try {
+      const formData = createFormData(data);
+      const response = await createRequest(formData).unwrap();
+      setRequestId(response.id);
+      console.log(requestId);
+      console.log('Request Submitted');
+    } catch (error) {
+      console.error(error);
+      handleApiError<RequestSchema>(error, setError, ['title', 'description']);
+    }
+    // setRequest(data);
+    // console.log(request);
+    // onRequestSubmit(request);
+  };
+
   return (
     <Box
       component='form'
       width='100%'
+      onSubmit={handleSubmit(handleRequestSubmit)}
       display='flex'
       flexDirection='column'
       gap={3}
@@ -48,7 +102,12 @@ export default function RequestForm() {
     >
       <Grid2 container spacing={2}>
         <Grid2 size={{ xs: 6, md: 8 }}>
-          <TextField fullWidth label='Title' />
+          <AppTextInput
+            control={control}
+            fullWidth
+            label='Title'
+            name='title'
+          />
         </Grid2>
         <Grid2 size={{ xs: 6, md: 4 }}>
           <TextField fullWidth label='Project #' disabled />
@@ -60,7 +119,7 @@ export default function RequestForm() {
           <TextField fullWidth label='Department' />
         </Grid2>
         <Grid2 size={{ xs: 6, md: 4 }}>
-          <TextField fullWidth label='Request Date' />
+          <DatePicker label='Request Date' />
         </Grid2>
         <Grid2 size={12}>
           <TextField fullWidth label='Description' multiline rows={4} />
@@ -75,7 +134,7 @@ export default function RequestForm() {
             <RadioGroup
               name='requestTypeGroup'
               value={value}
-              onChange={handleOnChange}
+              onChange={handleTypeOnChange}
               row
             >
               <FormControlLabel
@@ -98,8 +157,8 @@ export default function RequestForm() {
             </FormLabel>
             <RadioGroup
               name='stakeHolderGroup'
-              value={value}
-              onChange={handleOnChange}
+              value={stakeHolders}
+              onChange={handleStakeHoldersOnChange}
               row
             >
               <FormControlLabel value='1' control={<Radio />} label='Yes' />
@@ -163,29 +222,28 @@ export default function RequestForm() {
             </Box>
           </Grid2>
         </Grid2>
-
-        {/* Action Buttons */}
-        <Grid2 size={{ xs: 12 }}>
-          <Box display='flex' flexDirection='row' justifyContent='end' gap={2}>
-            <Button
-              variant='contained'
-              color='primary'
-              type='submit'
-              // disabled={isLoading || !isValid}
-            >
-              Submit Request
-            </Button>
-            <Button
-              variant='contained'
-              color='error'
-              type='submit'
-              // disabled={isLoading || !isValid}
-            >
-              Cancel
-            </Button>
-          </Box>
-        </Grid2>
       </Grid2>
     </Box>
   );
 }
+
+// <Grid2 size={{ xs: 12 }}>
+// <Box display='flex' flexDirection='row' justifyContent='end' gap={2}>
+//   <Button
+//     variant='contained'
+//     color='primary'
+//     type='submit'
+//     // disabled={isLoading || !isValid}
+//   >
+//     Submit Request
+//   </Button>
+//   <Button
+//     variant='contained'
+//     color='error'
+//     type='submit'
+//     // disabled={isLoading || !isValid}
+//   >
+//     Cancel
+//   </Button>
+// </Box>
+// </Grid2>
