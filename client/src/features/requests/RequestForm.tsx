@@ -16,17 +16,36 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useState } from 'react';
-// import { useForm } from 'react-hook-form';
+import AppTextInput from '../../app/store/shared/components/AppTextInput';
 
-export default function RequestForm() {
+// TODO : Make the submition work on the form level
+// TODO : The submit button will be visible until the form is submitted
+// TODO : Then show the next button. Set the requestId to the requestId of the last request created
+
+type Props = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  control: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  handleSubmit: (data: any) => void;
+};
+
+export default function RequestForm({ control, handleSubmit }: Props) {
   const [value, setValue] = useState('');
+  const [stakeHolders, setStakeHolders] = useState('');
   const [policy, setPolicy] = useState(['01-COM-01']);
   const [project, setProject] = useState(['Project 1']);
 
   // ? Form Action Functions
-  const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleTypeOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value);
+  };
+
+  const handleStakeHoldersOnChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setStakeHolders(event.target.value);
   };
 
   const handleAddPolicy = () => {
@@ -41,6 +60,7 @@ export default function RequestForm() {
     <Box
       component='form'
       width='100%'
+      onSubmit={handleSubmit}
       display='flex'
       flexDirection='column'
       gap={3}
@@ -48,7 +68,12 @@ export default function RequestForm() {
     >
       <Grid2 container spacing={2}>
         <Grid2 size={{ xs: 6, md: 8 }}>
-          <TextField fullWidth label='Title' />
+          <AppTextInput
+            control={control}
+            fullWidth
+            label='Title'
+            name='requestTitle'
+          />
         </Grid2>
         <Grid2 size={{ xs: 6, md: 4 }}>
           <TextField fullWidth label='Project #' disabled />
@@ -60,7 +85,7 @@ export default function RequestForm() {
           <TextField fullWidth label='Department' />
         </Grid2>
         <Grid2 size={{ xs: 6, md: 4 }}>
-          <TextField fullWidth label='Request Date' />
+          <DatePicker label='Request Date' />
         </Grid2>
         <Grid2 size={12}>
           <TextField fullWidth label='Description' multiline rows={4} />
@@ -75,7 +100,7 @@ export default function RequestForm() {
             <RadioGroup
               name='requestTypeGroup'
               value={value}
-              onChange={handleOnChange}
+              onChange={handleTypeOnChange}
               row
             >
               <FormControlLabel
@@ -98,8 +123,8 @@ export default function RequestForm() {
             </FormLabel>
             <RadioGroup
               name='stakeHolderGroup'
-              value={value}
-              onChange={handleOnChange}
+              value={stakeHolders}
+              onChange={handleStakeHoldersOnChange}
               row
             >
               <FormControlLabel value='1' control={<Radio />} label='Yes' />
@@ -163,29 +188,28 @@ export default function RequestForm() {
             </Box>
           </Grid2>
         </Grid2>
-
-        {/* Action Buttons */}
-        <Grid2 size={{ xs: 12 }}>
-          <Box display='flex' flexDirection='row' justifyContent='end' gap={2}>
-            <Button
-              variant='contained'
-              color='primary'
-              type='submit'
-              // disabled={isLoading || !isValid}
-            >
-              Submit Request
-            </Button>
-            <Button
-              variant='contained'
-              color='error'
-              type='submit'
-              // disabled={isLoading || !isValid}
-            >
-              Cancel
-            </Button>
-          </Box>
-        </Grid2>
       </Grid2>
     </Box>
   );
 }
+
+// <Grid2 size={{ xs: 12 }}>
+// <Box display='flex' flexDirection='row' justifyContent='end' gap={2}>
+//   <Button
+//     variant='contained'
+//     color='primary'
+//     type='submit'
+//     // disabled={isLoading || !isValid}
+//   >
+//     Submit Request
+//   </Button>
+//   <Button
+//     variant='contained'
+//     color='error'
+//     type='submit'
+//     // disabled={isLoading || !isValid}
+//   >
+//     Cancel
+//   </Button>
+// </Box>
+// </Grid2>
