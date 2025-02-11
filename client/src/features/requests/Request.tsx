@@ -27,11 +27,8 @@ export default function Request() {
   const [skipped, setSkipped] = useState(new Set<number>());
 
   const [requestId, setRequestId] = useState<number>(0);
-  const [request, setRequest] = useState<RequestSchema>({
-    title: '',
-    description: '',
-  });
-  const { setError } = useForm<RequestSchema>();
+  //const [request, setRequest] = useState<RequestSchema>();
+  const { control, handleSubmit, setError } = useForm<RequestSchema>();
   const [createRequest] = useCreateRequestMutation();
 
   // ? Stepper Functions
@@ -46,16 +43,15 @@ export default function Request() {
   const handleNext = () => {
     let newSkipped = skipped;
     // LEC I think I need to submit the form for each step here and then move to the next step
-    if (activeStep === 0) {
-      onRequestSubmit(request);
-      console.log('Request Form Submitted');
-    } else if (activeStep === 1) {
-      console.log('Mandate Form Submitted');
-    } else if (activeStep === 2) {
-      console.log('Impact Form Submitted');
-    } else if (activeStep === 3) {
-      console.log('Scope Form Submitted');
-    }
+    // if (activeStep === 0) {
+    //   console.log('Request Form Submitted');
+    // } else if (activeStep === 1) {
+    //   console.log('Mandate Form Submitted');
+    // } else if (activeStep === 2) {
+    //   console.log('Impact Form Submitted');
+    // } else if (activeStep === 3) {
+    //   console.log('Scope Form Submitted');
+    // }
 
     if (isStepSkipped(activeStep)) {
       newSkipped = new Set(newSkipped.values());
@@ -86,6 +82,26 @@ export default function Request() {
     setActiveStep(0);
   };
 
+  const formContent = (step: number) => {
+    switch (step) {
+      case 0:
+        return (
+          <RequestForm
+            control={control}
+            handleSubmit={handleSubmit(onRequestSubmit)}
+          />
+        );
+      case 1:
+        return <MandateForm />;
+      case 2:
+        return <ImpactForm />;
+      case 3:
+        return <ScopeForm />;
+      default:
+        break;
+    }
+  };
+
   // ? Form Actions
   const createFormData = (items: FieldValues) => {
     const formData = new FormData();
@@ -97,7 +113,7 @@ export default function Request() {
   };
 
   const onRequestSubmit = async (data: RequestSchema) => {
-    console.log(request);
+    console.log(data);
     try {
       const formData = createFormData(data);
       const response = await createRequest(formData).unwrap();
@@ -106,7 +122,10 @@ export default function Request() {
       console.log('Request Submitted');
     } catch (error) {
       console.error(error);
-      handleApiError<RequestSchema>(error, setError, ['title', 'description']);
+      handleApiError<RequestSchema>(error, setError, [
+        'requestTitle',
+        'description',
+      ]);
     }
   };
 
@@ -159,18 +178,7 @@ export default function Request() {
             </>
           ) : (
             <>
-              <Typography sx={{ mt: 2, mb: 1 }}>
-                Step {activeStep + 1}
-              </Typography>
-              {activeStep === 0 ? (
-                <RequestForm />
-              ) : activeStep === 1 ? (
-                <MandateForm />
-              ) : activeStep === 2 ? (
-                <ImpactForm />
-              ) : activeStep === 3 ? (
-                <ScopeForm />
-              ) : null}
+              {formContent(activeStep)}
 
               <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                 <Button
@@ -188,7 +196,7 @@ export default function Request() {
                   </Button>
                 )}
                 <Button onClick={handleNext}>
-                  {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                  {activeStep === steps.length - 1 ? 'Submit' : 'Next'}
                 </Button>
               </Box>
             </>

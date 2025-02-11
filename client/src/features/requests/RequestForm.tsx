@@ -18,33 +18,24 @@ import {
 } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useState } from 'react';
-import { RequestSchema } from '../../lib/schemas/requestSchema';
-import { FieldValues, useForm } from 'react-hook-form';
 import AppTextInput from '../../app/store/shared/components/AppTextInput';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { handleApiError } from '../../lib/util';
-import { useCreateRequestMutation } from './requestsApi';
 
-// type Props = {
-//   setRequest: (request: RequestSchema) => void;
-//   request: RequestSchema;
-// };
+// TODO : Make the submition work on the form level
+// TODO : The submit button will be visible until the form is submitted
+// TODO : Then show the next button. Set the requestId to the requestId of the last request created
 
-export default function RequestForm() {
-  const { control, handleSubmit, setError } = useForm<RequestSchema>({
-    mode: 'onTouched',
-    resolver: zodResolver(RequestSchema),
-  });
+type Props = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  control: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  handleSubmit: (data: any) => void;
+};
+
+export default function RequestForm({ control, handleSubmit }: Props) {
   const [value, setValue] = useState('');
   const [stakeHolders, setStakeHolders] = useState('');
   const [policy, setPolicy] = useState(['01-COM-01']);
   const [project, setProject] = useState(['Project 1']);
-  const [createRequest] = useCreateRequestMutation();
-  const [requestId, setRequestId] = useState<number>(0);
-  //const [request, setRequest] = useState<RequestSchema>({
-  //   title: '',
-  //   description: '',
-  // });
 
   // ? Form Action Functions
   const handleTypeOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -65,36 +56,11 @@ export default function RequestForm() {
     setProject((prev) => [...prev, 'Project 2']);
   };
 
-  const createFormData = (items: FieldValues) => {
-    const formData = new FormData();
-    for (const key in items) {
-      formData.append(key, items[key]);
-    }
-
-    return formData;
-  };
-
-  const handleRequestSubmit = async (data: RequestSchema) => {
-    try {
-      const formData = createFormData(data);
-      const response = await createRequest(formData).unwrap();
-      setRequestId(response.id);
-      console.log(requestId);
-      console.log('Request Submitted');
-    } catch (error) {
-      console.error(error);
-      handleApiError<RequestSchema>(error, setError, ['title', 'description']);
-    }
-    // setRequest(data);
-    // console.log(request);
-    // onRequestSubmit(request);
-  };
-
   return (
     <Box
       component='form'
       width='100%'
-      onSubmit={handleSubmit(handleRequestSubmit)}
+      onSubmit={handleSubmit}
       display='flex'
       flexDirection='column'
       gap={3}
@@ -106,7 +72,7 @@ export default function RequestForm() {
             control={control}
             fullWidth
             label='Title'
-            name='title'
+            name='requestTitle'
           />
         </Grid2>
         <Grid2 size={{ xs: 6, md: 4 }}>
