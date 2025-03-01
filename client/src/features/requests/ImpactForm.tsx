@@ -1,25 +1,33 @@
 /* eslint-disable @typescript-eslint/no-empty-object-type */
 import { useState } from 'react';
 import { Autocomplete, Box, Grid2, TextField, Typography } from '@mui/material';
-import AppNumberInput from '../../app/store/shared/components/appnumberinput/AppNumberInput';
-import { JobTitleOptions, Titles } from '../../lib/titles';
+import { Titles } from '../../lib/titles';
+import { RequestSchema } from '../../lib/schemas/requestSchema';
 
-export default function ImpactForm() {
-  const [internal, setInternal] = useState<JobTitleOptions[]>([]);
-  const [external, setExternal] = useState<JobTitleOptions[]>([]);
+type Props = {
+  requestData: RequestSchema;
+  handleChange: (
+    input: string,
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => void;
+};
 
-  const handleInternalChange = (
-    _event: React.ChangeEvent<{}>,
-    value: JobTitleOptions[]
-  ): void => {
-    setInternal(value);
+export default function ImpactForm({ requestData, handleChange }: Props) {
+  const [internal, setInternal] = useState<string[]>([Titles[0].title]);
+  const [external, setExternal] = useState<string[]>([Titles[0].title]);
+
+  const handleInternalChange = (newInputValue: { title: string }[]) => {
+    requestData.impactedClassifications = newInputValue.map(
+      (item) => item.title
+    );
+    setInternal(newInputValue.map((item) => item.title));
   };
 
-  const handleExternalChange = (
-    _event: React.ChangeEvent<{}>,
-    value: JobTitleOptions[]
-  ): void => {
-    setExternal(value);
+  const handleExternalChange = (newInputValue: { title: string }[]) => {
+    requestData.impactedExternalJobTypes = newInputValue.map(
+      (item) => item.title
+    );
+    setExternal(newInputValue.map((item) => item.title));
   };
 
   return (
@@ -39,8 +47,18 @@ export default function ImpactForm() {
         </Grid2>
         <Grid2 size={12}>
           <Box display='flex' flexDirection='row' gap={2}>
-            <AppNumberInput label='How many internal staff will be impacted?' />
-            <AppNumberInput label='How many external staff will be impacted?' />
+            <TextField
+              type='number'
+              label='How many internal staff will be impacted?'
+              value={requestData.internalUserCount}
+              onChange={(event) => handleChange('internalUserCount', event)}
+            />
+            <TextField
+              type='number'
+              label='How many external staff will be impacted?'
+              value={requestData.externalUserCount}
+              onChange={(event) => handleChange('externalUserCount', event)}
+            />
           </Box>
         </Grid2>
         <Grid2 size={{ xs: 6, sm: 6 }}>
@@ -49,8 +67,10 @@ export default function ImpactForm() {
             id='internal'
             options={Titles}
             getOptionLabel={(option) => option.title}
-            value={internal}
-            onChange={(event, value) => handleInternalChange(event, value)}
+            value={Titles.filter((title) => internal.includes(title.title))}
+            onChange={(_event, newInputValue) =>
+              handleInternalChange(newInputValue)
+            }
             filterSelectedOptions
             renderInput={(params) => (
               <TextField
@@ -67,13 +87,15 @@ export default function ImpactForm() {
             id='external'
             options={Titles}
             getOptionLabel={(option) => option.title}
-            value={external}
-            onChange={(event, value) => handleExternalChange(event, value)}
+            value={Titles.filter((title) => external.includes(title.title))}
+            onChange={(_event, newInputValue) =>
+              handleExternalChange(newInputValue)
+            }
             filterSelectedOptions
             renderInput={(params) => (
               <TextField
                 {...params}
-                label='Identify the impacted external users by job classification'
+                label='Identify the impacted internal users by job classification'
                 placeholder='Job Titles'
               />
             )}
@@ -85,6 +107,8 @@ export default function ImpactForm() {
             label='Explain if the project will create a new automation or correct a current system'
             multiline
             rows={4}
+            value={requestData.newAutomationExplain}
+            onChange={(event) => handleChange('newAutomationExplain', event)}
           />
         </Grid2>
         <Grid2 size={12}>
@@ -93,6 +117,8 @@ export default function ImpactForm() {
             label='Explain if there is a cost saving (include a breakdown of the estimated amount)'
             multiline
             rows={4}
+            value={requestData.explainCostSavings}
+            onChange={(event) => handleChange('explainCostSavings', event)}
           />
         </Grid2>
       </Grid2>

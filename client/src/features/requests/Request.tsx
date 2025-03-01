@@ -11,29 +11,66 @@ import {
   StepLabel,
   Button,
 } from '@mui/material';
-import { FieldValues, useForm } from 'react-hook-form';
 import RequestForm from './RequestForm';
 import MandateForm from './MandateForm';
 import ImpactForm from './ImpactForm';
 import ScopeForm from './ScopeForm';
 import { RequestSchema } from '../../lib/schemas/requestSchema';
-import { handleApiError } from '../../lib/util';
-import { useCreateRequestMutation } from './requestsApi';
+import dayjs from 'dayjs';
+import Confirm from './Confirm';
 
-const steps = ['Basic Request Information', 'Mandate', 'Impact', 'Scope'];
+const steps = [
+  'Basic Request Information',
+  'Mandate',
+  'Impact',
+  'Scope',
+  'Confirm',
+];
 
 export default function Request() {
   const [activeStep, setActiveStep] = useState(0);
   const [skipped, setSkipped] = useState(new Set<number>());
 
-  const [requestId, setRequestId] = useState<number>(0);
-  //const [request, setRequest] = useState<RequestSchema>();
-  const { control, handleSubmit, setError } = useForm<RequestSchema>();
-  const [createRequest] = useCreateRequestMutation();
+  // ? Form State
+  const [requestData, setRequestData] = useState<RequestSchema>({
+    requestTitle: '',
+    requestedBy: '',
+    department: '',
+    explainImpact: '',
+    sendToBoard: false,
+    approvalStatus: '',
+    stakeHolders: '',
+    requestDate: dayjs('01/01/2025').toDate(),
+    proposedImpDate: dayjs('01/01/2025').toDate(),
+    boardDate: dayjs('01/01/2025').toDate(),
+    approvalDate: dayjs('01/01/2025').toDate(),
+    denialDate: dayjs('01/01/2025').toDate(),
+    policies: [],
+    relatedProjects: [],
+    isNew: true,
+    isActive: false,
+    requestType: '',
+    requestStatus: '',
+    priority: '',
+    mandateBy: [''],
+    mandateTitle: '',
+    mandateDescription: '',
+    requiredComplianceDate: dayjs('01/01/2025').toDate(),
+    codeRuleNums: [],
+    internalUserCount: 0,
+    externalUserCount: 0,
+    newAutomationExplain: '',
+    explainCostSavings: '',
+    impactedClassifications: [],
+    impactedExternalJobTypes: [],
+    objectives: '',
+    requirements: '',
+    resources: '',
+  }); // ? Request Data
 
   // ? Stepper Functions
   const isStepOptional = (step: number) => {
-    return step === 1;
+    return step === -1;
   };
 
   const isStepSkipped = (step: number) => {
@@ -42,16 +79,8 @@ export default function Request() {
 
   const handleNext = () => {
     let newSkipped = skipped;
-    // LEC I think I need to submit the form for each step here and then move to the next step
-    // if (activeStep === 0) {
-    //   console.log('Request Form Submitted');
-    // } else if (activeStep === 1) {
-    //   console.log('Mandate Form Submitted');
-    // } else if (activeStep === 2) {
-    //   console.log('Impact Form Submitted');
-    // } else if (activeStep === 3) {
-    //   console.log('Scope Form Submitted');
-    // }
+    // TODO : Add validation
+    //console.log('Request Data', requestData);
 
     if (isStepSkipped(activeStep)) {
       newSkipped = new Set(newSkipped.values());
@@ -82,50 +111,52 @@ export default function Request() {
     setActiveStep(0);
   };
 
+  const handleChange = (
+    input: string,
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    if (input === 'mandateBy') {
+      const mandateBy = [...requestData.mandateBy];
+      if ((e.target as HTMLInputElement).checked) {
+        mandateBy.push(e.target.name);
+      } else {
+        const index = mandateBy.indexOf(e.target.name);
+        if (index > -1) {
+          mandateBy.splice(index, 1);
+        }
+      }
+      setRequestData({ ...requestData, [input]: mandateBy });
+      return;
+    }
+    setRequestData({ ...requestData, [input]: e.target.value });
+  };
+
+  const handleSubmit = () => {
+    console.log('Request Data', requestData);
+  };
+
   const formContent = (step: number) => {
     switch (step) {
       case 0:
         return (
-          <RequestForm
-            control={control}
-            handleSubmit={handleSubmit(onRequestSubmit)}
-          />
+          <RequestForm handleChange={handleChange} requestData={requestData} />
         );
       case 1:
-        return <MandateForm />;
+        return (
+          <MandateForm handleChange={handleChange} requestData={requestData} />
+        );
       case 2:
-        return <ImpactForm />;
+        return (
+          <ImpactForm handleChange={handleChange} requestData={requestData} />
+        );
       case 3:
-        return <ScopeForm />;
+        return (
+          <ScopeForm handleChange={handleChange} requestData={requestData} />
+        );
+      case 4:
+        return <Confirm requestData={requestData} />;
       default:
         break;
-    }
-  };
-
-  // ? Form Actions
-  const createFormData = (items: FieldValues) => {
-    const formData = new FormData();
-    for (const key in items) {
-      formData.append(key, items[key]);
-    }
-
-    return formData;
-  };
-
-  const onRequestSubmit = async (data: RequestSchema) => {
-    console.log(data);
-    try {
-      const formData = createFormData(data);
-      const response = await createRequest(formData).unwrap();
-      setRequestId(response.id);
-      console.log(requestId);
-      console.log('Request Submitted');
-    } catch (error) {
-      console.error(error);
-      handleApiError<RequestSchema>(error, setError, [
-        'requestTitle',
-        'description',
-      ]);
     }
   };
 
@@ -171,9 +202,12 @@ export default function Request() {
               <Typography sx={{ mt: 2, mb: 1 }}>
                 All steps completed - you&apos;re finished
               </Typography>
+
               <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-                <Box sx={{ flex: '1 1 auto' }} />
-                <Button onClick={handleReset}>Reset</Button>
+                <Box sx={{ flex: '1 1 auto' }}>
+                  <Button onClick={handleReset}>Reset</Button>
+                </Box>
+                <Button onClick={handleSubmit}>Submit</Button>
               </Box>
             </>
           ) : (
@@ -195,8 +229,9 @@ export default function Request() {
                     Skip
                   </Button>
                 )}
+
                 <Button onClick={handleNext}>
-                  {activeStep === steps.length - 1 ? 'Submit' : 'Next'}
+                  {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
                 </Button>
               </Box>
             </>

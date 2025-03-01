@@ -36,7 +36,22 @@ export const requestsApi = createApi({
         body: data,
       }),
     }),
+    createMandate: builder.mutation<void, { id: number; data: FormData }>({
+      query: ({ id, data }) => {
+        data.append('requestId', id.toString());
+
+        return {
+          url: '/request/mandate',
+          method: 'POST',
+          body: data,
+        };
+      },
+    }),
   }),
 });
 
-export const { useFetchRequestsQuery, useCreateRequestMutation } = requestsApi;
+export const {
+  useFetchRequestsQuery,
+  useCreateRequestMutation,
+  useCreateMandateMutation,
+} = requestsApi;
