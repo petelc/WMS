@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import {
   Button,
   Menu,
@@ -7,11 +9,9 @@ import {
   ListItemText,
   Divider,
 } from '@mui/material';
-import { useState } from 'react';
-import { User } from '../models/user';
 import { History, Inventory, Logout, Person } from '@mui/icons-material';
 
-import { Link } from 'react-router-dom';
+import { User } from '../models/user';
 import { useLogoutMutation } from '../../features/account/accountApi';
 
 type Props = {

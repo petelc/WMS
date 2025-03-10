@@ -18,12 +18,8 @@ import './app/layout/styles.css';
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Provider store={store}>
+      <ToastContainer position='bottom-right' hideProgressBar theme='colored' />
       <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <ToastContainer
-          position='bottom-right'
-          hideProgressBar
-          theme='colored'
-        />
         <RouterProvider router={router} />
       </LocalizationProvider>
     </Provider>

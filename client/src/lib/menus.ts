@@ -1,9 +1,6 @@
 export const midLinks = [
   { title: 'Dashboard', path: '/dashboard' },
-  { title: 'Submit Requests', path: '/request' },
-];
-
-export const protectedLinks = [
+  // { title: 'New Requests', path: '/request' },
   { title: 'Requests', path: '/requests' },
   { title: 'Board', path: '/board' },
   { title: 'Projects', path: '/projects' },
@@ -11,6 +8,6 @@ export const protectedLinks = [
 ];
 
 export const rightLinks = [
-  { title: 'Login', path: '/login' },
-  { title: 'Register', path: '/register' },
+  { title: 'About', path: '/about' },
+  { title: 'Contact', path: '/contact' },
 ];

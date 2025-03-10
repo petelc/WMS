@@ -14,8 +14,9 @@ builder.Services.AddDbContext<WMSContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddCors();
-
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddTransient<ExceptionMiddleware>();
+//builder.Services.AddSwaggerDocument();
 
 // ? Add Identity
 builder.Services.AddIdentityApiEndpoints<User>(opt => 
@@ -25,12 +26,18 @@ builder.Services.AddIdentityApiEndpoints<User>(opt =>
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<WMSContext>();
 
+
+builder.Services.AddEndpointsApiExplorer();
+//builder.Services.AddSwaggerGen();
+
 var app = builder.Build();
 
 // ? Configure the HTTP request pipeline.
 
 
 app.UseMiddleware<ExceptionMiddleware>();
+
+
 
 app.UseCors(opt => {
     opt.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("https://localhost:3000");
