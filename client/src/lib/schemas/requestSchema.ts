@@ -41,7 +41,7 @@ export const RequestSchema = z.object({
   mandateTitle: z.string(),
   mandateDescription: z.string(),
   requiredComplianceDate: z.date(),
-  codeRuleNums: z.array(z.string()),
+  codeRuleNums: z.string(),
   // impact
   internalUserCount: z.number(),
   externalUserCount: z.number(),

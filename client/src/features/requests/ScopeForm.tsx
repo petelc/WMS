@@ -41,8 +41,8 @@ export default function ScopeForm({ requestData, handleChange }: Props) {
             label='Requirements: Specify what items and/or functionality is needed to fulfill the request (e.g. forms, buisiness flow, reports, data sharing, etc.)'
             multiline
             rows={4}
-            value={requestData.resources}
-            onChange={(event) => handleChange('resources', event)}
+            value={requestData.requirements}
+            onChange={(event) => handleChange('requirements', event)}
           />
         </Grid2>
         <Grid2 size={12}>

@@ -5,6 +5,7 @@ import { RequestParams } from '../../app/models/requestParams';
 import { Pagination } from '../../app/models/pagination';
 import { Request } from '../../app/models/request';
 import { filterEmptyValues } from '../../lib/util';
+import { RequestSchema } from '../../lib/schemas/requestSchema';
 
 export const requestsApi = createApi({
   reducerPath: 'requestsApi',
@@ -29,19 +30,10 @@ export const requestsApi = createApi({
         return { items, pagination };
       },
     }),
-    createRequest: builder.mutation<Request, FormData>({
-      query: (data: FormData) => ({
-        url: '/request',
-        method: 'POST',
-        body: data,
-      }),
-    }),
-    createMandate: builder.mutation<void, { id: number; data: FormData }>({
-      query: ({ id, data }) => {
-        data.append('requestId', id.toString());
-
+    createRequest: builder.mutation<Request, RequestSchema>({
+      query: (data: RequestSchema) => {
         return {
-          url: '/request/mandate',
+          url: 'request',
           method: 'POST',
           body: data,
         };
@@ -50,8 +42,4 @@ export const requestsApi = createApi({
   }),
 });
 
-export const {
-  useFetchRequestsQuery,
-  useCreateRequestMutation,
-  useCreateMandateMutation,
-} = requestsApi;
+export const { useFetchRequestsQuery, useCreateRequestMutation } = requestsApi;

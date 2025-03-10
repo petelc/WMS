@@ -24,6 +24,8 @@ public class RequestController(WMSContext context) : BaseApiController
         var pagedList = await PagedList<Request>.ToPagedList(query, 
             requestParams.PageNumber, requestParams.PageSize);
 
+        
+
         return pagedList;
     }
     
@@ -48,14 +50,13 @@ public class RequestController(WMSContext context) : BaseApiController
     }
 
     [HttpPost]
-    public async Task<ActionResult<Request>> AddRequest(CreateRequestDto requestDto)
+    public async Task<ActionResult<Request>> CreateRequest(CreateRequestDto requestDto)
     {
         
         var request = new Request
         {
             RequestedDate = DateTime.Now,
             RequestTitle = requestDto.RequestTitle,
-            RequestDescription = requestDto.RequestDescription,
             RequestedBy = requestDto.RequestedBy,
             Department = requestDto.Department,
             ExplainImpact = requestDto.ExplainImpact,
@@ -69,7 +70,21 @@ public class RequestController(WMSContext context) : BaseApiController
             RelatedProjects = requestDto.RelatedProjects,
             isNew = true,
             isActive = true,
-            SendToBoard = false
+            SendToBoard = false,
+            MandateBy = requestDto.MandateBy,
+            MandateTitle = requestDto.MandateTitle,
+            MandateDescription = requestDto.MandateDescription,
+            RequiredComplianceDate = requestDto.RequiredComplianceDate,
+            CodeRuleNums = requestDto.CodeRuleNums,
+            InternalUserCount = requestDto.InternalUserCount,
+            ExternalUserCount = requestDto.ExternalUserCount,
+            NewAutomationExplain = requestDto.NewAutomationExplain,
+            ExplainCostSavings = requestDto.ExplainCostSavings,
+            ImpactedClassifications = requestDto.ImpactedClassifications,
+            ImpactedExternalJobTypes = requestDto.ImpactedExternalJobTypes,
+            Objectives = requestDto.Objectives,
+            Requirements = requestDto.Requirements,
+            Resources = requestDto.Resources,
         };
 
         context.Requests.Add(request);
@@ -80,85 +95,6 @@ public class RequestController(WMSContext context) : BaseApiController
         if (result) return CreatedAtAction(nameof(GetRequest), new { id = request.Id }, request);
         return BadRequest("Failed to create the request.");
         
-    }
-
-    [HttpPost("mandate")]
-    public async Task<ActionResult<Request>> AddMandateToRequest(CreateMandateDto mandateDto, [FromQuery] int requestId)
-    {
-        var mandate = new Mandate
-        {
-            MandateBy = mandateDto.MandateBy,
-            MandateTitle = mandateDto.MandateTitle,
-            MandateDescription = mandateDto.MandateDescription,
-            RequiredComplianceDate = mandateDto.RequiredComplianceDate,
-            CodeRuleNums = mandateDto.CodeRuleNums
-        };
-
-        context.Mandates.Add(mandate);
-
-        var request = await context.Requests.FindAsync(requestId);
-        
-        if (request == null) return NotFound("Request not found.");
-
-        request.Mandate = mandate;
-
-        var result = await context.SaveChangesAsync() > 0;
-
-        
-
-        if (result) return CreatedAtAction(nameof(GetRequest), new { id = mandate.Id }, mandate);
-        return BadRequest("Failed to create the request.");
-    }
-
-    [HttpPost("impact")]
-    public async Task<ActionResult<Request>> AddImpactToRequest(CreateImpactDto impactDto, [FromQuery] int requestId)
-    {
-        var impact = new Impact
-        {
-            InternalUserCount = impactDto.InternalUserCount,
-            ExternalUserCount = impactDto.ExternalUserCount,
-            NewAutomationExplain = impactDto.NewAutomationExplain,
-            ExplainCostSavings = impactDto.ExplainCostSavings,
-            ImpactedClassifications = impactDto.ImpactedClassifications,
-            ImpactedExternalJobTypes = impactDto.ImpactedExternalJobTypes
-        };
-
-        context.Impacts.Add(impact);
-
-        var request = await context.Requests.FindAsync(requestId);
-        
-        if (request == null) return NotFound("Request not found.");
-
-        request.Impact = impact;
-
-        var result = await context.SaveChangesAsync() > 0;
-
-        if (result) return CreatedAtAction(nameof(GetRequest), new { id = impact.Id }, impact);
-        return BadRequest("Failed to create the request.");
-    }
-
-    [HttpPost("scope")]
-    public async Task<ActionResult<Request>> AddScopeToRequest(CreateScopeDto scopeDto, [FromQuery] int requestId)
-    {
-        var scope = new Scope
-        {
-            Objectives = scopeDto.Objectives,
-            Requirements = scopeDto.Requirements,
-            Resources = scopeDto.Resources,
-        };
-
-        context.Scopes.Add(scope);
-
-        var request = await context.Requests.FindAsync(requestId);
-        
-        if (request == null) return NotFound("Request not found.");
-
-        request.Scope = scope;
-
-        var result = await context.SaveChangesAsync() > 0;
-
-        if (result) return CreatedAtAction(nameof(GetRequest), new { id = scope.Id }, scope);
-        return BadRequest("Failed to create the request.");
     }
 
     [HttpPut("{id}")]

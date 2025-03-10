@@ -11,6 +11,9 @@ import {
   StepLabel,
   Button,
 } from '@mui/material';
+import { useForm } from 'react-hook-form';
+import { useCreateRequestMutation } from './requestsApi';
+import { handleApiError } from '../../lib/util';
 import RequestForm from './RequestForm';
 import MandateForm from './MandateForm';
 import ImpactForm from './ImpactForm';
@@ -18,6 +21,7 @@ import ScopeForm from './ScopeForm';
 import { RequestSchema } from '../../lib/schemas/requestSchema';
 import dayjs from 'dayjs';
 import Confirm from './Confirm';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 const steps = [
   'Basic Request Information',
@@ -30,6 +34,13 @@ const steps = [
 export default function Request() {
   const [activeStep, setActiveStep] = useState(0);
   const [skipped, setSkipped] = useState(new Set<number>());
+
+  const { setError } = useForm<RequestSchema>({
+    mode: 'onTouched',
+    resolver: zodResolver(RequestSchema),
+  });
+  const [createRequest] = useCreateRequestMutation();
+  //const {createRequest} = useCreateRequestMutation();
 
   // ? Form State
   const [requestData, setRequestData] = useState<RequestSchema>({
@@ -56,7 +67,7 @@ export default function Request() {
     mandateTitle: '',
     mandateDescription: '',
     requiredComplianceDate: dayjs('01/01/2025').toDate(),
-    codeRuleNums: [],
+    codeRuleNums: '',
     internalUserCount: 0,
     externalUserCount: 0,
     newAutomationExplain: '',
@@ -131,8 +142,23 @@ export default function Request() {
     setRequestData({ ...requestData, [input]: e.target.value });
   };
 
-  const handleSubmit = () => {
-    console.log('Request Data', requestData);
+  // const createFormData = (items: FieldValues) => {
+  //   const formData = new FormData();
+  //   for (const key in items) {
+  //     formData.append(key, items[key]);
+  //   }
+  //   return formData;
+  // };
+
+  const onRequestSubmit = async () => {
+    try {
+      //const formData = createFormData(requestData);
+      //console.log('Request Data', formData);
+      await createRequest(requestData).unwrap();
+    } catch (error) {
+      console.log(error);
+      handleApiError<RequestSchema>(error, setError, ['requestTitle']);
+    }
   };
 
   const formContent = (step: number) => {
@@ -207,7 +233,15 @@ export default function Request() {
                 <Box sx={{ flex: '1 1 auto' }}>
                   <Button onClick={handleReset}>Reset</Button>
                 </Box>
-                <Button onClick={handleSubmit}>Submit</Button>
+                <Box sx={{ flex: '1 1 auto' }}>
+                  <Button
+                    onClick={onRequestSubmit}
+                    variant='contained'
+                    color='primary'
+                  >
+                    Submit
+                  </Button>
+                </Box>
               </Box>
             </>
           ) : (
