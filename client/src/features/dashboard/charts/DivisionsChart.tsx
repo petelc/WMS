@@ -10,12 +10,12 @@ import {
 } from '@mui/material';
 import RefreshRounded from '@mui/icons-material/RefreshRounded';
 import ShareIcon from '@mui/icons-material/Share';
-import BorderColorIcon from '@mui/icons-material/BorderColor';
+import AccountTreeIcon from '@mui/icons-material/AccountTree';
 import { PieChart } from '@mui/x-charts/PieChart';
 import { blueGrey } from '@mui/material/colors';
 
 import {
-  desktopOS,
+  divisions,
   valueFormatter,
 } from '../../../lib/settings/pieChartSettings';
 
@@ -25,7 +25,7 @@ export default function DivisionsChart() {
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: blueGrey[500] }}>
-            <BorderColorIcon fontSize='small' />
+            <AccountTreeIcon fontSize='small' />
           </Avatar>
         }
         action={<IconButton aria-label='settings'></IconButton>}
@@ -36,19 +36,37 @@ export default function DivisionsChart() {
         <PieChart
           series={[
             {
-              data: desktopOS,
+              data: divisions,
               highlightScope: { fade: 'global', highlight: 'item' },
-              faded: { innerRadius: 30, additionalRadius: -30, color: 'gray' },
+              faded: {
+                innerRadius: 30,
+                additionalRadius: -30,
+                color: 'gray',
+              },
               valueFormatter,
             },
           ]}
-          height={200}
+          slotProps={{
+            legend: {
+              direction: 'row',
+              position: { vertical: 'bottom', horizontal: 'middle' },
+              padding: 1,
+              itemMarkWidth: 10,
+              itemMarkHeight: 10,
+              markGap: 5,
+              itemGap: 5,
+              labelStyle: {
+                fontSize: 12,
+                fontWeight: 400,
+              },
+            },
+          }}
+          height={350}
         />
       </CardMedia>
       <CardContent>
         <Typography variant='body2' sx={{ color: 'text.secondary' }}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          Displays the percentage of requests by division.
         </Typography>
       </CardContent>
       <CardActions disableSpacing>

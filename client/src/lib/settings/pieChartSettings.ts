@@ -1,27 +1,32 @@
-export const desktopOS = [
+export const divisions = [
   {
-    label: 'Windows',
-    value: 72.72,
+    label: 'AppDev',
+    value: 42.72,
     color: '#0088FE',
   },
   {
-    label: 'OS X',
-    value: 16.38,
+    label: 'Server',
+    value: 36.38,
     color: '#00C49F',
   },
   {
-    label: 'Linux',
-    value: 3.83,
+    label: 'Network',
+    value: 24.98,
+    color: '#00D52D',
+  },
+  {
+    label: 'Telecom',
+    value: 10.83,
     color: '#FFBB28',
   },
   {
-    label: 'Chrome OS',
-    value: 2.42,
+    label: 'Security',
+    value: 12.42,
     color: '#FF8042',
   },
   {
-    label: 'Other',
-    value: 4.65,
+    label: 'Video',
+    value: 9.65,
     color: '#EB5021',
   },
 ];
@@ -29,10 +34,10 @@ export const desktopOS = [
 const normalize = (v: number, v2: number) =>
   Number.parseFloat(((v * v2) / 100).toFixed(2));
 
-export const mobileAndDesktopOS = [
-  ...desktopOS.map((v) => ({
+export const divisionsDRC = [
+  ...divisions.map((v) => ({
     ...v,
-    label: v.label === 'Other' ? 'Other (Desktop)' : v.label,
+    label: v.label === 'Other' ? 'Other (Division)' : v.label,
     value: normalize(v.value, 1),
   })),
 ];

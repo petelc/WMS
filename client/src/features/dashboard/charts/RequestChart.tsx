@@ -24,7 +24,7 @@ export default function RequestChart() {
   const radius = 10;
 
   return (
-    <Card sx={{ maxWidth: 350 }}>
+    <Card sx={{ maxWidth: 400 }}>
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: blueGrey[500] }}>
@@ -53,12 +53,12 @@ export default function RequestChart() {
           ]}
           {...(layout === 'vertical' ? chartSettingsV : chartSettingsH)}
           borderRadius={radius}
+          height={350}
         />
       </CardMedia>
       <CardContent>
         <Typography variant='body2' sx={{ color: 'text.secondary' }}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          Displays the number of requests approved and denied.
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
