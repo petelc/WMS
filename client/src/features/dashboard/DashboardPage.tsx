@@ -12,10 +12,11 @@ import WorkspacesIcon from '@mui/icons-material/Workspaces';
 
 import RequestChart from './charts/RequestChart';
 import DivisionsChart from './charts/DivisionsChart';
+import WorkChart from './charts/WorkChart';
 
 export default function DashboardPage() {
   return (
-    <Grid2 container spacing={4}>
+    <Grid2 container spacing={0}>
       <Grid2 size={2}>
         <Paper sx={{ width: 220, maxWidth: '100%', height: '100vh', pt: 1 }}>
           <MenuList sx={{ mt: 3 }}>
@@ -57,6 +58,7 @@ export default function DashboardPage() {
           >
             <RequestChart />
             <DivisionsChart />
+            <WorkChart />
           </Grid2>
         </Paper>
       </Grid2>
