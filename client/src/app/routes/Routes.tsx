@@ -10,6 +10,10 @@ import ServerError from '../errors/ServerError';
 import NotFound from '../errors/NotFound';
 import Request from '../../features/requests/Request';
 import DashboardPage from '../../features/dashboard/DashboardPage';
+import BoardPage from '../../features/board/BoardPage';
+import ChangePage from '../../features/changes/ChangePage';
+import ProjectPage from '../../features/projects/ProjectPage';
+import WorkPage from '../../features/work/WorkPage';
 
 export const router = createBrowserRouter([
   {
@@ -22,6 +26,10 @@ export const router = createBrowserRouter([
           { path: 'dashboard', element: <DashboardPage /> },
           { path: 'requests', element: <RequestPage /> },
           { path: 'request', element: <Request /> }, // to submit request
+          { path: 'board', element: <BoardPage /> },
+          { path: 'changes', element: <ChangePage /> },
+          { path: 'projects', element: <ProjectPage /> },
+          { path: 'work', element: <WorkPage /> },
         ],
       },
       { path: '', element: <LoginForm /> },

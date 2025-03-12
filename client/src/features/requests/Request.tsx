@@ -40,7 +40,6 @@ export default function Request() {
     resolver: zodResolver(RequestSchema),
   });
   const [createRequest] = useCreateRequestMutation();
-  //const {createRequest} = useCreateRequestMutation();
 
   // ? Form State
   const [requestData, setRequestData] = useState<RequestSchema>({
@@ -90,8 +89,6 @@ export default function Request() {
 
   const handleNext = () => {
     let newSkipped = skipped;
-    // TODO : Add validation
-    //console.log('Request Data', requestData);
 
     if (isStepSkipped(activeStep)) {
       newSkipped = new Set(newSkipped.values());
@@ -142,19 +139,10 @@ export default function Request() {
     setRequestData({ ...requestData, [input]: e.target.value });
   };
 
-  // const createFormData = (items: FieldValues) => {
-  //   const formData = new FormData();
-  //   for (const key in items) {
-  //     formData.append(key, items[key]);
-  //   }
-  //   return formData;
-  // };
-
   const onRequestSubmit = async () => {
     try {
-      //const formData = createFormData(requestData);
-      //console.log('Request Data', formData);
       await createRequest(requestData).unwrap();
+      setActiveStep((prevActiveStep) => prevActiveStep + 1);
     } catch (error) {
       console.log(error);
       handleApiError<RequestSchema>(error, setError, ['requestTitle']);
@@ -234,13 +222,13 @@ export default function Request() {
                   <Button onClick={handleReset}>Reset</Button>
                 </Box>
                 <Box sx={{ flex: '1 1 auto' }}>
-                  <Button
+                  {/* <Button
                     onClick={onRequestSubmit}
                     variant='contained'
                     color='primary'
                   >
                     Submit
-                  </Button>
+                  </Button> */}
                 </Box>
               </Box>
             </>
@@ -264,7 +252,13 @@ export default function Request() {
                   </Button>
                 )}
 
-                <Button onClick={handleNext}>
+                <Button
+                  onClick={
+                    activeStep === steps.length - 1
+                      ? onRequestSubmit
+                      : handleNext
+                  }
+                >
                   {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
                 </Button>
               </Box>
