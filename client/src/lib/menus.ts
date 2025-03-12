@@ -4,7 +4,7 @@ export const midLinks = [
   { title: 'Requests', path: '/requests' },
   { title: 'Board', path: '/board' },
   { title: 'Projects', path: '/projects' },
-  { title: 'Changes', path: '/change' },
+  { title: 'Changes', path: '/changes' },
 ];
 
 export const rightLinks = [
