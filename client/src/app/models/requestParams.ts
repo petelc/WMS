@@ -3,6 +3,6 @@ export type RequestParams = {
   searchTerm?: string;
   pageNumber: number;
   pageSize: number;
-  requestType: string;
-  priority: string;
+  requestType: string[];
+  priority: string[];
 };

@@ -24,6 +24,8 @@ public class RequestController(WMSContext context) : BaseApiController
         var pagedList = await PagedList<Request>.ToPagedList(query, 
             requestParams.PageNumber, requestParams.PageSize);
 
+        Response.AddPaginationHeader(pagedList.Metadata);
+
         
 
         return pagedList;
@@ -43,10 +45,10 @@ public class RequestController(WMSContext context) : BaseApiController
     [HttpGet("filters")]
     public async Task<IActionResult> GetFilters()
     {
-        var requestTypes = await context.RequestTypes.Select(p => p.RequestTypeName).Distinct().ToListAsync();
-        var priorities = await context.Priorities.Select(p => p.PriorityName).Distinct().ToListAsync();
+        var requestType = await context.RequestTypes.Select(p => p.RequestTypeName).Distinct().ToListAsync();
+        var priority = await context.Priorities.Select(p => p.PriorityName).Distinct().ToListAsync();
 
-        return Ok(new { requestTypes, priorities });
+        return Ok(new { requestType, priority });
     }
 
     [HttpPost]

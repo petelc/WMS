@@ -1,4 +1,4 @@
-import { RequestSchema } from '../../lib/schemas/requestSchema';
+import { RequestSchema } from '../../../lib/schemas/requestSchema';
 
 type Props = {
   requestData: RequestSchema;

@@ -1,6 +1,6 @@
 export type Request = {
   id: number;
-  requestDate: Date;
+  requestedDate: Date;
   requestTitle: string;
   description: string;
   requestedBy: string;

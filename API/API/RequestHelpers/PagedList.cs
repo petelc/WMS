@@ -6,7 +6,7 @@ public class PagedList<T> : List<T>
 {
     public PagedList(List<T> items, int count, int pageNumber, int pageSize)
     {
-        Metadata = new PaganationMetadata
+        Metadata = new PaginationMetadata
         {
             TotalCount = count,
             PageSize = pageSize,
@@ -17,7 +17,7 @@ public class PagedList<T> : List<T>
         AddRange(items);
     }
 
-    public PaganationMetadata Metadata { get; set; }
+    public PaginationMetadata Metadata { get; set; }
 
     public static async Task<PagedList<T>> ToPagedList(IQueryable<T> query, 
         int pageNumber, int pageSize)

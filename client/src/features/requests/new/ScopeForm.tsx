@@ -1,5 +1,5 @@
 import { Box, Grid2, Typography, TextField } from '@mui/material';
-import { RequestSchema } from '../../lib/schemas/requestSchema';
+import { RequestSchema } from '../../../lib/schemas/requestSchema';
 
 type Props = {
   requestData: RequestSchema;

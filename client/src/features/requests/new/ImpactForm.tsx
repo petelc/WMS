@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-empty-object-type */
 import { useState } from 'react';
 import { Autocomplete, Box, Grid2, TextField, Typography } from '@mui/material';
-import { Titles } from '../../lib/titles';
-import { RequestSchema } from '../../lib/schemas/requestSchema';
+import { Titles } from '../../../lib/titles';
+import { RequestSchema } from '../../../lib/schemas/requestSchema';
 
 type Props = {
   requestData: RequestSchema;
