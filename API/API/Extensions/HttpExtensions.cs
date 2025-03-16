@@ -6,7 +6,7 @@ namespace API.Extensions;
 
 public static class HttpExtensions
 {
-    public static void AddPaginationHeader(this HttpResponse response, PaganationMetadata metadata)
+    public static void AddPaginationHeader(this HttpResponse response, PaginationMetadata metadata)
     {
         var options = new JsonSerializerOptions
         {

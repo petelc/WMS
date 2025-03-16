@@ -18,7 +18,7 @@ export const requestsApi = createApi({
     >({
       query(requestParams) {
         return {
-          url: '/request',
+          url: 'request',
           params: filterEmptyValues(requestParams),
         };
       },
@@ -39,7 +39,14 @@ export const requestsApi = createApi({
         };
       },
     }),
+    fetchFilters: builder.query<{ priority: []; requestType: [] }, void>({
+      query: () => '/request/filters',
+    }),
   }),
 });
 
-export const { useFetchRequestsQuery, useCreateRequestMutation } = requestsApi;
+export const {
+  useFetchRequestsQuery,
+  useCreateRequestMutation,
+  useFetchFiltersQuery,
+} = requestsApi;

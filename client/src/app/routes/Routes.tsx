@@ -8,7 +8,7 @@ import ContactPage from '../../features/contact/ContactPage';
 import LoginForm from '../../features/account/LoginForm';
 import ServerError from '../errors/ServerError';
 import NotFound from '../errors/NotFound';
-import Request from '../../features/requests/Request';
+import Request from '../../features/requests/new/Request';
 import DashboardPage from '../../features/dashboard/DashboardPage';
 import BoardPage from '../../features/board/BoardPage';
 import ChangePage from '../../features/changes/ChangePage';

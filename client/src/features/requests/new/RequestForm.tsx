@@ -19,7 +19,7 @@ import {
 } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs, { Dayjs } from 'dayjs';
-import { RequestSchema } from '../../lib/schemas/requestSchema';
+import { RequestSchema } from '../../../lib/schemas/requestSchema';
 
 type Props = {
   requestData: RequestSchema;

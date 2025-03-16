@@ -3,12 +3,14 @@ import { uiSlice } from '../layout/uiSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { accountApi } from '../../features/account/accountApi';
 import { requestsApi } from '../../features/requests/requestsApi';
+import { requestSlice } from '../../features/requests/requestSlice';
 
 export const store = configureStore({
   reducer: {
     [accountApi.reducerPath]: accountApi.reducer,
     [requestsApi.reducerPath]: requestsApi.reducer,
     ui: uiSlice.reducer,
+    request: requestSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(

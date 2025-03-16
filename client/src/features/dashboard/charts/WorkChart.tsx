@@ -36,14 +36,14 @@ export default function WorkChart() {
           series={[
             {
               data: cData,
-              label: 'uv',
+              label: 'changes',
               area: true,
               stack: 'total',
               showMark: false,
             },
             {
               data: pData,
-              label: 'pv',
+              label: 'projects',
               area: true,
               stack: 'total',
               showMark: false,
