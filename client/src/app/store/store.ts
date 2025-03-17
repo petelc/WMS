@@ -4,18 +4,21 @@ import { useDispatch, useSelector } from 'react-redux';
 import { accountApi } from '../../features/account/accountApi';
 import { requestsApi } from '../../features/requests/requestsApi';
 import { requestSlice } from '../../features/requests/requestSlice';
+import { lookupApi } from './shared/api/lookupApi';
 
 export const store = configureStore({
   reducer: {
     [accountApi.reducerPath]: accountApi.reducer,
     [requestsApi.reducerPath]: requestsApi.reducer,
+    [lookupApi.reducerPath]: lookupApi.reducer,
     ui: uiSlice.reducer,
     request: requestSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
       accountApi.middleware,
-      requestsApi.middleware
+      requestsApi.middleware,
+      lookupApi.middleware
     ),
 });
 

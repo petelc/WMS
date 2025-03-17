@@ -19,6 +19,9 @@ import {
 } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs, { Dayjs } from 'dayjs';
+
+import { useFetchRequestTypesQuery } from '../../../app/store/shared/api/lookupApi';
+import { useAppSelector } from '../../../app/store/store';
 import { RequestSchema } from '../../../lib/schemas/requestSchema';
 
 type Props = {
@@ -29,7 +32,14 @@ type Props = {
   ) => void;
 };
 
+type RequestType = {
+  id: number;
+  requestTypeName: string;
+};
+
 export default function RequestForm({ requestData, handleChange }: Props) {
+  const { data: requestTypes } = useFetchRequestTypesQuery();
+
   const [policy, setPolicy] = useState<string[]>([]);
   const [newPolicy, setNewPolicy] = useState('');
   const [project, setProject] = useState<string[]>([]);
@@ -86,6 +96,8 @@ export default function RequestForm({ requestData, handleChange }: Props) {
 
   //   return formData;
   // };
+
+  console.log(requestData);
 
   return (
     <Box width='100%' display='flex' flexDirection='column' gap={3} marginY={3}>
@@ -152,7 +164,15 @@ export default function RequestForm({ requestData, handleChange }: Props) {
               onChange={(event) => handleChange('requestType', event)}
               row
             >
-              <FormControlLabel
+              {requestTypes?.map((type) => (
+                <FormControlLabel
+                  key={type.id}
+                  value={type.id}
+                  control={<Radio />}
+                  label={type.name}
+                />
+              ))}
+              {/* <FormControlLabel
                 value='1'
                 control={<Radio />}
                 label='New Request'
@@ -161,7 +181,7 @@ export default function RequestForm({ requestData, handleChange }: Props) {
                 value='2'
                 control={<Radio />}
                 label='Change Request'
-              />
+              /> */}
             </RadioGroup>
           </FormControl>
         </Grid2>

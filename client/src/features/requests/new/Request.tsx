@@ -133,6 +133,7 @@ export default function Request() {
           mandateBy.splice(index, 1);
         }
       }
+      console.log(input);
       setRequestData({ ...requestData, [input]: mandateBy });
       return;
     }
