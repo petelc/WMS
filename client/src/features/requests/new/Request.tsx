@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import dayjs from 'dayjs';
 import { Cyclone } from '@mui/icons-material';
 import {
   Container,
@@ -12,6 +13,8 @@ import {
   Button,
 } from '@mui/material';
 import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+
 import { useCreateRequestMutation } from '../requestsApi';
 import { handleApiError } from '../../../lib/util';
 import RequestForm from './RequestForm';
@@ -19,9 +22,9 @@ import MandateForm from './MandateForm';
 import ImpactForm from './ImpactForm';
 import ScopeForm from './ScopeForm';
 import { RequestSchema } from '../../../lib/schemas/requestSchema';
-import dayjs from 'dayjs';
 import Confirm from './Confirm';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { useFetchRequestTypesQuery } from '../../../app/store/shared/api/lookupApi';
+import { RequestType } from '../../../lib/types/types';
 
 const steps = [
   'Basic Request Information',
@@ -40,6 +43,9 @@ export default function Request() {
     resolver: zodResolver(RequestSchema),
   });
   const [createRequest] = useCreateRequestMutation();
+  const { data: requestTypes } = useFetchRequestTypesQuery();
+  let rt: RequestType[] = [];
+  rt = requestTypes || [];
 
   // ? Form State
   const [requestData, setRequestData] = useState<RequestSchema>({
@@ -48,24 +54,37 @@ export default function Request() {
     department: '',
     explainImpact: '',
     sendToBoard: false,
-    approvalStatus: '',
+    approvalStatus: {
+      id: 1,
+      ApprovalStatusName: 'Pending',
+    },
     stakeHolders: '',
-    requestDate: dayjs('01/01/2025').toDate(),
-    proposedImpDate: dayjs('01/01/2025').toDate(),
-    boardDate: dayjs('01/01/2025').toDate(),
-    approvalDate: dayjs('01/01/2025').toDate(),
-    denialDate: dayjs('01/01/2025').toDate(),
+    requestDate: dayjs(new Date()).toDate(),
+    proposedImpDate: dayjs('1970-01-01').toDate(),
+    boardDate: dayjs('1970-01-01').toDate(),
+    approvalDate: dayjs('1970-01-01').toDate(),
+    denialDate: dayjs('1970-01-01').toDate(),
     policies: [],
     relatedProjects: [],
     isNew: true,
     isActive: false,
-    requestType: '',
-    requestStatus: '',
-    priority: '',
-    mandateBy: [''],
+    requestType: {
+      id: 0,
+      requestTypeName: '',
+    },
+    requestStatus: {
+      id: 1,
+      RequestStatusName: 'New',
+    },
+    priority: {
+      id: 0,
+      PriorityName: 'Low',
+      PriorityLevel: 0,
+    },
+    mandateBy: [],
     mandateTitle: '',
     mandateDescription: '',
-    requiredComplianceDate: dayjs('01/01/2025').toDate(),
+    requiredComplianceDate: dayjs('1970-01-01').toDate(),
     codeRuleNums: '',
     internalUserCount: 0,
     externalUserCount: 0,
@@ -133,6 +152,8 @@ export default function Request() {
           mandateBy.splice(index, 1);
         }
       }
+
+      console.log(input);
       setRequestData({ ...requestData, [input]: mandateBy });
       return;
     }
@@ -153,7 +174,11 @@ export default function Request() {
     switch (step) {
       case 0:
         return (
-          <RequestForm handleChange={handleChange} requestData={requestData} />
+          <RequestForm
+            handleChange={handleChange}
+            requestData={requestData}
+            requestTypes={rt || []}
+          />
         );
       case 1:
         return (

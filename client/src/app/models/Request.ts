@@ -17,7 +17,16 @@ export type Request = {
   isActive: boolean;
   sendToBoard: boolean;
   approvalStatus: string;
-  priority: string;
-  requestType: string;
+  // priority: string;
+  priority: {
+    id: number;
+    priorityName: string;
+    priorityLevel: number;
+  };
+  // requestType: string;
+  requestType: {
+    id: number;
+    requestTypeName: string;
+  };
   requestStatus: string;
 };

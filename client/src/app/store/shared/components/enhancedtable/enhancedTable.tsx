@@ -28,6 +28,8 @@ export function EnhancedTable({ rows }: Props) {
   // const [dense, setDense] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
+  console.log(rows);
+
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
     property: keyof Request
@@ -46,6 +48,7 @@ export function EnhancedTable({ rows }: Props) {
     setSelected([]);
   };
 
+  // TODO : Handle the Drawer Open here
   const handleClick = (event: React.MouseEvent<unknown>, id: number) => {
     const selectedIndex = selected.indexOf(id);
     let newSelected: readonly number[] = [];
@@ -142,8 +145,12 @@ export function EnhancedTable({ rows }: Props) {
                     </TableCell>
                     <TableCell align='left'>{row.requestTitle}</TableCell>
                     <TableCell align='left'>{row.requestedBy}</TableCell>
-                    <TableCell align='left'>{row.requestType}</TableCell>
-                    <TableCell align='left'>{row.priority}</TableCell>
+                    <TableCell align='left'>
+                      {row.requestType.requestTypeName}
+                    </TableCell>
+                    <TableCell align='left'>
+                      {row.priority.priorityName}
+                    </TableCell>
                   </TableRow>
                 );
               })}
@@ -160,13 +167,22 @@ export function EnhancedTable({ rows }: Props) {
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
+          rowsPerPageOptions={[5, 10, 25, 50]}
+          colSpan={3}
           component='div'
           count={rows.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
+          slotProps={{
+            select: {
+              inputProps: {
+                'aria-label': 'rows per page',
+              },
+              native: true,
+            },
+          }}
         />
       </Paper>
     </Box>

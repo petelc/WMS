@@ -19,7 +19,9 @@ import {
 } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs, { Dayjs } from 'dayjs';
+
 import { RequestSchema } from '../../../lib/schemas/requestSchema';
+import { RequestType } from '../../../lib/types/types';
 
 type Props = {
   requestData: RequestSchema;
@@ -27,14 +29,20 @@ type Props = {
     input: string,
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void;
+  requestTypes: RequestType[];
 };
 
-export default function RequestForm({ requestData, handleChange }: Props) {
+export default function RequestForm({
+  requestData,
+  handleChange,
+  requestTypes,
+}: Props) {
   const [policy, setPolicy] = useState<string[]>([]);
   const [newPolicy, setNewPolicy] = useState('');
   const [project, setProject] = useState<string[]>([]);
   const [newProject, setNewProject] = useState('');
   const [requestDate, setRequestDate] = useState<Dayjs | null>(dayjs());
+  const [requestType, setRequestType] = useState<string>('');
 
   // ? Form Action Functions
   const handlePolicyTextChange = (
@@ -75,6 +83,18 @@ export default function RequestForm({ requestData, handleChange }: Props) {
     const newPolicyList = [...policy];
     newPolicyList.splice(index, 1);
     setPolicy(newPolicyList);
+  };
+
+  const handleRequestTypeChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    requestData.requestType = {
+      id: Number(event.target.value),
+      requestTypeName: requestTypes.filter(
+        (type) => type.id === Number(event.target.value)
+      )[0].requestTypeName,
+    };
+    setRequestType(event.target.value);
   };
 
   // ? Form Actions
@@ -143,25 +163,27 @@ export default function RequestForm({ requestData, handleChange }: Props) {
           <Divider variant='middle' sx={{ mt: 4, mb: 4 }} />
         </Grid2>
 
-        <Grid2 size={{ xs: 6, md: 4 }}>
+        <Grid2 size={{ xs: 6, md: 6 }}>
           <FormControl id='requestTypeGroup'>
             <FormLabel component='legend'>Request Type</FormLabel>
             <RadioGroup
               name='requestTypeGroup'
-              value={requestData.requestType}
-              onChange={(event) => handleChange('requestType', event)}
+              value={requestType}
+              onChange={handleRequestTypeChange}
               row
             >
-              <FormControlLabel
-                value='1'
-                control={<Radio />}
-                label='New Request'
-              />
-              <FormControlLabel
-                value='2'
-                control={<Radio />}
-                label='Change Request'
-              />
+              {requestTypes?.map((type) => {
+                const { id, requestTypeName } = type;
+
+                return (
+                  <FormControlLabel
+                    key={id}
+                    value={id}
+                    control={<Radio />}
+                    label={requestTypeName}
+                  />
+                );
+              })}
             </RadioGroup>
           </FormControl>
         </Grid2>
@@ -176,8 +198,8 @@ export default function RequestForm({ requestData, handleChange }: Props) {
               onChange={(event) => handleChange('stakeHolders', event)}
               row
             >
-              <FormControlLabel value='1' control={<Radio />} label='Yes' />
-              <FormControlLabel value='2' control={<Radio />} label='No' />
+              <FormControlLabel value='Yes' control={<Radio />} label='Yes' />
+              <FormControlLabel value='No' control={<Radio />} label='No' />
             </RadioGroup>
           </FormControl>
         </Grid2>
