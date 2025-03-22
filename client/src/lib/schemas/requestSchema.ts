@@ -32,10 +32,24 @@ export const RequestSchema = z.object({
   isNew: z.boolean(),
   isActive: z.boolean(),
   sendToBoard: z.boolean(),
-  approvalStatus: z.string(),
-  priority: z.string(),
-  requestType: z.string(),
-  requestStatus: z.string(),
+  approvalStatus: z.object({
+    id: z.number(),
+    ApprovalStatusName: z.string(),
+  }),
+  priority: z.object({
+    id: z.number(),
+    PriorityName: z.string(),
+    PriorityLevel: z.number(),
+  }),
+  requestType: z.object({
+    id: z.number(),
+    requestTypeName: z.string(),
+  }),
+  requestStatus: z.object({
+    id: z.number(),
+    RequestStatusName: z.string(),
+  }),
+
   // mandate
   mandateBy: z.array(z.string()),
   mandateTitle: z.string(),

@@ -16,6 +16,8 @@ public class RequestController(WMSContext context) : BaseApiController
     public async Task<ActionResult<List<Request>>> GetRequests([FromQuery] RequestParams requestParams)
     {
         var query = context.Requests
+            .Include(r => r.RequestType)
+            .Include(r => r.Priority)
             .Sort(requestParams.OrderBy)
             .Search(requestParams.SearchTerm)
             .Filter(requestParams.RequestType, requestParams.Priority)
