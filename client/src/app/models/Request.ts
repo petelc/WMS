@@ -16,7 +16,11 @@ export type Request = {
   isNew: boolean;
   isActive: boolean;
   sendToBoard: boolean;
-  approvalStatus: string;
+  //approvalStatus: string;
+  approvalStatus: {
+    id: number;
+    approvalStatusName: string;
+  };
   // priority: string;
   priority: {
     id: number;
@@ -28,5 +32,9 @@ export type Request = {
     id: number;
     requestTypeName: string;
   };
-  requestStatus: string;
+  //requestStatus: string;
+  requestStatus: {
+    id: number;
+    requestStatusName: string;
+  };
 };

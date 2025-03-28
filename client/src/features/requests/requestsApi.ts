@@ -12,6 +12,7 @@ export const requestsApi = createApi({
   baseQuery: baseQueryWithErrorHandling,
   tagTypes: ['Request'],
   endpoints: (builder) => ({
+    // ? Fetch Requests
     fetchRequests: builder.query<
       { items: Request[]; pagination: Pagination },
       RequestParams
@@ -30,6 +31,11 @@ export const requestsApi = createApi({
         return { items, pagination };
       },
     }),
+    // ? Fetch Request by ID
+    fetchRequestDetails: builder.query<Request, number>({
+      query: (id: number) => `request/${id}`,
+    }),
+    // ? Create Request
     createRequest: builder.mutation<Request, RequestSchema>({
       query: (data: RequestSchema) => {
         return {
@@ -39,6 +45,17 @@ export const requestsApi = createApi({
         };
       },
     }),
+    // ? Update Request
+    updateRequest: builder.mutation<Request, { id: number; data: Request }>({
+      query: ({ id, data }) => {
+        return {
+          url: `request/${id}`,
+          method: 'PUT',
+          body: data,
+        };
+      },
+    }),
+    // ? Fetch Filters
     fetchFilters: builder.query<{ priority: []; requestType: [] }, void>({
       query: () => '/request/filters',
     }),
@@ -47,6 +64,8 @@ export const requestsApi = createApi({
 
 export const {
   useFetchRequestsQuery,
+  useFetchRequestDetailsQuery,
   useCreateRequestMutation,
   useFetchFiltersQuery,
+  useUpdateRequestMutation,
 } = requestsApi;

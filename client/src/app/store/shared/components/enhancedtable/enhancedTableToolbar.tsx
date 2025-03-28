@@ -3,13 +3,11 @@ import { alpha } from '@mui/material/styles';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 
-interface EnhancedTableToolbarProps {
+type Props = {
   numSelected: number;
-}
+};
 
-export const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
-  const { numSelected } = props;
-
+export const EnhancedTableToolbar = ({ numSelected = 0 }: Props) => {
   return (
     <Toolbar
       sx={[

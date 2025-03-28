@@ -45,6 +45,8 @@ export default function Request() {
   const [createRequest] = useCreateRequestMutation();
   const { data: requestTypes } = useFetchRequestTypesQuery();
   let rt: RequestType[] = [];
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-expect-error
   rt = requestTypes || [];
 
   // ? Form State
