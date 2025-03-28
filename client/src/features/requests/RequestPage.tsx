@@ -7,8 +7,11 @@ import { EnhancedTable as RequestTable } from '../../app/store/shared/components
 
 export default function RequestPage() {
   const requestParams = useAppSelector((state) => state.request);
-  const { data, isLoading: requestsLoading } =
-    useFetchRequestsQuery(requestParams);
+  const {
+    data,
+    isLoading: requestsLoading,
+    refetch,
+  } = useFetchRequestsQuery(requestParams);
   const { data: filtersData, isLoading: filtersLoading } =
     useFetchFiltersQuery();
 
@@ -22,7 +25,7 @@ export default function RequestPage() {
       </Grid2>
       <Grid2 size={9}>
         {data?.items && data.items.length > 0 ? (
-          <RequestTable rows={data.items} />
+          <RequestTable rows={data.items} refetch={refetch} />
         ) : (
           <Typography variant='h5'>No requests found</Typography>
         )}

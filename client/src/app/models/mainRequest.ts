@@ -1,36 +1,12 @@
-export type ApprovalStatus = {
+export type MainRequest = {
   id: number;
-  approvalStatusName: string;
-};
-
-export type RequestStatus = {
-  id: number;
-  requestStatusName: string;
-};
-
-export type Priorities = {
-  id: number;
-  priorityName: string;
-  priorityLevel: number;
-};
-
-export type RequestType = {
-  id: number;
-  requestTypeName: string;
-};
-
-export interface IRequest {
+  requestedDate: Date;
   requestTitle: string;
+  description: string;
   requestedBy: string;
   department: string;
   explainImpact: string;
-  sendToBoard: boolean;
-  approvalStatus: {
-    id: number;
-    ApprovalStatusName: string;
-  };
-  stakeHolders: string;
-  requestDate: Date;
+  hasStakeholderConferred: boolean;
   proposedImpDate: Date;
   boardDate: Date;
   approvalDate: Date;
@@ -39,24 +15,33 @@ export interface IRequest {
   relatedProjects: string[];
   isNew: boolean;
   isActive: boolean;
+  sendToBoard: boolean;
+  //approvalStatus: string;
+  approvalStatus: {
+    id: number;
+    approvalStatusName: string;
+  };
+  // priority: string;
+  priority: {
+    id: number;
+    priorityName: string;
+    priorityLevel: number;
+  };
+  // requestType: string;
   requestType: {
     id: number;
     requestTypeName: string;
   };
+  //requestStatus: string;
   requestStatus: {
     id: number;
-    RequestStatusName: string;
-  };
-  priority: {
-    id: number;
-    PriorityName: string;
-    PriorityLevel: number;
+    requestStatusName: string;
   };
   mandateBy: string[];
   mandateTitle: string;
   mandateDescription: string;
-  requiredComplianceDate: string;
-  codeRuleNums: string;
+  requiredComplianceDate: Date;
+  codeRuleNums: string[];
   internalUserCount: number;
   externalUserCount: number;
   newAutomationExplain: string;
@@ -66,4 +51,4 @@ export interface IRequest {
   objectives: string;
   requirements: string;
   resources: string;
-}
+};

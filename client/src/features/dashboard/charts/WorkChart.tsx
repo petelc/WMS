@@ -20,7 +20,7 @@ const xLabels = ['Projects', 'Changes'];
 
 export default function WorkChart() {
   return (
-    <Card sx={{ maxWidth: 400 }}>
+    <Card sx={{ maxWidth: 400 }} elevation={2}>
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: blueGrey[500] }}>

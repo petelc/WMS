@@ -7,28 +7,26 @@ import {
   TableBody,
   TableRow,
   TableCell,
-  Checkbox,
   TablePagination,
 } from '@mui/material';
-import { format } from 'date-fns';
+// import { format } from 'date-fns';
 //import { getComparator } from '../../../../../lib/util';
 import EnhancedTableHead, { Order } from './enhancedTableHead';
 import { EnhancedTableToolbar } from './enhancedTableToolbar';
+import EnhancedTableRow from './enhancedTableRow';
+// import RequestDrawer from '../drawer/RequestDrawer';
 import { Request } from '../../../../models/request';
 
 type Props = {
   rows: Request[];
+  refetch: () => void;
 };
 
-export function EnhancedTable({ rows }: Props) {
+export function EnhancedTable({ rows, refetch }: Props) {
   const [order, setOrder] = useState<Order>('asc');
   const [orderBy, setOrderBy] = useState<string>('requestTitle');
-  const [selected, setSelected] = useState<readonly number[]>([]);
   const [page, setPage] = useState(0);
-  // const [dense, setDense] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-
-  console.log(rows);
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
@@ -37,35 +35,6 @@ export function EnhancedTable({ rows }: Props) {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
-  };
-
-  const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.checked) {
-      const newSelected = rows.map((n) => n.id);
-      setSelected(newSelected);
-      return;
-    }
-    setSelected([]);
-  };
-
-  // TODO : Handle the Drawer Open here
-  const handleClick = (event: React.MouseEvent<unknown>, id: number) => {
-    const selectedIndex = selected.indexOf(id);
-    let newSelected: readonly number[] = [];
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, id);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      );
-    }
-    setSelected(newSelected);
   };
 
   const handleChangePage = (event: unknown, newPage: number) => {
@@ -90,8 +59,8 @@ export function EnhancedTable({ rows }: Props) {
 
   return (
     <Box sx={{ width: '100%' }}>
-      <Paper sx={{ width: '100%', mb: 4 }}>
-        <EnhancedTableToolbar numSelected={selected.length} />
+      <Paper sx={{ width: '100%', mb: 4, p: 2 }} square={false}>
+        <EnhancedTableToolbar numSelected={0} />
         <TableContainer>
           <Table
             sx={{ minWidth: 750 }}
@@ -99,59 +68,20 @@ export function EnhancedTable({ rows }: Props) {
             size={'medium'}
           >
             <EnhancedTableHead
-              numSelected={selected.length}
+              numSelected={0}
               order={order}
               orderBy={orderBy}
-              onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
               rowCount={rows.length}
             />
             <TableBody>
-              {visibleRows.map((row, index) => {
-                const isItemSelected = selected.includes(row.id);
-                const labelId = `enhanced-table-checkbox-${index}`;
-
+              {visibleRows.map((row) => {
                 return (
-                  <TableRow
-                    hover
-                    onClick={(event) => handleClick(event, row.id)}
-                    role='checkbox'
-                    aria-checked={isItemSelected}
-                    tabIndex={-1}
+                  <EnhancedTableRow
                     key={row.id}
-                    selected={isItemSelected}
-                    sx={{ cursor: 'pointer' }}
-                  >
-                    <TableCell padding='checkbox'>
-                      <Checkbox
-                        color='primary'
-                        checked={isItemSelected}
-                        inputProps={{
-                          'aria-labelledby': labelId,
-                        }}
-                      />
-                    </TableCell>
-                    <TableCell
-                      component='th'
-                      id={labelId}
-                      scope='row'
-                      padding='none'
-                      align='left'
-                    >
-                      {row.id}
-                    </TableCell>
-                    <TableCell align='left'>
-                      {format(new Date(row.requestedDate), 'MM/dd/yyyy')}
-                    </TableCell>
-                    <TableCell align='left'>{row.requestTitle}</TableCell>
-                    <TableCell align='left'>{row.requestedBy}</TableCell>
-                    <TableCell align='left'>
-                      {row.requestType.requestTypeName}
-                    </TableCell>
-                    <TableCell align='left'>
-                      {row.priority.priorityName}
-                    </TableCell>
-                  </TableRow>
+                    request={row}
+                    refetch={refetch}
+                  />
                 );
               })}
               {emptyRows > 0 && (

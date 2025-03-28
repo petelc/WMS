@@ -5,8 +5,6 @@ export default function RequireAuth() {
   const { data: user, isLoading } = useUserInfoQuery();
   const location = useLocation();
 
-  console.log(user);
-
   if (isLoading) return <div>Loading...</div>;
 
   if (!user) {
