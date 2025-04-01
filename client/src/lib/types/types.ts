@@ -19,6 +19,12 @@ export type RequestType = {
   requestTypeName: string;
 };
 
+export type TeamManager = {
+  id: string;
+  userName: string;
+  email: string;
+};
+
 export interface IRequest {
   requestTitle: string;
   requestedBy: string;

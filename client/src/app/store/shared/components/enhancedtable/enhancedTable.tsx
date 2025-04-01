@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 import { useState } from 'react';
 import {
   Box,
@@ -9,24 +11,31 @@ import {
   TableCell,
   TablePagination,
 } from '@mui/material';
-// import { format } from 'date-fns';
-//import { getComparator } from '../../../../../lib/util';
 import EnhancedTableHead, { Order } from './enhancedTableHead';
 import { EnhancedTableToolbar } from './enhancedTableToolbar';
 import EnhancedTableRow from './enhancedTableRow';
-// import RequestDrawer from '../drawer/RequestDrawer';
 import { Request } from '../../../../models/request';
+//import CommentModal from '../modals/CommentModal';
+// import TeamManagerModal from '../modals/TeamManagerModal';
+import TeamManagerDialog from '../modals/TeamManagerDialog';
+import { useFetchTeamManagersQuery } from '../../api/lookupApi';
 
 type Props = {
   rows: Request[];
-  refetch: () => void;
+  refetch?: () => void;
 };
+
+// type TeamManagerResponse = {
+//   teamManagers: TeamManager[];
+// };
 
 export function EnhancedTable({ rows, refetch }: Props) {
   const [order, setOrder] = useState<Order>('asc');
+  const [openModal, setOpenModal] = useState(false);
   const [orderBy, setOrderBy] = useState<string>('requestTitle');
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const { data: teamManagers } = useFetchTeamManagersQuery();
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
@@ -46,6 +55,15 @@ export function EnhancedTable({ rows, refetch }: Props) {
   ) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
+  };
+
+  const handleOpenModal = () => {
+    setOpenModal(true);
+    // handleOpenModal(); // If you have a function to perform additional actions when opening the modal
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
   };
 
   // Avoid a layout jump when reaching the last page with empty rows.
@@ -81,6 +99,7 @@ export function EnhancedTable({ rows, refetch }: Props) {
                     key={row.id}
                     request={row}
                     refetch={refetch}
+                    handleOpenModal={handleOpenModal}
                   />
                 );
               })}
@@ -114,6 +133,15 @@ export function EnhancedTable({ rows, refetch }: Props) {
             },
           }}
         />
+        {openModal && (
+          <TeamManagerDialog
+            handleCloseModal={handleCloseModal}
+            handleOpenModal={handleOpenModal}
+            openModal={openModal}
+            // @ts-expect-error this is ok
+            teamManagers={teamManagers} // Pass the team managers to the modal
+          />
+        )}
       </Paper>
     </Box>
   );
