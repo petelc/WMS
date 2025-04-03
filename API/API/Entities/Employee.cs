@@ -1,5 +1,3 @@
-using System;
-using System.ComponentModel.Design.Serialization;
 using System.Text.Json.Serialization;
 
 namespace API.Entities;
@@ -16,5 +14,10 @@ public class Employee
     public string? Extension { get; set; }
     public string? Notes { get; set; }
     public int? ReportsTo { get; set; }
-    
+
+    public int SectionId { get; set; }
+    public Section? Section { get; set; }
+
+    public ICollection<Team>? Teams { get; set; }
+
 }
