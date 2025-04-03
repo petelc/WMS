@@ -20,15 +20,15 @@ export default function RequestPage() {
 
   return (
     <Grid2 container spacing={4}>
-      <Grid2 size={3}>
-        <Filters filtersData={filtersData || defaultFiltersData} />
-      </Grid2>
       <Grid2 size={9}>
         {data?.items && data.items.length > 0 ? (
           <RequestTable rows={data.items} refetch={refetch} />
         ) : (
           <Typography variant='h5'>No requests found</Typography>
         )}
+      </Grid2>
+      <Grid2 size={3}>
+        <Filters filtersData={filtersData || defaultFiltersData} />
       </Grid2>
     </Grid2>
   );

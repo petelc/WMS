@@ -1,11 +1,12 @@
 using API.Data;
 using API.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers;
 
-public class LookupController(WMSContext context) : BaseApiController
+public class LookupController(WMSContext context, SignInManager<User> signInManager) : BaseApiController
 {
     [HttpGet("request-types")]
     public async Task<ActionResult<List<RequestType>>> GetRequestTypes()
@@ -33,6 +34,24 @@ public class LookupController(WMSContext context) : BaseApiController
     {
         var priorities = await context.Priorities.ToListAsync();
         return Ok(priorities);
+    }
+
+    [HttpGet("team-managers")]
+    public async Task<ActionResult<List<User>>> GetTeamManagers()
+    {
+        var users = await signInManager.UserManager.GetUsersInRoleAsync("TeamManager");
+
+        if (users == null || !users.Any()) return Unauthorized();
+
+        var teamManagers = users.Select(user => new 
+        {
+            user.Id,
+            user.Email,
+            user.UserName,
+        });
+
+        return Ok(teamManagers.ToList());
+        
     }
 
 }

@@ -1,5 +1,6 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import { baseQueryWithErrorHandling } from '../../../api/baseApi';
+import { TeamManager } from '../../../../lib/types/types';
 
 export const lookupApi = createApi({
   reducerPath: 'lookupApi',
@@ -18,6 +19,9 @@ export const lookupApi = createApi({
     fetchStatuses: builder.query<{ statuses: [] }, void>({
       query: () => '/lookup/request-statuses',
     }),
+    fetchTeamManagers: builder.query<{ teamManagers: TeamManager[] }, void>({
+      query: () => '/lookup/team-managers',
+    }),
   }),
 });
 
@@ -26,4 +30,5 @@ export const {
   useFetchRequestTypesQuery,
   useFetchApprovalStatusesQuery,
   useFetchStatusesQuery,
+  useFetchTeamManagersQuery,
 } = lookupApi;

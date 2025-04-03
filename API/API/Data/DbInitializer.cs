@@ -99,6 +99,15 @@ public class DbInitializer
 
             await userManager.CreateAsync(developer, "P@ssw0rd");
             await userManager.AddToRoleAsync(developer, "Developer");
+
+            var teamManager = new User
+            {
+                UserName="boss@test.com",
+                Email="boss@test.com"
+            };
+
+            await userManager.CreateAsync(teamManager, "P@ssw0rd");
+            await userManager.AddToRoleAsync(teamManager, "TeamManager");
         }
 
         if (context.Requests.Any()) return;

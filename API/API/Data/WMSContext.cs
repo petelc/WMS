@@ -43,7 +43,8 @@ public class WMSContext(DbContextOptions<WMSContext> options) : IdentityDbContex
              new IdentityRole { Id = "5", Name = "ChangeManager", NormalizedName = "CHANGEMANAGER" },
              new IdentityRole { Id = "6", Name = "ChangeCoordinator", NormalizedName = "CHANGECOORDINATOR" },
              new IdentityRole { Id = "7", Name = "Tech", NormalizedName = "TECH" },
-             new IdentityRole { Id = "8", Name = "Developer", NormalizedName = "DEVELOPER" }
+             new IdentityRole { Id = "8", Name = "Developer", NormalizedName = "DEVELOPER" },
+             new IdentityRole { Id = "9", Name = "Team Manager", NormalizedName = "TEAMMANAGER" }
          );
 
          builder.Entity<RequestType>().HasData(
@@ -54,8 +55,8 @@ public class WMSContext(DbContextOptions<WMSContext> options) : IdentityDbContex
 
         builder.Entity<RequestStatus>().HasData(
             new RequestStatus { Id = 1, RequestStatusName = "New" },
-            new RequestStatus { Id = 2, RequestStatusName = "Approved" },
-            new RequestStatus { Id = 3, RequestStatusName = "Denied" },
+            new RequestStatus { Id = 2, RequestStatusName = "In-Progress" },
+            new RequestStatus { Id = 3, RequestStatusName = "On-Hold" },
             new RequestStatus { Id = 4, RequestStatusName = "Completed" }
         );
 

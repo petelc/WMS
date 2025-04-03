@@ -36,14 +36,19 @@ import { RequestStatus, ApprovalStatus } from '../../../../../lib/types/types';
 
 type Props = {
   request: Request;
-  refetch: () => void;
+  refetch?: () => void;
+  handleOpenModal: () => void; // Function to open the modal
 };
 
 type approvalStatusOptions = ApprovalStatus[];
 
 type requestStatusOptions = RequestStatus[];
 
-export default function EnhancedTableRow({ request, refetch }: Props) {
+export default function EnhancedTableRow({
+  request,
+  refetch,
+  handleOpenModal,
+}: Props) {
   const [open, setOpen] = useState(false);
   const [approvalStatus, setApprovalStatus] = useState<number>(
     request.approvalStatus.id
@@ -73,11 +78,11 @@ export default function EnhancedTableRow({ request, refetch }: Props) {
     setApprovalStatus(+event.target.value);
   };
 
-  // TODO : Handle send to team manager click here
+  const handleViewRequest = () => {
+    // TODO : Implement the view request logic here
+  };
 
-  // TODO : Handle send to CAB board click here
   const handleSendToCABBoard = () => {
-    // TODO : Implement the CAB board logic here
     updateRequest({
       id: request.id,
       data: {
@@ -86,12 +91,10 @@ export default function EnhancedTableRow({ request, refetch }: Props) {
         boardDate: dayjs(new Date()).toDate(),
       },
     }).unwrap();
-    refetch();
+    if (refetch) {
+      refetch();
+    }
   };
-
-  // TODO : Handle view request click here
-
-  // TODO : Handle comment click here
 
   return (
     <>
@@ -180,7 +183,7 @@ export default function EnhancedTableRow({ request, refetch }: Props) {
                     </TableCell>
                     <TableCell align='center'>
                       <Tooltip title='View Request'>
-                        <IconButton>
+                        <IconButton onClick={handleViewRequest}>
                           <ViewList color='primary' />
                         </IconButton>
                       </Tooltip>
@@ -197,7 +200,7 @@ export default function EnhancedTableRow({ request, refetch }: Props) {
                     </TableCell>
                     <TableCell align='center'>
                       <Tooltip title='Send to Team Manager'>
-                        <IconButton>
+                        <IconButton onClick={handleOpenModal}>
                           <AddTask color='success' />
                         </IconButton>
                       </Tooltip>
