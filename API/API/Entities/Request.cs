@@ -8,7 +8,7 @@ public class Request
     public int Id  { get; set; }
     public DateTime RequestedDate { get; set; }
     public required string RequestTitle { get; set; }
-    public string? RequestedBy { get; set; }
+    public string? RequestedBy { get; set; } // ? Should this be an employee?
     public string? Department { get; set; }
     public string? ExplainImpact { get; set; }
     public bool hasStakeHolderConferred { get; set; }
@@ -41,6 +41,14 @@ public class Request
     public bool isActive { get; set; }
     public bool SendToBoard { get; set; }
 
+    // ? Ownership
+    public int? OwnerId { get; set; }
+    public Employee? owner { get; set; }
+
+    public int? GroupId { get; set; }
+    public UserGroup? group { get; set; }
+
+    // ? relationships
     public int? ApprovalStatusId { get; set; }
     public ApprovalStatus? ApprovalStatus { get; set; }
     public int? PriorityId { get; set; }

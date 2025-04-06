@@ -1,10 +1,10 @@
-using System.Text.Json.Serialization;
+using System;
+using API.Entities;
 
-namespace API.Entities;
+namespace API.DTOs;
 
-public class Employee
+public class EmployeeDto
 {
-    [JsonIgnore]
     public int Id { get; set; }
     public required string DisplayName { get; set; }
     public required string FirstName { get; set; }
@@ -20,6 +20,6 @@ public class Employee
     public Team? Team { get; set; }
 
     // Navigation property for the join table
-    public ICollection<EmployeeUserGroup> EmployeeUserGroups { get; set; } = new List<EmployeeUserGroup>();
-    //
+    public int UserGroupId { get; set; }
+    public ICollection<EmployeeUserGroupDto> EmployeeUserGroups { get; set; } = new List<EmployeeUserGroupDto>();
 }

@@ -31,7 +31,8 @@ public class DbInitializer
             var user = new User
             {
                 UserName = "logan@test.com",
-                Email = "logan@test.com"
+                Email = "logan@test.com",
+                EmployeeId = 1
             };
 
             await userManager.CreateAsync(user, "P@ssw0rd");
@@ -40,25 +41,30 @@ public class DbInitializer
             var admin = new User
             {
                 UserName = "bob@test.com",
-                Email = "bob@test.com"
+                Email = "bob@test.com",
+                EmployeeId = 2
             };
 
             await userManager.CreateAsync(admin, "P@ssw0rd");
             await userManager.AddToRoleAsync(admin, "Admin");
+            await userManager.AddToRoleAsync(admin, "TeamManager");
 
             var board = new User
             {
                 UserName = "steve@test.com",
-                Email = "steve@test.com"
+                Email = "steve@test.com",
+                EmployeeId = 3
             };
 
             await userManager.CreateAsync(board, "P@ssw0rd");
             await userManager.AddToRoleAsync(board, "BoardMember");
+            await userManager.AddToRoleAsync(board, "TeamManager");
 
             var project = new User
             {
                 UserName = "michelle@test.com",
-                Email = "michelle@test.com"
+                Email = "michelle@test.com",
+                EmployeeId = 4
             };
 
             await userManager.CreateAsync(project, "P@ssw0rd");
@@ -67,16 +73,19 @@ public class DbInitializer
             var change = new User
             {
                 UserName = "kathy@test.com",
-                Email = "kathy@test.com"
+                Email = "kathy@test.com",
+                EmployeeId = 5
             };
 
             await userManager.CreateAsync(change, "P@ssw0rd");
             await userManager.AddToRoleAsync(change, "ChangeManager");
+            await userManager.AddToRoleAsync(change, "TeamManager");
 
             var coordinator = new User
             {
                 UserName = "dave@test.com",
-                Email = "dave@test.com"
+                Email = "dave@test.com",
+                EmployeeId = 6
             };
 
             await userManager.CreateAsync(coordinator, "P@ssw0rd");
@@ -85,7 +94,8 @@ public class DbInitializer
             var tech = new User
             {
                 UserName = "lucy@test.com",
-                Email = "lucy@test.com"
+                Email = "lucy@test.com",
+                EmployeeId = 7
             };
 
             await userManager.CreateAsync(tech, "P@ssw0rd");
@@ -94,7 +104,8 @@ public class DbInitializer
             var developer = new User
             {
                 UserName = "pete@test.com",
-                Email = "pete@test.com"
+                Email = "pete@test.com",
+                EmployeeId = 8
             };
 
             await userManager.CreateAsync(developer, "P@ssw0rd");
@@ -103,7 +114,8 @@ public class DbInitializer
             var teamManager = new User
             {
                 UserName="boss@test.com",
-                Email="boss@test.com"
+                Email="boss@test.com",
+                EmployeeId = 9
             };
 
             await userManager.CreateAsync(teamManager, "P@ssw0rd");

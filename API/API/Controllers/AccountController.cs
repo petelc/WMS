@@ -1,3 +1,4 @@
+using API.Data;
 using API.DTOs;
 using API.Entities;
 using Microsoft.AspNetCore.Authorization;
@@ -7,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers;
 
-public class AccountController(SignInManager<User> signInManager) : BaseApiController
+public class AccountController(SignInManager<User> signInManager, UserManager<User> userManager, WMSContext context) : BaseApiController
 {
     [HttpPost("register")]
     public async Task<ActionResult> RegisterUser(RegisterDto registerDto)
@@ -80,6 +81,69 @@ public class AccountController(SignInManager<User> signInManager) : BaseApiContr
         return Ok(user.Employee);
     }
 
+    [HttpGet("all-employees")]
+    public async Task<ActionResult<List<Employee>>> GetAllEmployees()
+    {
+        var employees = await userManager.Users
+            .Include(u => u.Employee)
+            .ThenInclude(u => u!.Team)
+            .Select(u => u.Employee)
+            .Where(u => u != null)
+            .ToListAsync();
+        if (employees == null) return NoContent();
+
+        if (employees.Count == 0) return NoContent();
+
+        return Ok(employees);
+    }
+
+    [HttpGet("employees-usergroups")]
+    public async Task<ActionResult<List<EmployeeDto>>> GetEmployeesUserGroups()
+    {
+        var employees = await context.EmployeeUserGroups
+            .Include(e => e.Employee)
+            .Select(e => new 
+            {
+                e.Employee.Id,
+                e.Employee.FirstName,
+                e.Employee.LastName,
+                e.Employee.DisplayName,
+                e.Employee.Region,
+                e.Employee.Institution,
+                e.Employee.Extension,
+                e.Employee.Notes,
+                e.Employee.ReportsTo,
+                e.Employee.TeamId,
+                EmployeeUserGroups = e.Employee.EmployeeUserGroups.Select(u => new {
+                    u.Employee.Id,
+                    u.Employee.FirstName,
+                    u.Employee.LastName,
+                    u.UserGroup.GroupName,
+                }).ToList()
+            })
+            .ToListAsync();
+        
+        if (employees == null || employees.Count == 0) return NoContent();
+        
+
+        return Ok(employees);
+    }
+
+
+    [HttpGet("employees-teams")]
+    public async Task<ActionResult<List<Employee>>> GetEmployeesTeams()
+    {
+        var employees = await context.Employees
+            .Include(e => e.Team)
+            .ToListAsync();
+        
+        if (employees == null) return NoContent();
+
+        if (employees.Count == 0) return NoContent();
+
+        return Ok(employees);
+    }
+
     [Authorize]
     [HttpGet("employee")]
     public async Task<ActionResult<Employee>> GetSavedEmployee()
@@ -94,3 +158,14 @@ public class AccountController(SignInManager<User> signInManager) : BaseApiContr
         return employee;
     }
 }
+
+
+// 1	Logan Bently
+// 2	Bob Newhart
+// 3	Steve Marshal
+// 4	Michelle Rodrigez
+// 5	Kathy Renalds
+// 6	Dave Pennyworth
+// 7	Lucy Lawless
+// 8	Pete Rose
+// 9	Ben Boss

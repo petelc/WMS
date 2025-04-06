@@ -1,4 +1,5 @@
 using API.Data;
+using API.DTOs;
 using API.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -6,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers;
 
-public class LookupController(WMSContext context, SignInManager<User> signInManager) : BaseApiController
+public class LookupController(WMSContext context) : BaseApiController
 {
     [HttpGet("request-types")]
     public async Task<ActionResult<List<RequestType>>> GetRequestTypes()
@@ -29,6 +30,10 @@ public class LookupController(WMSContext context, SignInManager<User> signInMana
         return Ok(approvalStatuses);
     }
 
+    /// <summary>
+    /// Get all priorities
+    /// </summary>
+    /// <returns>List of Priority Objects</returns>
     [HttpGet("priorities")]
     public async Task<ActionResult<List<Priority>>> GetPriorities()
     {
@@ -36,22 +41,43 @@ public class LookupController(WMSContext context, SignInManager<User> signInMana
         return Ok(priorities);
     }
 
+    /// <summary>
+    /// Get all employees with UserGroupId = 1 (Team Managers)
+    /// </summary>
+    /// <returns>List of Employee Objects</returns>
     [HttpGet("team-managers")]
-    public async Task<ActionResult<List<User>>> GetTeamManagers()
+    public async Task<ActionResult<List<EmployeeDto>>> GetTeamManagers()
     {
-        var users = await signInManager.UserManager.GetUsersInRoleAsync("TeamManager");
-
-        if (users == null || !users.Any()) return Unauthorized();
-
-        var teamManagers = users.Select(user => new 
+        var employees = await context.Employees
+        .Include(e => e.EmployeeUserGroups)
+        .ThenInclude(eug => eug.UserGroup) // Include UserGroup for access to GroupName
+        .Where(e => e.EmployeeUserGroups.Any(eug => eug.UserGroupId == 1)) // Filter by UserGroupId
+        .Select(e => new
         {
-            user.Id,
-            user.Email,
-            user.UserName,
-        });
+            e.Id,
+            e.FirstName,
+            e.LastName,
+            e.DisplayName,
+            e.Region,
+            e.Institution,
+            e.Extension,
+            e.Notes,
+            e.ReportsTo,
+            e.TeamId,
+            UserGroupId = e.EmployeeUserGroups.FirstOrDefault(eug => eug.UserGroupId == 1)!.UserGroupId, // Safely access UserGroupId
+            UserGroupName = e.EmployeeUserGroups.FirstOrDefault(eug => eug.UserGroupId == 1)!.UserGroup.GroupName // Access GroupName
+        })
+        .ToListAsync();
 
-        return Ok(teamManagers.ToList());
+        return Ok(employees);
         
     }
+
+   
+
+
+
+
+   
 
 }
