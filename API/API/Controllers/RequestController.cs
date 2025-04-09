@@ -10,8 +10,6 @@ namespace API.Controllers;
 
 public class RequestController(WMSContext context) : BaseApiController
 {
-    
-
     [HttpGet]
     public async Task<ActionResult<List<Request>>> GetRequests([FromQuery] RequestParams requestParams)
     {
@@ -20,10 +18,12 @@ public class RequestController(WMSContext context) : BaseApiController
             .Include(r => r.Priority)
             .Include(r => r.RequestStatus)
             .Include(r => r.ApprovalStatus)
+            .Include(r => r.Owner)
+            .Include(r => r.Group)
             .Sort(requestParams.OrderBy)
             .Search(requestParams.SearchTerm)
             .Filter(requestParams.RequestType, requestParams.Priority)
-            .Where(r => r.SendToBoard != true)
+            .Where(r => r.SendToBoard != true && r.OwnerId == null && r.GroupId == null)
             .AsQueryable();
 
         var pagedList = await PagedList<Request>.ToPagedList(query, 

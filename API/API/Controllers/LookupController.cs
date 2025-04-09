@@ -64,7 +64,7 @@ public class LookupController(WMSContext context) : BaseApiController
             e.Notes,
             e.ReportsTo,
             e.TeamId,
-            UserGroupId = e.EmployeeUserGroups.FirstOrDefault(eug => eug.UserGroupId == 1)!.UserGroupId, // Safely access UserGroupId
+            TeamName = e.Team!.TeamName,
             UserGroupName = e.EmployeeUserGroups.FirstOrDefault(eug => eug.UserGroupId == 1)!.UserGroup.GroupName // Access GroupName
         })
         .ToListAsync();
@@ -78,6 +78,6 @@ public class LookupController(WMSContext context) : BaseApiController
 
 
 
-   
+
 
 }
