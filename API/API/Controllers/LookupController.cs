@@ -72,12 +72,4 @@ public class LookupController(WMSContext context) : BaseApiController
         return Ok(employees);
         
     }
-
-   
-
-
-
-
-
-
 }

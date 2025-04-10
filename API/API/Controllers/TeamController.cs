@@ -1,11 +1,18 @@
 using API.Data;
 using API.DTOs;
+using API.Entities;
+using API.Extensions;
+using API.RequestHelpers;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers;
 
-public class TeamController(WMSContext context) : BaseApiController
+// TODO : Add authorization to the controller methods
+// // TODO : Modify the GetRequestsByTeamManager method to use the userManager to get the user
+
+public class TeamController(WMSContext context, SignInManager<User> signInManager) : BaseApiController
 {
     [HttpGet("team-managers")]
     public async Task<ActionResult<List<EmployeeDto>>> GetTeamManagers()
@@ -56,20 +63,49 @@ public class TeamController(WMSContext context) : BaseApiController
         return Ok(employee);
     }
 
-    [HttpGet("requests/team-managers/{id}")]
-    public async Task<ActionResult<List<RequestDto>>> GetRequestsByTeamManager(int id)
+    [HttpGet("requests/team-managers")]
+    public async Task<ActionResult<List<Request>>> GetRequestsByTeamManager([FromQuery] RequestParams requestParams)
     {
-        var requests = await context.Requests
+        var user = await signInManager.UserManager.GetUserAsync(User);
+
+        if (user == null) return NotFound("User not found");
+        
+        var employee = await context.Employees
+            .Include(eug => eug.EmployeeUserGroups)
+            .Select(
+                e => new EmployeeDto
+                {
+                    Id = e.Id,
+                    FirstName = e.FirstName,
+                    LastName = e.LastName,
+                    DisplayName = e.DisplayName,
+                    EmployeeUserGroups = e.EmployeeUserGroups.Select(eug => new EmployeeUserGroupDto
+                    {
+                        UserGroupId = eug.UserGroupId,
+                        GroupName = eug.UserGroup.GroupName
+                    }).ToList()
+                }
+            ) // Include UserGroup for access to GroupName
+            .FirstOrDefaultAsync(e => e.Id == user.EmployeeId);
+        
+        if (employee == null) return NotFound("Employee not found");
+
+        var requests = context.Requests
             .Include(r => r.RequestType)
             .Include(r => r.Priority)
             .Include(r => r.RequestStatus)
             .Include(r => r.ApprovalStatus)
             .Include(r => r.Owner)
             .Include(r => r.Group)
-            .Where(r => r.OwnerId == id || r.GroupId == id)
-            .ToListAsync();
+            .Where(r => r.OwnerId == employee.Id || r.GroupId == employee.Id)
+            .AsQueryable();
 
-        return Ok(requests);
+            var pagedList = await PagedList<Request>.ToPagedList(requests,
+            requestParams.PageNumber, requestParams.PageSize);
+
+        Response.AddPaginationHeader(pagedList.Metadata);
+
+        return pagedList;
     }
 
     [HttpPut("send-to-team-manager")]
