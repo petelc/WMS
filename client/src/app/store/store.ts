@@ -5,12 +5,14 @@ import { accountApi } from '../../features/account/accountApi';
 import { requestsApi } from '../../features/requests/requestsApi';
 import { requestSlice } from '../../features/requests/requestSlice';
 import { lookupApi } from './shared/api/lookupApi';
+import { teamApi } from '../../features/team/teamApi';
 
 export const store = configureStore({
   reducer: {
     [accountApi.reducerPath]: accountApi.reducer,
     [requestsApi.reducerPath]: requestsApi.reducer,
     [lookupApi.reducerPath]: lookupApi.reducer,
+    [teamApi.reducerPath]: teamApi.reducer,
     ui: uiSlice.reducer,
     request: requestSlice.reducer,
   },
@@ -18,7 +20,8 @@ export const store = configureStore({
     getDefaultMiddleware().concat(
       accountApi.middleware,
       requestsApi.middleware,
-      lookupApi.middleware
+      lookupApi.middleware,
+      teamApi.middleware
     ),
 });
 

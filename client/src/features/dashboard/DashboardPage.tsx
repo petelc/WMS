@@ -40,6 +40,26 @@ export default function DashboardPage() {
               </ListItemIcon>
               <ListItemText>My Work</ListItemText>
             </MenuItem>
+            <MenuItem
+              component={Link}
+              to='/team'
+              sx={{ textDecoration: 'none', color: 'inherit', pb: 2 }}
+            >
+              <ListItemIcon>
+                <WorkspacesIcon fontSize='small' />
+              </ListItemIcon>
+              <ListItemText>My Team</ListItemText>
+            </MenuItem>
+            <MenuItem
+              component={Link}
+              to='/my-teams-work'
+              sx={{ textDecoration: 'none', color: 'inherit', pb: 2 }}
+            >
+              <ListItemIcon>
+                <WorkspacesIcon fontSize='small' />
+              </ListItemIcon>
+              <ListItemText>My Teams Work</ListItemText>
+            </MenuItem>
           </MenuList>
         </Paper>
       </Grid2>
