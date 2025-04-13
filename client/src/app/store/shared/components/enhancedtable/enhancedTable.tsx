@@ -77,7 +77,7 @@ export function EnhancedTable({ rows, refetch }: Props) {
 
   return (
     <Box sx={{ width: '100%' }}>
-      <Paper sx={{ width: '100%', mb: 4, p: 2 }} square={false}>
+      <Paper sx={{ width: '100%', mb: 4 }} square={false} elevation={1}>
         <EnhancedTableToolbar numSelected={0} />
         <TableContainer>
           <Table

@@ -4,6 +4,7 @@ import { baseQueryWithErrorHandling } from '../../app/api/baseApi';
 import { RequestParams } from '../../app/models/requestParams';
 import { Pagination } from '../../app/models/pagination';
 import { Request } from '../../app/models/request';
+import { filterEmptyValues } from '../../lib/util';
 
 // TODO : Create endpoints for
 // TODO :     1. Fetching all requests by team manager
@@ -43,8 +44,15 @@ export const teamApi = createApi({
     >({
       query: (requestParams) => ({
         url: '/team/requests/team-managers',
-        params: { ...requestParams },
+        params: filterEmptyValues(requestParams),
       }),
+      transformResponse: (items: Request[], meta) => {
+        const paginationHeader = meta?.response?.headers.get('Pagination');
+        const pagination = paginationHeader
+          ? JSON.parse(paginationHeader)
+          : null;
+        return { items, pagination };
+      },
     }),
   }),
 });
