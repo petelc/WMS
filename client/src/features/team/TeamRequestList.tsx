@@ -12,7 +12,7 @@ import {
   ListItemText,
 } from '@mui/material';
 
-import { Request } from '../../../../models/request';
+import { Request } from '../../app/models/request';
 
 type Props = {
   requests: Request[];

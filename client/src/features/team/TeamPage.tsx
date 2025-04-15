@@ -2,7 +2,7 @@ import { Grid2 as Grid, Typography } from '@mui/material';
 
 import { useFetchTeamRequestsQuery } from './teamApi';
 import { useAppSelector } from '../../app/store/store';
-import TeamContainer from '../../app/store/shared/components/container/TeamContainer';
+import TeamContainer from './TeamContainer';
 
 export default function TeamPage() {
   const requestParams = useAppSelector((state) => state.request);
