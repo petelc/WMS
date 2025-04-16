@@ -1,12 +1,12 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const getInitialDarkMode = () => {
-  const storedDarkMode = localStorage.getItem('darkMode');
+  const storedDarkMode = localStorage.getItem("darkMode");
   return storedDarkMode ? JSON.parse(storedDarkMode) : false;
 };
 
 export const uiSlice = createSlice({
-  name: 'ui',
+  name: "ui",
   initialState: {
     isLoading: false,
     darkMode: getInitialDarkMode(),
@@ -19,7 +19,7 @@ export const uiSlice = createSlice({
       state.isLoading = false;
     },
     toggleDarkMode: (state) => {
-      localStorage.setItem('darkMode', JSON.stringify(!state.darkMode));
+      localStorage.setItem("darkMode", JSON.stringify(!state.darkMode));
       state.darkMode = !state.darkMode;
     },
   },

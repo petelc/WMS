@@ -1,22 +1,22 @@
-import { Box, Button, Paper } from '@mui/material';
-import Search from './Search';
-import RadioButtonGroup from '../../app/store/shared/components/RadioButtonGroup';
-import { useAppDispatch, useAppSelector } from '../../app/store/store';
+import { Box, Button, Paper } from "@mui/material";
+import Search from "./Search";
+import RadioButtonGroup from "../../app/store/shared/components/RadioButtonGroup";
+import { useAppDispatch, useAppSelector } from "../../app/store/store";
 import {
   setOrderBy,
   setPriority,
   setRequestType,
   resetParams,
-} from './requestSlice';
-import CheckboxButtons from '../../app/store/shared/components/CheckboxButtons';
+} from "./requestSlice";
+import CheckboxButtons from "../../app/store/shared/components/CheckboxButtons";
 
 const sortOptions = [
-  { value: 'name', label: 'Alphabetical' },
-  { value: 'date', label: 'Submitted Date: Low to High' },
-  { value: 'date', label: 'Submitted Date: High to Low' },
-  { value: 'priority', label: 'Priority' },
-  { value: 'status', label: 'Status' },
-  { value: 'type', label: 'Type' },
+  { value: "name", label: "Alphabetical" },
+  { value: "date", label: "Submitted Date: Low to High" },
+  { value: "date", label: "Submitted Date: High to Low" },
+  { value: "priority", label: "Priority" },
+  { value: "status", label: "Status" },
+  { value: "type", label: "Type" },
 ];
 
 type Props = {
@@ -25,11 +25,11 @@ type Props = {
 
 export default function Filters({ filtersData }: Props) {
   const { orderBy, priority, requestType } = useAppSelector(
-    (state) => state.request
+    (state) => state.request,
   );
   const dispatch = useAppDispatch();
   return (
-    <Box display='flex' flexDirection='column' gap={3}>
+    <Box display="flex" flexDirection="column" gap={3}>
       <Paper>
         <Search />
       </Paper>

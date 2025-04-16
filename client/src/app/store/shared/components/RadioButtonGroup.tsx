@@ -3,8 +3,8 @@ import {
   FormControlLabel,
   Radio,
   RadioGroup,
-} from '@mui/material';
-import { ChangeEvent } from 'react';
+} from "@mui/material";
+import { ChangeEvent } from "react";
 
 type Props = {
   options: { value: string; label: string }[];
@@ -23,7 +23,7 @@ export default function RadioButtonGroup({
         {options.map(({ value, label }) => (
           <FormControlLabel
             key={label}
-            control={<Radio color='secondary' sx={{ py: 0.7 }} />}
+            control={<Radio color="secondary" sx={{ py: 0.7 }} />}
             label={label}
             value={value}
           />

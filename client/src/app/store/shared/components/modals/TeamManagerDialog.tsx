@@ -1,17 +1,17 @@
-import { useState } from 'react';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Checkbox from '@mui/material/Checkbox';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { TeamManager } from '../../../../../lib/types/types';
-import { InputLabel, TextField } from '@mui/material';
+import { useState } from "react";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Checkbox from "@mui/material/Checkbox";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import { TeamManager } from "../../../../../lib/types/types";
+import { InputLabel, TextField } from "@mui/material";
 
 // const style = {
 //   position: 'absolute',
@@ -56,7 +56,7 @@ export default function TeamManagerDialog({
     } = event;
     setManager(
       // On autofill we get a stringified value.
-      typeof value === 'string' ? value.split(',') : value
+      typeof value === "string" ? value.split(",") : value,
     );
   };
 
@@ -66,19 +66,19 @@ export default function TeamManagerDialog({
         <DialogTitle>Send to Appropriate Team</DialogTitle>
         <DialogContent>
           <Box
-            component='form'
-            sx={{ display: 'flex', flexWrap: 'wrap', width: 525 }}
+            component="form"
+            sx={{ display: "flex", flexWrap: "wrap", width: 525 }}
           >
             <FormControl sx={{ m: 1, width: 300 }}>
-              <InputLabel id='modal-modal-title'>Team Manager</InputLabel>
+              <InputLabel id="modal-modal-title">Team Manager</InputLabel>
               <Select
-                labelId='modal-modal-title'
-                id='demo-multiple-checkbox'
+                labelId="modal-modal-title"
+                id="demo-multiple-checkbox"
                 multiple
                 value={manager}
                 onChange={handleChange}
-                input={<OutlinedInput label='Tag' />}
-                renderValue={(selected) => selected.join(', ')}
+                input={<OutlinedInput label="Tag" />}
+                renderValue={(selected) => selected.join(", ")}
                 MenuProps={MenuProps}
               >
                 {teamManagers?.map((name) => {
@@ -95,11 +95,11 @@ export default function TeamManagerDialog({
             </FormControl>
             <FormControl sx={{ m: 1, width: 500 }}>
               <TextField
-                id='notes'
-                label='Notes'
-                placeholder='Add any additional notes here...'
+                id="notes"
+                label="Notes"
+                placeholder="Add any additional notes here..."
                 multiline
-                variant='outlined'
+                variant="outlined"
                 minRows={4}
               />
             </FormControl>

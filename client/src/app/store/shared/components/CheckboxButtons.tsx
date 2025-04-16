@@ -1,5 +1,5 @@
-import { FormGroup, FormControlLabel, Checkbox } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { FormGroup, FormControlLabel, Checkbox } from "@mui/material";
+import { useEffect, useState } from "react";
 
 type Props = {
   items: string[];
@@ -37,7 +37,7 @@ export default function CheckboxButtons({
               <Checkbox
                 checked={checkedItems?.includes(item)}
                 onClick={() => handleToggle(item)}
-                color='secondary'
+                color="secondary"
                 sx={{ py: 0.7, fontSize: 40 }}
               />
             }

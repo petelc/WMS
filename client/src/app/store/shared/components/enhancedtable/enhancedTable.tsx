@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { useState } from 'react';
+import { useState } from "react";
 import {
   Box,
   Paper,
@@ -10,15 +10,15 @@ import {
   TableRow,
   TableCell,
   TablePagination,
-} from '@mui/material';
-import EnhancedTableHead, { Order } from './enhancedTableHead';
-import { EnhancedTableToolbar } from './enhancedTableToolbar';
-import EnhancedTableRow from './enhancedTableRow';
-import { Request } from '../../../../models/request';
+} from "@mui/material";
+import EnhancedTableHead, { Order } from "./enhancedTableHead";
+import { EnhancedTableToolbar } from "./enhancedTableToolbar";
+import EnhancedTableRow from "./enhancedTableRow";
+import { Request } from "../../../../models/request";
 //import CommentModal from '../modals/CommentModal';
 // import TeamManagerModal from '../modals/TeamManagerModal';
-import TeamManagerDialog from '../modals/TeamManagerDialog';
-import { useFetchTeamManagersQuery } from '../../api/lookupApi';
+import TeamManagerDialog from "../modals/TeamManagerDialog";
+import { useFetchTeamManagersQuery } from "../../api/lookupApi";
 
 type Props = {
   rows: Request[];
@@ -30,19 +30,19 @@ type Props = {
 // };
 
 export function EnhancedTable({ rows, refetch }: Props) {
-  const [order, setOrder] = useState<Order>('asc');
+  const [order, setOrder] = useState<Order>("asc");
   const [openModal, setOpenModal] = useState(false);
-  const [orderBy, setOrderBy] = useState<string>('requestTitle');
+  const [orderBy, setOrderBy] = useState<string>("requestTitle");
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const { data: teamManagers } = useFetchTeamManagersQuery();
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
-    property: keyof Request
+    property: keyof Request,
   ) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
+    const isAsc = orderBy === property && order === "asc";
+    setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
 
@@ -51,7 +51,7 @@ export function EnhancedTable({ rows, refetch }: Props) {
   };
 
   const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
@@ -72,18 +72,18 @@ export function EnhancedTable({ rows, refetch }: Props) {
 
   const visibleRows = rows.slice(
     page * rowsPerPage,
-    page * rowsPerPage + rowsPerPage
+    page * rowsPerPage + rowsPerPage,
   );
 
   return (
-    <Box sx={{ width: '100%' }}>
-      <Paper sx={{ width: '100%', mb: 4 }} square={false} elevation={1}>
+    <Box sx={{ width: "100%" }}>
+      <Paper sx={{ width: "100%", mb: 4 }} square={false} elevation={1}>
         <EnhancedTableToolbar numSelected={0} />
         <TableContainer>
           <Table
             sx={{ minWidth: 750 }}
-            aria-labelledby='tableTitle'
-            size={'medium'}
+            aria-labelledby="tableTitle"
+            size={"medium"}
           >
             <EnhancedTableHead
               numSelected={0}
@@ -118,7 +118,7 @@ export function EnhancedTable({ rows, refetch }: Props) {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25, 50]}
           colSpan={3}
-          component='div'
+          component="div"
           count={rows.length}
           rowsPerPage={rowsPerPage}
           page={page}
@@ -127,7 +127,7 @@ export function EnhancedTable({ rows, refetch }: Props) {
           slotProps={{
             select: {
               inputProps: {
-                'aria-label': 'rows per page',
+                "aria-label": "rows per page",
               },
               native: true,
             },

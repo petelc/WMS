@@ -1,4 +1,4 @@
-import { Request } from '../../../../models/request';
+import { Request } from "../../../../models/request";
 
 type Props = {
   request: Request;

@@ -1,5 +1,5 @@
-import { Navigate, Outlet, useLocation } from 'react-router-dom';
-import { useUserInfoQuery } from '../../features/account/accountApi';
+import { Navigate, Outlet, useLocation } from "react-router-dom";
+import { useUserInfoQuery } from "../../features/account/accountApi";
 
 export default function RequireAuth() {
   const { data: user, isLoading } = useUserInfoQuery();
@@ -8,7 +8,7 @@ export default function RequireAuth() {
   if (isLoading) return <div>Loading...</div>;
 
   if (!user) {
-    return <Navigate to='/login' state={{ from: location }} />;
+    return <Navigate to="/login" state={{ from: location }} />;
   }
 
   return <Outlet />;

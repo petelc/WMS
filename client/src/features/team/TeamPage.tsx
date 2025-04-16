@@ -1,8 +1,8 @@
-import { Grid2 as Grid, Typography } from '@mui/material';
+import { Grid2 as Grid, Typography } from "@mui/material";
 
-import { useFetchTeamRequestsQuery } from './teamApi';
-import { useAppSelector } from '../../app/store/store';
-import TeamContainer from './TeamContainer';
+import { useFetchTeamRequestsQuery } from "./teamApi";
+import { useAppSelector } from "../../app/store/store";
+import TeamContainer from "./TeamContainer";
 
 export default function TeamPage() {
   const requestParams = useAppSelector((state) => state.request);
@@ -18,7 +18,7 @@ export default function TeamPage() {
       {data?.items && data.items.length > 0 ? (
         <TeamContainer requests={data.items} />
       ) : (
-        <Typography variant='h5'>No requests found</Typography>
+        <Typography variant="h5">No requests found</Typography>
       )}
     </Grid>
   );

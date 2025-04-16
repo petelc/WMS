@@ -3,54 +3,54 @@ import {
   AutocompleteGetTagProps,
   styled,
   useAutocomplete,
-} from '@mui/material';
-import CheckIcon from '@mui/icons-material/Check';
-import CloseIcon from '@mui/icons-material/Close';
+} from "@mui/material";
+import CheckIcon from "@mui/icons-material/Check";
+import CloseIcon from "@mui/icons-material/Close";
 
-import { JobTitleOptions, Titles } from '../../../../../lib/titles';
+import { JobTitleOptions, Titles } from "../../../../../lib/titles";
 
-const Root = styled('div')(
+const Root = styled("div")(
   ({ theme }) => `
     color: ${
-      theme.palette.mode === 'dark'
-        ? 'rgba(255,255,255,0.65)'
-        : 'rgba(0,0,0,.85)'
+      theme.palette.mode === "dark"
+        ? "rgba(255,255,255,0.65)"
+        : "rgba(0,0,0,.85)"
     };
     font-size: 14px;
-  `
+  `,
 );
 
-const Label = styled('label')`
+const Label = styled("label")`
   padding: 0 0 4px;
   line-height: 1.5;
   display: block;
 `;
 
-const InputWrapper = styled('div')(
+const InputWrapper = styled("div")(
   ({ theme }) => `
     width: 500px;
-    border: 1px solid ${theme.palette.mode === 'dark' ? '#434343' : '#d9d9d9'};
-    background-color: ${theme.palette.mode === 'dark' ? '#141414' : '#fff'};
+    border: 1px solid ${theme.palette.mode === "dark" ? "#434343" : "#d9d9d9"};
+    background-color: ${theme.palette.mode === "dark" ? "#141414" : "#fff"};
     border-radius: 4px;
     padding: 4px;
     display: flex;
     flex-wrap: wrap;
   
     &:hover {
-      border-color: ${theme.palette.mode === 'dark' ? '#177ddc' : '#40a9ff'};
+      border-color: ${theme.palette.mode === "dark" ? "#177ddc" : "#40a9ff"};
     }
   
     &.focused {
-      border-color: ${theme.palette.mode === 'dark' ? '#177ddc' : '#40a9ff'};
+      border-color: ${theme.palette.mode === "dark" ? "#177ddc" : "#40a9ff"};
       box-shadow: 0 0 0 2px rgb(24 144 255 / 0.2);
     }
   
     & input {
-      background-color: ${theme.palette.mode === 'dark' ? '#141414' : '#fff'};
+      background-color: ${theme.palette.mode === "dark" ? "#141414" : "#fff"};
       color: ${
-        theme.palette.mode === 'dark'
-          ? 'rgba(255,255,255,0.65)'
-          : 'rgba(0,0,0,.85)'
+        theme.palette.mode === "dark"
+          ? "rgba(255,255,255,0.65)"
+          : "rgba(0,0,0,.85)"
       };
       height: 30px;
       box-sizing: border-box;
@@ -62,7 +62,7 @@ const InputWrapper = styled('div')(
       margin: 0;
       outline: 0;
     }
-  `
+  `,
 );
 
 interface TagProps extends ReturnType<AutocompleteGetTagProps> {
@@ -87,9 +87,9 @@ const StyledTag = styled(Tag)<TagProps>(
     margin: 2px;
     line-height: 22px;
     background-color: ${
-      theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.08)' : '#fafafa'
+      theme.palette.mode === "dark" ? "rgba(255,255,255,0.08)" : "#fafafa"
     };
-    border: 1px solid ${theme.palette.mode === 'dark' ? '#303030' : '#e8e8e8'};
+    border: 1px solid ${theme.palette.mode === "dark" ? "#303030" : "#e8e8e8"};
     border-radius: 2px;
     box-sizing: content-box;
     padding: 8px 14px 8px 10px;
@@ -97,9 +97,9 @@ const StyledTag = styled(Tag)<TagProps>(
     overflow: hidden;
   
     &:focus {
-      border-color: ${theme.palette.mode === 'dark' ? '#177ddc' : '#40a9ff'};
+      border-color: ${theme.palette.mode === "dark" ? "#177ddc" : "#40a9ff"};
       background-color: ${
-        theme.palette.mode === 'dark' ? '#003b57' : '#e6f7ff'
+        theme.palette.mode === "dark" ? "#003b57" : "#e6f7ff"
       };
     }
   
@@ -114,17 +114,17 @@ const StyledTag = styled(Tag)<TagProps>(
       cursor: pointer;
       padding: 4px;
     }
-  `
+  `,
 );
 
-export const Listbox = styled('ul')(
+export const Listbox = styled("ul")(
   ({ theme }) => `
     width: 500px;
     margin: 2px 0 0;
     padding: 0;
     position: absolute;
     list-style: none;
-    background-color: ${theme.palette.mode === 'dark' ? '#141414' : '#fff'};
+    background-color: ${theme.palette.mode === "dark" ? "#141414" : "#fff"};
     overflow: auto;
     max-height: 250px;
     border-radius: 4px;
@@ -146,7 +146,7 @@ export const Listbox = styled('ul')(
   
     & li[aria-selected='true'] {
       background-color: ${
-        theme.palette.mode === 'dark' ? '#2b2b2b' : '#fafafa'
+        theme.palette.mode === "dark" ? "#2b2b2b" : "#fafafa"
       };
       font-weight: 600;
   
@@ -157,7 +157,7 @@ export const Listbox = styled('ul')(
   
     & li.${autocompleteClasses.focused} {
       background-color: ${
-        theme.palette.mode === 'dark' ? '#003b57' : '#e6f7ff'
+        theme.palette.mode === "dark" ? "#003b57" : "#e6f7ff"
       };
       cursor: pointer;
   
@@ -165,7 +165,7 @@ export const Listbox = styled('ul')(
         color: currentColor;
       }
     }
-  `
+  `,
 );
 
 type Props = {
@@ -197,7 +197,7 @@ export default function AppListBox({ label, id }: Props) {
     <Root>
       <div {...getRootProps()}>
         <Label {...getInputLabelProps()}>{label}</Label>
-        <InputWrapper ref={setAnchorEl} className={focused ? 'focused' : ''}>
+        <InputWrapper ref={setAnchorEl} className={focused ? "focused" : ""}>
           {value.map((option: JobTitleOptions, index: number) => {
             const { key, ...tagProps } = getTagProps({ index });
             return <StyledTag key={key} {...tagProps} label={option.title} />;
@@ -212,7 +212,7 @@ export default function AppListBox({ label, id }: Props) {
             return (
               <li key={key} {...optionProps}>
                 <span>{option.title}</span>
-                <CheckIcon fontSize='small' />
+                <CheckIcon fontSize="small" />
               </li>
             );
           })}

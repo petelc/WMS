@@ -1,11 +1,11 @@
-import { configureStore } from '@reduxjs/toolkit';
-import { uiSlice } from '../layout/uiSlice';
-import { useDispatch, useSelector } from 'react-redux';
-import { accountApi } from '../../features/account/accountApi';
-import { requestsApi } from '../../features/requests/requestsApi';
-import { requestSlice } from '../../features/requests/requestSlice';
-import { lookupApi } from './shared/api/lookupApi';
-import { teamApi } from '../../features/team/teamApi';
+import { configureStore } from "@reduxjs/toolkit";
+import { uiSlice } from "../layout/uiSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { accountApi } from "../../features/account/accountApi";
+import { requestsApi } from "../../features/requests/requestsApi";
+import { requestSlice } from "../../features/requests/requestSlice";
+import { lookupApi } from "./shared/api/lookupApi";
+import { teamApi } from "../../features/team/teamApi";
 
 export const store = configureStore({
   reducer: {
@@ -21,7 +21,7 @@ export const store = configureStore({
       accountApi.middleware,
       requestsApi.middleware,
       lookupApi.middleware,
-      teamApi.middleware
+      teamApi.middleware,
     ),
 });
 

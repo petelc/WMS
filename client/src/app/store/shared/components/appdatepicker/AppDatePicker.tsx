@@ -1,9 +1,9 @@
-import { DatePicker, DatePickerProps } from '@mui/x-date-pickers/DatePicker';
+import { DatePicker, DatePickerProps } from "@mui/x-date-pickers/DatePicker";
 import {
   FieldValues,
   useController,
   UseControllerProps,
-} from 'react-hook-form';
+} from "react-hook-form";
 
 type Props<T extends FieldValues> = {
   label: string;
@@ -20,8 +20,8 @@ export default function AppDatePicker<T extends FieldValues>(props: Props<T>) {
       {...field}
       fullWidth
       value={field.value || null}
-      variant='inline'
-      inputVariant='outlined'
+      variant="inline"
+      inputVariant="outlined"
       error={!!fieldState.error}
       helperText={fieldState.error?.message}
     />

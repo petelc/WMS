@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 import {
   TableRow,
   TableCell,
@@ -13,7 +13,7 @@ import {
   MenuItem,
   SelectChangeEvent,
   Tooltip,
-} from '@mui/material';
+} from "@mui/material";
 import {
   AddBusiness,
   AddComment,
@@ -23,16 +23,16 @@ import {
   Save,
   ViewAgenda,
   ViewList,
-} from '@mui/icons-material';
-import dayjs from 'dayjs';
+} from "@mui/icons-material";
+import dayjs from "dayjs";
 
 import {
   useFetchApprovalStatusesQuery,
   useFetchStatusesQuery,
-} from '../../api/lookupApi';
-import { useUpdateRequestMutation } from '../../../../../features/requests/requestsApi';
-import { Request } from '../../../../models/request';
-import { RequestStatus, ApprovalStatus } from '../../../../../lib/types/types';
+} from "../../api/lookupApi";
+import { useUpdateRequestMutation } from "../../../../../features/requests/requestsApi";
+import { Request } from "../../../../models/request";
+import { RequestStatus, ApprovalStatus } from "../../../../../lib/types/types";
 
 type Props = {
   request: Request;
@@ -51,10 +51,10 @@ export default function EnhancedTableRow({
 }: Props) {
   const [open, setOpen] = useState(false);
   const [approvalStatus, setApprovalStatus] = useState<number>(
-    request.approvalStatus.id
+    request.approvalStatus.id,
   );
   const [requestStatus, setRequestStatus] = useState<number>(
-    request.requestStatus.id
+    request.requestStatus.id,
   );
   const { data: approvalStatuses } = useFetchApprovalStatusesQuery();
   const { data: statuses } = useFetchStatusesQuery();
@@ -100,63 +100,63 @@ export default function EnhancedTableRow({
     <>
       <TableRow
         sx={{
-          '& > *': { borderBottom: 'unset' },
+          "& > *": { borderBottom: "unset" },
         }}
       >
         <TableCell>
           <IconButton
-            aria-label='expand row'
-            size='small'
+            aria-label="expand row"
+            size="small"
             onClick={() => setOpen(!open)}
           >
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
-        <TableCell component='th' scope='row'>
+        <TableCell component="th" scope="row">
           {request.id}
         </TableCell>
-        <TableCell align='left'>
-          {dayjs(request.requestedDate).format('MM/DD/YYYY')}
+        <TableCell align="left">
+          {dayjs(request.requestedDate).format("MM/DD/YYYY")}
         </TableCell>
-        <TableCell align='left'>{request.requestTitle}</TableCell>
-        <TableCell align='left'>{request.requestedBy}</TableCell>
-        <TableCell align='left'>
+        <TableCell align="left">{request.requestTitle}</TableCell>
+        <TableCell align="left">{request.requestedBy}</TableCell>
+        <TableCell align="left">
           {request.requestType.requestTypeName}
         </TableCell>
-        <TableCell align='left'>{request.priority.priorityName}</TableCell>
+        <TableCell align="left">{request.priority.priorityName}</TableCell>
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={9}>
-          <Collapse in={open} timeout='auto' unmountOnExit>
+          <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 4 }}>
-              <Typography variant='h6' gutterBottom component='div'>
+              <Typography variant="h6" gutterBottom component="div">
                 Request Details
               </Typography>
-              <Table size='small' aria-label='statuses'>
+              <Table size="small" aria-label="statuses">
                 <TableHead>
                   <TableRow>
-                    <TableCell align='center'></TableCell>
-                    <TableCell align='center'>Request Status</TableCell>
-                    <TableCell align='center'>Approval Status</TableCell>
-                    <TableCell align='center'>View Request</TableCell>
-                    <TableCell align='center'>CAB board</TableCell>
-                    <TableCell align='center'>Team Manager</TableCell>
-                    <TableCell align='center'>Comment</TableCell>
-                    <TableCell align='center'>View Comments</TableCell>
+                    <TableCell align="center"></TableCell>
+                    <TableCell align="center">Request Status</TableCell>
+                    <TableCell align="center">Approval Status</TableCell>
+                    <TableCell align="center">View Request</TableCell>
+                    <TableCell align="center">CAB board</TableCell>
+                    <TableCell align="center">Team Manager</TableCell>
+                    <TableCell align="center">Comment</TableCell>
+                    <TableCell align="center">View Comments</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   <TableRow key={request.id}>
-                    <TableCell align='center'>
-                      <Tooltip title='Save'>
+                    <TableCell align="center">
+                      <Tooltip title="Save">
                         <IconButton>
-                          <Save color='primary' />
+                          <Save color="primary" />
                         </IconButton>
                       </Tooltip>
                     </TableCell>
-                    <TableCell component='th' scope='row' align='center'>
+                    <TableCell component="th" scope="row" align="center">
                       <Select
-                        id='requestStatus'
+                        id="requestStatus"
                         value={requestStatus.toString()}
                         onChange={handleRequestStatusChange}
                         autoWidth
@@ -168,9 +168,9 @@ export default function EnhancedTableRow({
                         ))}
                       </Select>
                     </TableCell>
-                    <TableCell align='center'>
+                    <TableCell align="center">
                       <Select
-                        id='approvalStatus'
+                        id="approvalStatus"
                         value={approvalStatus.toString()}
                         onChange={handleApprovalStatusChange}
                       >
@@ -181,41 +181,41 @@ export default function EnhancedTableRow({
                         ))}
                       </Select>
                     </TableCell>
-                    <TableCell align='center'>
-                      <Tooltip title='View Request'>
+                    <TableCell align="center">
+                      <Tooltip title="View Request">
                         <IconButton onClick={handleViewRequest}>
-                          <ViewList color='primary' />
+                          <ViewList color="primary" />
                         </IconButton>
                       </Tooltip>
                     </TableCell>
-                    <TableCell align='center'>
-                      <Tooltip title='Send to CAB board'>
+                    <TableCell align="center">
+                      <Tooltip title="Send to CAB board">
                         <IconButton
                           onClick={handleSendToCABBoard}
                           disabled={isUpdating}
                         >
-                          <AddBusiness color='secondary' />
+                          <AddBusiness color="secondary" />
                         </IconButton>
                       </Tooltip>
                     </TableCell>
-                    <TableCell align='center'>
-                      <Tooltip title='Send to Team Manager'>
+                    <TableCell align="center">
+                      <Tooltip title="Send to Team Manager">
                         <IconButton onClick={handleOpenModal}>
-                          <AddTask color='success' />
+                          <AddTask color="success" />
                         </IconButton>
                       </Tooltip>
                     </TableCell>
-                    <TableCell align='center'>
-                      <Tooltip title='Comment'>
+                    <TableCell align="center">
+                      <Tooltip title="Comment">
                         <IconButton>
-                          <AddComment color='info' />
+                          <AddComment color="info" />
                         </IconButton>
                       </Tooltip>
                     </TableCell>
-                    <TableCell align='center'>
-                      <Tooltip title='View Comments'>
+                    <TableCell align="center">
+                      <Tooltip title="View Comments">
                         <IconButton>
-                          <ViewAgenda color='info' />
+                          <ViewAgenda color="info" />
                         </IconButton>
                       </Tooltip>
                     </TableCell>

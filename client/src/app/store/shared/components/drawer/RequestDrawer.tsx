@@ -10,7 +10,7 @@
  * @returns RequestDrawer component
  */
 
-import { useState } from 'react';
+import { useState } from "react";
 import {
   Box,
   Divider,
@@ -29,17 +29,17 @@ import {
   TextField,
   Typography,
   useTheme,
-} from '@mui/material';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import dayjs from 'dayjs';
+} from "@mui/material";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import dayjs from "dayjs";
 
-import { useFetchRequestDetailsQuery } from '../../../../../features/requests/requestsApi';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { RequestType } from '../../../../../lib/types/types';
-import { useFetchRequestTypesQuery } from '../../api/lookupApi';
+import { useFetchRequestDetailsQuery } from "../../../../../features/requests/requestsApi";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { RequestType } from "../../../../../lib/types/types";
+import { useFetchRequestTypesQuery } from "../../api/lookupApi";
 
-const drawerWidth = '75%';
+const drawerWidth = "75%";
 
 type RequestDrawerProps = {
   open: boolean;
@@ -48,13 +48,13 @@ type RequestDrawerProps = {
   handleDrawerClose: () => void;
 };
 
-const DrawerHeader = styled('div')(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
+const DrawerHeader = styled("div")(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
   padding: theme.spacing(0, 1),
   // necessary for content to be below app bar
   ...theme.mixins.toolbar,
-  justifyContent: 'flex-start',
+  justifyContent: "flex-start",
 }));
 
 const RequestDrawer: React.FC<RequestDrawerProps> = ({
@@ -63,11 +63,11 @@ const RequestDrawer: React.FC<RequestDrawerProps> = ({
   setOpen,
   handleDrawerClose,
 }) => {
-  const [requestType, setRequestType] = useState<string>('');
+  const [requestType, setRequestType] = useState<string>("");
   const theme = useTheme();
 
   const { data: requestData, isLoading } = useFetchRequestDetailsQuery(
-    +selectedRequestId!
+    +selectedRequestId!,
   );
 
   const { data: requestTypes } = useFetchRequestTypesQuery();
@@ -81,12 +81,12 @@ const RequestDrawer: React.FC<RequestDrawerProps> = ({
   console.log(selectedRequestId);
 
   const handleRequestTypeChange = (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     requestData.requestType = {
       id: Number(event.target.value),
       requestTypeName: rt.filter(
-        (type) => type.id === Number(event.target.value)
+        (type) => type.id === Number(event.target.value),
       )[0].requestTypeName,
     };
     setRequestType(event.target.value);
@@ -98,18 +98,18 @@ const RequestDrawer: React.FC<RequestDrawerProps> = ({
       sx={{
         width: drawerWidth,
         flexShrink: 0,
-        '& .MuiDrawer-paper': {
+        "& .MuiDrawer-paper": {
           width: drawerWidth,
-          boxSizing: 'border-box',
+          boxSizing: "border-box",
         },
       }}
-      variant='persistent'
-      anchor='right'
+      variant="persistent"
+      anchor="right"
       open={open}
     >
       <DrawerHeader>
         <IconButton onClick={handleDrawerClose}>
-          {theme.direction === 'rtl' ? (
+          {theme.direction === "rtl" ? (
             <>
               <ChevronLeftIcon />
             </>
@@ -117,14 +117,14 @@ const RequestDrawer: React.FC<RequestDrawerProps> = ({
             <ChevronRightIcon />
           )}
         </IconButton>
-        <Typography variant='subtitle2'>Close</Typography>
+        <Typography variant="subtitle2">Close</Typography>
       </DrawerHeader>
       <Divider />
-      <div role='presentation' onClick={() => setOpen(false)}>
+      <div role="presentation" onClick={() => setOpen(false)}>
         <Box
-          width='100%'
-          display='flex'
-          flexDirection='column'
+          width="100%"
+          display="flex"
+          flexDirection="column"
           gap={3}
           marginY={3}
           sx={{
@@ -138,56 +138,56 @@ const RequestDrawer: React.FC<RequestDrawerProps> = ({
             <Grid2 size={{ xs: 6, md: 8 }}>
               <TextField
                 fullWidth
-                label='Title'
-                name='requestTitle'
+                label="Title"
+                name="requestTitle"
                 value={requestData.requestTitle}
               />
             </Grid2>
             <Grid2 size={{ xs: 6, md: 4 }}>
-              <TextField fullWidth label='Project #' disabled />
+              <TextField fullWidth label="Project #" disabled />
             </Grid2>
             <Grid2 size={{ xs: 6, md: 6 }}>
               <TextField
                 fullWidth
-                label='Requested By'
-                name='requestedBy'
+                label="Requested By"
+                name="requestedBy"
                 value={requestData.requestedBy}
               />
             </Grid2>
             <Grid2 size={{ xs: 6, md: 2 }}>
               <TextField
                 fullWidth
-                label='Department'
-                name='department'
+                label="Department"
+                name="department"
                 value={requestData.department}
               />
             </Grid2>
             <Grid2 size={{ xs: 6, md: 4 }}>
               <DatePicker
-                label='Request Date'
-                name='requestDate'
+                label="Request Date"
+                name="requestDate"
                 value={dayjs(requestData.requestedDate)}
               />
             </Grid2>
             <Grid2 size={12}>
               <TextField
                 fullWidth
-                label='Explain Impact'
-                name='explainImpact'
+                label="Explain Impact"
+                name="explainImpact"
                 value={requestData.explainImpact}
                 multiline
                 rows={4}
               />
             </Grid2>
             <Grid2 size={12}>
-              <Divider variant='middle' sx={{ mt: 4, mb: 4 }} />
+              <Divider variant="middle" sx={{ mt: 4, mb: 4 }} />
             </Grid2>
 
             <Grid2 size={{ xs: 6, md: 6 }}>
-              <FormControl id='requestTypeGroup'>
-                <FormLabel component='legend'>Request Type</FormLabel>
+              <FormControl id="requestTypeGroup">
+                <FormLabel component="legend">Request Type</FormLabel>
                 <RadioGroup
-                  name='requestTypeGroup'
+                  name="requestTypeGroup"
                   value={requestData.requestType}
                   onChange={handleRequestTypeChange}
                   row
@@ -208,30 +208,30 @@ const RequestDrawer: React.FC<RequestDrawerProps> = ({
               </FormControl>
             </Grid2>
             <Grid2 size={{ xs: 6, md: 4 }}>
-              <FormControl id='stakeHolderGroup'>
-                <FormLabel component='legend'>
+              <FormControl id="stakeHolderGroup">
+                <FormLabel component="legend">
                   Have stakeholders conferred on this project?
                 </FormLabel>
                 <RadioGroup
-                  name='stakeHolderGroup'
+                  name="stakeHolderGroup"
                   value={requestData.hasStakeholderConferred}
                   row
                 >
                   <FormControlLabel
-                    value='Yes'
+                    value="Yes"
                     control={<Radio />}
-                    label='Yes'
+                    label="Yes"
                   />
-                  <FormControlLabel value='No' control={<Radio />} label='No' />
+                  <FormControlLabel value="No" control={<Radio />} label="No" />
                 </RadioGroup>
               </FormControl>
             </Grid2>
             <Grid2 container size={12} spacing={8} sx={{ mt: 4 }}>
               <Grid2 size={{ xs: 6, md: 4 }}>
-                <Typography variant='subtitle1' gutterBottom>
+                <Typography variant="subtitle1" gutterBottom>
                   List any DRC Policies that apply
                 </Typography>
-                <Box display='flex' flexDirection='column' gap={2}>
+                <Box display="flex" flexDirection="column" gap={2}>
                   {/* <Box display='flex' flexDirection='row' gap={2}>
                     <TextField
                       label='Policy'
@@ -260,10 +260,10 @@ const RequestDrawer: React.FC<RequestDrawerProps> = ({
                 </Box>
               </Grid2>
               <Grid2 size={{ xs: 6, md: 4 }}>
-                <Typography variant='subtitle1' gutterBottom>
+                <Typography variant="subtitle1" gutterBottom>
                   List any related projects
                 </Typography>
-                <Box display='flex' flexDirection='column' gap={2}>
+                <Box display="flex" flexDirection="column" gap={2}>
                   {/* <Box display='flex' flexDirection='row' gap={2}>
                     <TextField
                       label='Related Projects'
@@ -297,9 +297,9 @@ const RequestDrawer: React.FC<RequestDrawerProps> = ({
               </Grid2>
               <Grid2 size={{ xs: 12 }}>
                 <Box
-                  display='flex'
-                  flexDirection='row'
-                  justifyContent='end'
+                  display="flex"
+                  flexDirection="row"
+                  justifyContent="end"
                   gap={2}
                 ></Box>
               </Grid2>

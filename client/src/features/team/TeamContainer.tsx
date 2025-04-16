@@ -1,7 +1,7 @@
-import { Paper, Grid2 as Grid, Skeleton, Typography } from '@mui/material';
+import { Paper, Grid2 as Grid, Skeleton, Typography } from "@mui/material";
 
-import { Request } from '../../app/models/request';
-import TeamRequestList from './TeamRequestList';
+import { Request } from "../../app/models/request";
+import TeamRequestList from "./TeamRequestList";
 
 type Props = {
   requests: Request[];
@@ -9,11 +9,11 @@ type Props = {
 
 export default function TeamContainer({ requests }: Props) {
   return (
-    <Paper sx={{ p: 2, width: '100%' }} elevation={1}>
+    <Paper sx={{ p: 2, width: "100%" }} elevation={1}>
       <Grid container spacing={1}>
         <Grid size={5} />
         <Grid size={12}>
-          <Typography variant='h4' gutterBottom sx={{ mb: 4 }}>
+          <Typography variant="h4" gutterBottom sx={{ mb: 4 }}>
             Team Requests
           </Typography>
         </Grid>

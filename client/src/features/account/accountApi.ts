@@ -1,30 +1,30 @@
-import { createApi } from '@reduxjs/toolkit/query/react';
+import { createApi } from "@reduxjs/toolkit/query/react";
 
-import { User } from '../../app/models/user';
+import { User } from "../../app/models/user";
 
-import { router } from '../../app/routes/Routes';
-import { toast } from 'react-toastify';
-import { LoginSchema } from '../../lib/schemas/loginSchema';
-import { baseQueryWithErrorHandling } from '../../app/api/baseApi';
+import { router } from "../../app/routes/Routes";
+import { toast } from "react-toastify";
+import { LoginSchema } from "../../lib/schemas/loginSchema";
+import { baseQueryWithErrorHandling } from "../../app/api/baseApi";
 
 export const accountApi = createApi({
-  reducerPath: 'accountApi',
+  reducerPath: "accountApi",
   baseQuery: baseQueryWithErrorHandling,
-  tagTypes: ['UserInfo'],
+  tagTypes: ["UserInfo"],
   endpoints: (builder) => ({
     login: builder.mutation<void, LoginSchema>({
       // ? first entry void is what we expect to return
       query: (creds) => {
         return {
-          url: 'login?useCookies=true',
-          method: 'POST',
+          url: "login?useCookies=true",
+          method: "POST",
           body: creds,
         };
       },
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled;
-          dispatch(accountApi.util.invalidateTags(['UserInfo']));
+          dispatch(accountApi.util.invalidateTags(["UserInfo"]));
         } catch (error) {
           console.log(error);
         }
@@ -33,16 +33,16 @@ export const accountApi = createApi({
     register: builder.mutation<void, object>({
       query: (creds) => {
         return {
-          url: 'account/register',
-          method: 'POST',
+          url: "account/register",
+          method: "POST",
           body: creds,
         };
       },
       async onQueryStarted(_, { queryFulfilled }) {
         try {
           await queryFulfilled;
-          toast.success('Registration successful - you can now sign in!');
-          router.navigate('/login');
+          toast.success("Registration successful - you can now sign in!");
+          router.navigate("/login");
         } catch (error) {
           console.log(error);
           throw error;
@@ -50,18 +50,18 @@ export const accountApi = createApi({
       },
     }),
     userInfo: builder.query<User, void>({
-      query: () => '/account/user-info',
-      providesTags: ['UserInfo'],
+      query: () => "/account/user-info",
+      providesTags: ["UserInfo"],
     }),
     logout: builder.mutation({
       query: () => ({
-        url: 'account/logout',
-        method: 'POST',
+        url: "account/logout",
+        method: "POST",
       }),
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
         await queryFulfilled;
-        dispatch(accountApi.util.invalidateTags(['UserInfo']));
-        router.navigate('/');
+        dispatch(accountApi.util.invalidateTags(["UserInfo"]));
+        router.navigate("/");
       },
     }),
   }),

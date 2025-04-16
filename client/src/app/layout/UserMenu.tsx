@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import {
   Button,
   Menu,
@@ -8,11 +8,11 @@ import {
   ListItemIcon,
   ListItemText,
   Divider,
-} from '@mui/material';
-import { History, Inventory, Logout, Person } from '@mui/icons-material';
+} from "@mui/material";
+import { History, Inventory, Logout, Person } from "@mui/icons-material";
 
-import { User } from '../models/user';
-import { useLogoutMutation } from '../../features/account/accountApi';
+import { User } from "../models/user";
+import { useLogoutMutation } from "../../features/account/accountApi";
 
 type Props = {
   user: User;
@@ -35,16 +35,16 @@ export default function UserMenu({ user }: Props) {
     <div>
       <Button
         onClick={handleClick}
-        color='inherit'
-        size='large'
-        sx={{ fontSize: '1.1rem' }}
+        color="inherit"
+        size="large"
+        sx={{ fontSize: "1.1rem" }}
       >
         {user.email}
       </Button>
       <Menu
-        id='fade-menu'
+        id="fade-menu"
         MenuListProps={{
-          'aria-labelledby': 'fade-button',
+          "aria-labelledby": "fade-button",
         }}
         anchorEl={anchorEl}
         open={open}
@@ -57,14 +57,14 @@ export default function UserMenu({ user }: Props) {
           </ListItemIcon>
           <ListItemText>My profile</ListItemText>
         </MenuItem>
-        <MenuItem component={Link} to='/requests'>
+        <MenuItem component={Link} to="/requests">
           <ListItemIcon>
             <History />
           </ListItemIcon>
           <ListItemText>My Requests</ListItemText>
         </MenuItem>
-        {user.roles.includes('Admin') && (
-          <MenuItem component={Link} to='/inventory'>
+        {user.roles.includes("Admin") && (
+          <MenuItem component={Link} to="/inventory">
             <ListItemIcon>
               <Inventory />
             </ListItemIcon>

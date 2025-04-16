@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import dayjs from 'dayjs';
-import { Cyclone } from '@mui/icons-material';
+import { useState } from "react";
+import dayjs from "dayjs";
+import { Cyclone } from "@mui/icons-material";
 import {
   Container,
   Paper,
@@ -11,27 +11,27 @@ import {
   Step,
   StepLabel,
   Button,
-} from '@mui/material';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
+} from "@mui/material";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-import { useCreateRequestMutation } from '../requestsApi';
-import { handleApiError } from '../../../lib/util';
-import RequestForm from './RequestForm';
-import MandateForm from './MandateForm';
-import ImpactForm from './ImpactForm';
-import ScopeForm from './ScopeForm';
-import { RequestSchema } from '../../../lib/schemas/requestSchema';
-import Confirm from './Confirm';
-import { useFetchRequestTypesQuery } from '../../../app/store/shared/api/lookupApi';
-import { RequestType } from '../../../lib/types/types';
+import { useCreateRequestMutation } from "../requestsApi";
+import { handleApiError } from "../../../lib/util";
+import RequestForm from "./RequestForm";
+import MandateForm from "./MandateForm";
+import ImpactForm from "./ImpactForm";
+import ScopeForm from "./ScopeForm";
+import { RequestSchema } from "../../../lib/schemas/requestSchema";
+import Confirm from "./Confirm";
+import { useFetchRequestTypesQuery } from "../../../app/store/shared/api/lookupApi";
+import { RequestType } from "../../../lib/types/types";
 
 const steps = [
-  'Basic Request Information',
-  'Mandate',
-  'Impact',
-  'Scope',
-  'Confirm',
+  "Basic Request Information",
+  "Mandate",
+  "Impact",
+  "Scope",
+  "Confirm",
 ];
 
 export default function Request() {
@@ -39,7 +39,7 @@ export default function Request() {
   const [skipped, setSkipped] = useState(new Set<number>());
 
   const { setError } = useForm<RequestSchema>({
-    mode: 'onTouched',
+    mode: "onTouched",
     resolver: zodResolver(RequestSchema),
   });
   const [createRequest] = useCreateRequestMutation();
@@ -51,52 +51,52 @@ export default function Request() {
 
   // ? Form State
   const [requestData, setRequestData] = useState<RequestSchema>({
-    requestTitle: '',
-    requestedBy: '',
-    department: '',
-    explainImpact: '',
+    requestTitle: "",
+    requestedBy: "",
+    department: "",
+    explainImpact: "",
     sendToBoard: false,
     approvalStatus: {
       id: 1,
-      ApprovalStatusName: 'Pending',
+      ApprovalStatusName: "Pending",
     },
-    stakeHolders: '',
+    stakeHolders: "",
     requestDate: dayjs(new Date()).toDate(),
-    proposedImpDate: dayjs('1970-01-01').toDate(),
-    boardDate: dayjs('1970-01-01').toDate(),
-    approvalDate: dayjs('1970-01-01').toDate(),
-    denialDate: dayjs('1970-01-01').toDate(),
+    proposedImpDate: dayjs("1970-01-01").toDate(),
+    boardDate: dayjs("1970-01-01").toDate(),
+    approvalDate: dayjs("1970-01-01").toDate(),
+    denialDate: dayjs("1970-01-01").toDate(),
     policies: [],
     relatedProjects: [],
     isNew: true,
     isActive: false,
     requestType: {
       id: 0,
-      requestTypeName: '',
+      requestTypeName: "",
     },
     requestStatus: {
       id: 1,
-      RequestStatusName: 'New',
+      RequestStatusName: "New",
     },
     priority: {
       id: 0,
-      PriorityName: 'Low',
+      PriorityName: "Low",
       PriorityLevel: 0,
     },
     mandateBy: [],
-    mandateTitle: '',
-    mandateDescription: '',
-    requiredComplianceDate: dayjs('1970-01-01').toDate(),
-    codeRuleNums: '',
+    mandateTitle: "",
+    mandateDescription: "",
+    requiredComplianceDate: dayjs("1970-01-01").toDate(),
+    codeRuleNums: "",
     internalUserCount: 0,
     externalUserCount: 0,
-    newAutomationExplain: '',
-    explainCostSavings: '',
+    newAutomationExplain: "",
+    explainCostSavings: "",
     impactedClassifications: [],
     impactedExternalJobTypes: [],
-    objectives: '',
-    requirements: '',
-    resources: '',
+    objectives: "",
+    requirements: "",
+    resources: "",
   }); // ? Request Data
 
   // ? Stepper Functions
@@ -125,7 +125,7 @@ export default function Request() {
 
   const handleSkip = () => {
     if (!isStepOptional(activeStep)) {
-      throw new Error('You can not skip a step that is not optional.');
+      throw new Error("You can not skip a step that is not optional.");
     }
 
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -142,9 +142,9 @@ export default function Request() {
 
   const handleChange = (
     input: string,
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
-    if (input === 'mandateBy') {
+    if (input === "mandateBy") {
       const mandateBy = [...requestData.mandateBy];
       if ((e.target as HTMLInputElement).checked) {
         mandateBy.push(e.target.name);
@@ -168,7 +168,7 @@ export default function Request() {
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
     } catch (error) {
       console.log(error);
-      handleApiError<RequestSchema>(error, setError, ['requestTitle']);
+      handleApiError<RequestSchema>(error, setError, ["requestTitle"]);
     }
   };
 
@@ -202,21 +202,21 @@ export default function Request() {
   };
 
   return (
-    <Container component={Paper} maxWidth='lg' sx={{ borderRadius: 2 }}>
+    <Container component={Paper} maxWidth="lg" sx={{ borderRadius: 2 }}>
       <Box
-        display='flex'
-        flexDirection='column'
-        alignItems='center'
-        marginTop='8'
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        marginTop="8"
       >
-        <Cyclone sx={{ mt: 3, mb: 2, color: 'secondary.main', fontSize: 40 }} />
-        <Typography variant='h5' gutterBottom>
+        <Cyclone sx={{ mt: 3, mb: 2, color: "secondary.main", fontSize: 40 }} />
+        <Typography variant="h5" gutterBottom>
           Submit a New Request
         </Typography>
-        <Box sx={{ width: '100%', mt: 4, mb: 4 }}>
+        <Box sx={{ width: "100%", mt: 4, mb: 4 }}>
           <Divider />
         </Box>
-        <Box sx={{ width: '100%', mb: 4 }}>
+        <Box sx={{ width: "100%", mb: 4 }}>
           <Stepper activeStep={activeStep}>
             {steps.map((label, index) => {
               const stepProps: { completed?: boolean } = {};
@@ -225,7 +225,7 @@ export default function Request() {
               } = {};
               if (isStepOptional(index)) {
                 labelProps.optional = (
-                  <Typography variant='caption'>Optional</Typography>
+                  <Typography variant="caption">Optional</Typography>
                 );
               }
               if (isStepSkipped(index)) {
@@ -244,11 +244,11 @@ export default function Request() {
                 All steps completed - you&apos;re finished
               </Typography>
 
-              <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-                <Box sx={{ flex: '1 1 auto' }}>
+              <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+                <Box sx={{ flex: "1 1 auto" }}>
                   <Button onClick={handleReset}>Reset</Button>
                 </Box>
-                <Box sx={{ flex: '1 1 auto' }}>
+                <Box sx={{ flex: "1 1 auto" }}>
                   {/* <Button
                     onClick={onRequestSubmit}
                     variant='contained'
@@ -263,18 +263,18 @@ export default function Request() {
             <>
               {formContent(activeStep)}
 
-              <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+              <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
                 <Button
-                  color='inherit'
+                  color="inherit"
                   disabled={activeStep === 0}
                   onClick={handleBack}
                   sx={{ mr: 1 }}
                 >
                   Back
                 </Button>
-                <Box sx={{ flex: '1 1 auto' }} />
+                <Box sx={{ flex: "1 1 auto" }} />
                 {isStepOptional(activeStep) && (
-                  <Button color='inherit' onClick={handleSkip} sx={{ mr: 1 }}>
+                  <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
                     Skip
                   </Button>
                 )}
@@ -286,7 +286,7 @@ export default function Request() {
                       : handleNext
                   }
                 >
-                  {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                  {activeStep === steps.length - 1 ? "Finish" : "Next"}
                 </Button>
               </Box>
             </>
