@@ -30,6 +30,15 @@ export type TeamManager = {
   userGroupName: string;
 };
 
+export type TeamMember = {
+  id: string;
+  firstName: string;
+  lastName: string;
+  displayName: string;
+  teamName: string;
+  userGroupName: string;
+};
+
 export interface IRequest {
   requestTitle: string;
   requestedBy: string;

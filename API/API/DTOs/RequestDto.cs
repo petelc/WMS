@@ -35,7 +35,7 @@ public class RequestDto
     
     public required string Objectives { get; set; }
     public required string Requirements { get; set; }
-    public required string Resources { get; set; }
+    public string? Resources { get; set; }
       
     public bool isNew { get; set; }
     public bool isActive { get; set; }
