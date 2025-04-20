@@ -1,7 +1,8 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
-import { baseQueryWithErrorHandling } from '../../../api/baseApi';
-import { TeamManager } from '../../../../lib/types/types';
-import { User } from '../../../models/user';
+import { baseQueryWithErrorHandling } from '../../api/baseApi';
+import { TeamManager } from '../../../lib/types/types';
+import { User } from '../../models/user';
+import { Employee } from '../../models/employee';
 
 export const lookupApi = createApi({
   reducerPath: 'lookupApi',
@@ -24,6 +25,9 @@ export const lookupApi = createApi({
       query: () => '/lookup/team-managers',
     }),
     fetchTeamMembers: builder.query<{ teamMembers: User[] }, number>({
+      query: (id: number) => `/lookup/team-employees?employeeId=${id}`,
+    }),
+    employeeInfo: builder.query<Employee, number>({
       query: (id: number) => `/lookup/team-employees?employeeId=${id}`,
     }),
   }),

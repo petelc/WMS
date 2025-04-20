@@ -1,9 +1,9 @@
-import { Grid2, Paper, Typography } from "@mui/material";
+import { Grid2, Paper, Typography } from '@mui/material';
 
-import { useFetchFiltersQuery, useFetchRequestsQuery } from "./requestsApi";
+import { useFetchRequestsQuery } from './requestsApi';
 //import Filters from './Filters';
-import { useAppSelector } from "../../app/store/store";
-import { EnhancedTable as RequestTable } from "../../app/store/shared/components/enhancedtable/enhancedTable";
+import { useAppSelector } from '../../app/store/store';
+import { EnhancedTable as RequestTable } from '../../app/shared/components/enhancedtable/enhancedTable';
 
 export default function RequestPage() {
   const requestParams = useAppSelector((state) => state.request);
@@ -12,15 +12,12 @@ export default function RequestPage() {
     isLoading: requestsLoading,
     refetch,
   } = useFetchRequestsQuery(requestParams);
-  //const { data: filtersData, isLoading: filtersLoading } =
-  useFetchFiltersQuery();
 
   if (requestsLoading) return <div>Loading...</div>;
-  //const defaultFiltersData = { priority: [], requestType: [] };
 
   return (
     <Paper
-      sx={{ maxWidth: "100%", height: "100vh", pt: 1, pl: 2, pr: 2 }}
+      sx={{ maxWidth: '100%', height: '100vh', pt: 1, pl: 2, pr: 2 }}
       square={false}
     >
       <Grid2 container spacing={4}>
@@ -28,7 +25,7 @@ export default function RequestPage() {
           {data?.items && data.items.length > 0 ? (
             <RequestTable rows={data.items} refetch={refetch} />
           ) : (
-            <Typography variant="h5">No requests found</Typography>
+            <Typography variant='h5'>No requests found</Typography>
           )}
         </Grid2>
       </Grid2>

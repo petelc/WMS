@@ -8,15 +8,16 @@ import DialogTitle from '@mui/material/DialogTitle';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
+import Checkbox from '@mui/material/Checkbox';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { TeamManager } from '../../../../lib/types/types';
 import { InputLabel, TextField } from '@mui/material';
-import { Employee } from '../../../../models/employee';
 
 type Props = {
   handleCloseModal: () => void;
   handleOpenModal: () => void; // If you have a function to perform additional actions when opening the modal);
   openModal: boolean; // This should be a boolean to control the visibility of the modal
-  teamMembers: Employee[]; // Optional prop to pass team members directly if needed
+  teamManagers: TeamManager[] | []; // Optional prop to pass team managers directly if needed
 };
 
 const ITEM_HEIGHT = 48;
@@ -30,10 +31,10 @@ const MenuProps = {
   },
 };
 
-export default function TeamMemberModal({
+export default function TeamManagerDialog({
   handleCloseModal,
   openModal,
-  teamMembers,
+  teamManagers,
 }: Props) {
   const [manager, setManager] = useState<string[]>([]);
 
@@ -50,27 +51,30 @@ export default function TeamMemberModal({
   return (
     <div>
       <Dialog disableEscapeKeyDown open={openModal} onClose={handleCloseModal}>
-        <DialogTitle>Send to Appropriate Team Lead</DialogTitle>
+        <DialogTitle>Send to Appropriate Team</DialogTitle>
         <DialogContent>
           <Box
             component='form'
             sx={{ display: 'flex', flexWrap: 'wrap', width: 525 }}
           >
-            <FormControl sx={{ m: 1, width: 500 }}>
-              <InputLabel>Team Member</InputLabel>
+            <FormControl sx={{ m: 1, width: 300 }}>
+              <InputLabel id='modal-modal-title'>Team Manager</InputLabel>
               <Select
+                labelId='modal-modal-title'
                 id='demo-multiple-checkbox'
+                multiple
                 value={manager}
                 onChange={handleChange}
-                input={<OutlinedInput label='Team Member' />}
+                input={<OutlinedInput label='Tag' />}
                 renderValue={(selected) => selected.join(', ')}
                 MenuProps={MenuProps}
               >
-                {teamMembers?.map((name) => {
-                  const { id, displayName } = name; // Destructure the id and email from the team member object
+                {teamManagers?.map((name) => {
+                  const { id, displayName } = name; // Destructure the id and email from the team manager object
 
                   return (
                     <MenuItem key={id} value={displayName}>
+                      <Checkbox checked={manager.includes(displayName)} />
                       {name.displayName}
                     </MenuItem>
                   );

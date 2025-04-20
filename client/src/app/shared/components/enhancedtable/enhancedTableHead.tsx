@@ -5,9 +5,9 @@ import {
   // Checkbox,
   TableSortLabel,
   Box,
-} from "@mui/material";
-import { visuallyHidden } from "@mui/utils";
-import { Request } from "../../../../models/request";
+} from '@mui/material';
+import { visuallyHidden } from '@mui/utils';
+import { Request } from '../../../models/request';
 
 interface HeadCell {
   disablePadding: boolean;
@@ -16,44 +16,44 @@ interface HeadCell {
   numeric: boolean;
 }
 
-export type Order = "asc" | "desc";
+export type Order = 'asc' | 'desc';
 
 const headCells: readonly HeadCell[] = [
   {
-    id: "id",
+    id: 'id',
     numeric: false,
     disablePadding: true,
-    label: "ID",
+    label: 'ID',
   },
   {
-    id: "requestedDate",
+    id: 'requestedDate',
     numeric: false,
     disablePadding: false,
-    label: "Request Date",
+    label: 'Request Date',
   },
   {
-    id: "requestTitle",
+    id: 'requestTitle',
     numeric: false,
     disablePadding: false,
-    label: "Request Title",
+    label: 'Request Title',
   },
   {
-    id: "requestedBy",
+    id: 'requestedBy',
     numeric: false,
     disablePadding: false,
-    label: "Requested By",
+    label: 'Requested By',
   },
   {
-    id: "requestType",
+    id: 'requestType',
     numeric: false,
     disablePadding: false,
-    label: "Request Type",
+    label: 'Request Type',
   },
   {
-    id: "priority",
+    id: 'priority',
     numeric: false,
     disablePadding: false,
-    label: "Priority",
+    label: 'Priority',
   },
 ];
 
@@ -61,7 +61,7 @@ interface EnhancedTableProps {
   numSelected: number;
   onRequestSort: (
     event: React.MouseEvent<unknown>,
-    property: keyof Request,
+    property: keyof Request
   ) => void;
   // onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
   order: Order;
@@ -86,7 +86,7 @@ export default function EnhancedTableHead(props: EnhancedTableProps) {
   return (
     <TableHead>
       <TableRow>
-        <TableCell padding="checkbox">
+        <TableCell padding='checkbox'>
           {/* <Checkbox
             color='primary'
             indeterminate={numSelected > 0 && numSelected < rowCount}
@@ -100,19 +100,19 @@ export default function EnhancedTableHead(props: EnhancedTableProps) {
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align={headCell.numeric ? "right" : "left"}
-            padding={headCell.disablePadding ? "none" : "normal"}
+            align={headCell.numeric ? 'right' : 'left'}
+            padding={headCell.disablePadding ? 'none' : 'normal'}
             sortDirection={orderBy === headCell.id ? order : false}
           >
             <TableSortLabel
               active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : "asc"}
+              direction={orderBy === headCell.id ? order : 'asc'}
               onClick={createSortHandler(headCell.id)}
             >
               {headCell.label}
               {orderBy === headCell.id ? (
-                <Box component="span" sx={visuallyHidden}>
-                  {order === "desc" ? "sorted descending" : "sorted ascending"}
+                <Box component='span' sx={visuallyHidden}>
+                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
                 </Box>
               ) : null}
             </TableSortLabel>
