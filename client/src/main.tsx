@@ -15,6 +15,11 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import './app/layout/styles.css';
 
+/**
+ *  @name Root
+ *  @description Entry point for the application
+ *  @constructs Redux Provider, ToastContainer, Localization and RouteProvider
+ */
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Provider store={store}>

@@ -10,6 +10,15 @@ import { Outlet } from 'react-router-dom';
 import { useAppSelector } from '../store/store';
 import NavBar from './NavBar';
 
+/**
+ * @name App
+ * @description Main application layout component
+ * @constructs ThemeProvider, CssBaseline, NavBar, Outlet
+ * @returns {JSX.Element}
+ * @example
+ * <App />
+ *
+ */
 function App() {
   const { darkMode } = useAppSelector((state) => state.ui);
 
