@@ -1,4 +1,4 @@
-name: Publish-WMS-Documentation
+name: ./client/Publish-WMS-Documentation
 on: [push]
 jobs:
   publish-docs:
