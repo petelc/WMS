@@ -1,5 +1,16 @@
 import { GridColDef } from '@mui/x-data-grid';
 
+/**
+ * @typedef {GridColDef<rows[number]>} GridColDef
+ * @property {string} field - The field name of the column
+ * @property {string} headerName - The display name of the column
+ * @property {number} width - The width of the column
+ * @name columns
+ * @description Columns for the requests table
+ * @returns {GridColDef<rows[number]>[]}
+ * @constructs GridColDef
+ * @param {GridColDef<rows[number]>[]} columns
+ */
 export const columns: GridColDef<rows[number]>[] = [
   { field: 'id', headerName: 'ID', width: 90 },
   { field: 'requestDate', headerName: 'Request Date', width: 150 },
@@ -17,6 +28,5 @@ export type rows = [
     requestedBy: string;
     requestType: string;
     priority: string;
-  }
-]; // Example data, replace with your actual data
-// Compare this snippet from client/src/features/requests/new/ScopeForm.tsx:
+  },
+];

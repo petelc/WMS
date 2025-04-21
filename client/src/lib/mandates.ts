@@ -3,9 +3,9 @@ export interface MandateOptions {
 }
 
 export const Mandates = [
-  { title: '' },
-  { title: 'ORC' },
-  { title: 'AR' },
-  { title: 'Director' },
-  { title: 'External Compliance Standard' },
+  { title: "" },
+  { title: "ORC" },
+  { title: "AR" },
+  { title: "Director" },
+  { title: "External Compliance Standard" },
 ];

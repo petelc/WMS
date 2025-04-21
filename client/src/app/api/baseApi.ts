@@ -2,14 +2,14 @@ import {
   BaseQueryApi,
   FetchArgs,
   fetchBaseQuery,
-} from '@reduxjs/toolkit/query/react';
-import { startLoading, stopLoading } from '../layout/uiSlice';
-import { toast } from 'react-toastify';
-import { router } from '../routes/Routes';
+} from "@reduxjs/toolkit/query/react";
+import { startLoading, stopLoading } from "../layout/uiSlice";
+import { toast } from "react-toastify";
+import { router } from "../routes/Routes";
 
 const customBaseQuery = fetchBaseQuery({
   baseUrl: import.meta.env.VITE_API_URL,
-  credentials: 'include',
+  credentials: "include",
 });
 
 type ErrorResponse = string | { title: string } | { errors: string[] };
@@ -19,7 +19,7 @@ const sleep = () => new Promise((resolve) => setTimeout(resolve, 1000));
 export const baseQueryWithErrorHandling = async (
   args: string | FetchArgs,
   api: BaseQueryApi,
-  extraOptions: object
+  extraOptions: object,
 ) => {
   api.dispatch(startLoading());
   if (import.meta.env.DEV) await sleep();
@@ -29,7 +29,7 @@ export const baseQueryWithErrorHandling = async (
     console.log(result.error);
 
     const originalStatus =
-      result.error.status === 'PARSING_ERROR' && result.error.originalStatus
+      result.error.status === "PARSING_ERROR" && result.error.originalStatus
         ? result.error.originalStatus
         : result.error.status;
 
@@ -37,25 +37,25 @@ export const baseQueryWithErrorHandling = async (
 
     switch (originalStatus) {
       case 400:
-        if (typeof responseData === 'string') toast.error(responseData);
-        else if ('errors' in responseData) {
-          throw Object.values(responseData.errors).flat().join(', ');
+        if (typeof responseData === "string") toast.error(responseData);
+        else if ("errors" in responseData) {
+          throw Object.values(responseData.errors).flat().join(", ");
         } else toast.error(responseData.title);
         break;
       case 401:
-        if (typeof responseData === 'object' && 'title' in responseData)
+        if (typeof responseData === "object" && "title" in responseData)
           toast.error(responseData.title);
         break;
       case 403:
-        if (typeof responseData === 'object') toast.error('403 Forbidden');
+        if (typeof responseData === "object") toast.error("403 Forbidden");
         break;
       case 404:
-        if (typeof responseData === 'object' && 'title' in responseData)
-          router.navigate('/not-found');
+        if (typeof responseData === "object" && "title" in responseData)
+          router.navigate("/not-found");
         break;
       case 500:
-        if (typeof responseData === 'object')
-          router.navigate('/server-error', { state: { error: responseData } });
+        if (typeof responseData === "object")
+          router.navigate("/server-error", { state: { error: responseData } });
         break;
       default:
         break;

@@ -23,7 +23,7 @@ import ImpactForm from './ImpactForm';
 import ScopeForm from './ScopeForm';
 import { RequestSchema } from '../../../lib/schemas/requestSchema';
 import Confirm from './Confirm';
-import { useFetchRequestTypesQuery } from '../../../app/store/shared/api/lookupApi';
+import { useFetchRequestTypesQuery } from '../../../app/shared/api/lookupApi';
 import { RequestType } from '../../../lib/types/types';
 
 const steps = [

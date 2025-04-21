@@ -48,6 +48,7 @@ public class AccountController(SignInManager<User> signInManager, UserManager<Us
 
         return Ok(new 
         {
+            user.EmployeeId,
             user.Email,
             user.UserName,
             Roles = roles

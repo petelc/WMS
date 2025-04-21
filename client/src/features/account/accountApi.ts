@@ -6,6 +6,7 @@ import { router } from '../../app/routes/Routes';
 import { toast } from 'react-toastify';
 import { LoginSchema } from '../../lib/schemas/loginSchema';
 import { baseQueryWithErrorHandling } from '../../app/api/baseApi';
+import { Employee } from '../../app/models/employee';
 
 export const accountApi = createApi({
   reducerPath: 'accountApi',
@@ -53,6 +54,10 @@ export const accountApi = createApi({
       query: () => '/account/user-info',
       providesTags: ['UserInfo'],
     }),
+    employeeInfo: builder.query<Employee, number>({
+      query: (id: number) => `/lookup/team-employees?employeeId=${id}`,
+      providesTags: ['UserInfo'],
+    }),
     logout: builder.mutation({
       query: () => ({
         url: 'account/logout',
@@ -73,6 +78,8 @@ export const {
   useLogoutMutation,
   useUserInfoQuery,
   useLazyUserInfoQuery,
+  useEmployeeInfoQuery,
+  useLazyEmployeeInfoQuery,
   //   useFetchAddressQuery,
   //   useUpdateUserAddressMutation,
 } = accountApi;

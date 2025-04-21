@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import DeleteIcon from '@mui/icons-material/Delete';
+import { useState } from "react";
+import DeleteIcon from "@mui/icons-material/Delete";
 import {
   Box,
   Button,
@@ -16,18 +16,18 @@ import {
   RadioGroup,
   TextField,
   Typography,
-} from '@mui/material';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import dayjs, { Dayjs } from 'dayjs';
+} from "@mui/material";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import dayjs, { Dayjs } from "dayjs";
 
-import { RequestSchema } from '../../../lib/schemas/requestSchema';
-import { RequestType } from '../../../lib/types/types';
+import { RequestSchema } from "../../../lib/schemas/requestSchema";
+import { RequestType } from "../../../lib/types/types";
 
 type Props = {
   requestData: RequestSchema;
   handleChange: (
     input: string,
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => void;
   requestTypes: RequestType[];
 };
@@ -38,21 +38,21 @@ export default function RequestForm({
   requestTypes,
 }: Props) {
   const [policy, setPolicy] = useState<string[]>([]);
-  const [newPolicy, setNewPolicy] = useState('');
+  const [newPolicy, setNewPolicy] = useState("");
   const [project, setProject] = useState<string[]>([]);
-  const [newProject, setNewProject] = useState('');
+  const [newProject, setNewProject] = useState("");
   const [requestDate, setRequestDate] = useState<Dayjs | null>(dayjs());
-  const [requestType, setRequestType] = useState<string>('');
+  const [requestType, setRequestType] = useState<string>("");
 
   // ? Form Action Functions
   const handlePolicyTextChange = (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     setNewPolicy(event.target.value);
   };
 
   const handleProjectTextChange = (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     setNewProject(event.target.value);
   };
@@ -60,13 +60,13 @@ export default function RequestForm({
   const handleAddPolicy = () => {
     requestData.policies.push(newPolicy);
     setPolicy((prev: string[]) => [...prev, newPolicy]);
-    setNewPolicy('');
+    setNewPolicy("");
   };
 
   const handleAddProject = () => {
     requestData.relatedProjects.push(newProject);
     setProject((prev: string[]) => [...prev, newProject]);
-    setNewProject('');
+    setNewProject("");
   };
 
   const handleDateChange = (date: Dayjs | null) => {
@@ -86,12 +86,12 @@ export default function RequestForm({
   };
 
   const handleRequestTypeChange = (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     requestData.requestType = {
       id: Number(event.target.value),
       requestTypeName: requestTypes.filter(
-        (type) => type.id === Number(event.target.value)
+        (type) => type.id === Number(event.target.value),
       )[0].requestTypeName,
     };
     setRequestType(event.target.value);
@@ -108,42 +108,42 @@ export default function RequestForm({
   // };
 
   return (
-    <Box width='100%' display='flex' flexDirection='column' gap={3} marginY={3}>
+    <Box width="100%" display="flex" flexDirection="column" gap={3} marginY={3}>
       <Grid2 container spacing={2}>
         <Grid2 size={{ xs: 6, md: 8 }}>
           <TextField
             fullWidth
-            label='Title'
-            name='requestTitle'
+            label="Title"
+            name="requestTitle"
             value={requestData.requestTitle}
-            onChange={(event) => handleChange('requestTitle', event)}
+            onChange={(event) => handleChange("requestTitle", event)}
           />
         </Grid2>
         <Grid2 size={{ xs: 6, md: 4 }}>
-          <TextField fullWidth label='Project #' disabled />
+          <TextField fullWidth label="Project #" disabled />
         </Grid2>
         <Grid2 size={{ xs: 6, md: 6 }}>
           <TextField
             fullWidth
-            label='Requested By'
-            name='requestedBy'
+            label="Requested By"
+            name="requestedBy"
             value={requestData.requestedBy}
-            onChange={(event) => handleChange('requestedBy', event)}
+            onChange={(event) => handleChange("requestedBy", event)}
           />
         </Grid2>
         <Grid2 size={{ xs: 6, md: 2 }}>
           <TextField
             fullWidth
-            label='Department'
-            name='department'
+            label="Department"
+            name="department"
             value={requestData.department}
-            onChange={(event) => handleChange('department', event)}
+            onChange={(event) => handleChange("department", event)}
           />
         </Grid2>
         <Grid2 size={{ xs: 6, md: 4 }}>
           <DatePicker
-            label='Request Date'
-            name='requestDate'
+            label="Request Date"
+            name="requestDate"
             value={requestDate}
             onChange={handleDateChange}
           />
@@ -151,23 +151,23 @@ export default function RequestForm({
         <Grid2 size={12}>
           <TextField
             fullWidth
-            label='Explain Impact'
-            name='explainImpact'
+            label="Explain Impact"
+            name="explainImpact"
             value={requestData.explainImpact}
             multiline
             rows={4}
-            onChange={(event) => handleChange('explainImpact', event)}
+            onChange={(event) => handleChange("explainImpact", event)}
           />
         </Grid2>
         <Grid2 size={12}>
-          <Divider variant='middle' sx={{ mt: 4, mb: 4 }} />
+          <Divider variant="middle" sx={{ mt: 4, mb: 4 }} />
         </Grid2>
 
         <Grid2 size={{ xs: 6, md: 6 }}>
-          <FormControl id='requestTypeGroup'>
-            <FormLabel component='legend'>Request Type</FormLabel>
+          <FormControl id="requestTypeGroup">
+            <FormLabel component="legend">Request Type</FormLabel>
             <RadioGroup
-              name='requestTypeGroup'
+              name="requestTypeGroup"
               value={requestType}
               onChange={handleRequestTypeChange}
               row
@@ -188,35 +188,35 @@ export default function RequestForm({
           </FormControl>
         </Grid2>
         <Grid2 size={{ xs: 6, md: 4 }}>
-          <FormControl id='stakeHolderGroup'>
-            <FormLabel component='legend'>
+          <FormControl id="stakeHolderGroup">
+            <FormLabel component="legend">
               Have stakeholders conferred on this project?
             </FormLabel>
             <RadioGroup
-              name='stakeHolderGroup'
+              name="stakeHolderGroup"
               value={requestData.stakeHolders}
-              onChange={(event) => handleChange('stakeHolders', event)}
+              onChange={(event) => handleChange("stakeHolders", event)}
               row
             >
-              <FormControlLabel value='Yes' control={<Radio />} label='Yes' />
-              <FormControlLabel value='No' control={<Radio />} label='No' />
+              <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+              <FormControlLabel value="No" control={<Radio />} label="No" />
             </RadioGroup>
           </FormControl>
         </Grid2>
         <Grid2 container size={12} spacing={8} sx={{ mt: 4 }}>
           <Grid2 size={{ xs: 6, md: 4 }}>
-            <Typography variant='subtitle1' gutterBottom>
+            <Typography variant="subtitle1" gutterBottom>
               List any DRC Policies that apply
             </Typography>
-            <Box display='flex' flexDirection='column' gap={2}>
-              <Box display='flex' flexDirection='row' gap={2}>
+            <Box display="flex" flexDirection="column" gap={2}>
+              <Box display="flex" flexDirection="row" gap={2}>
                 <TextField
-                  label='Policy'
-                  id='policy'
+                  label="Policy"
+                  id="policy"
                   value={newPolicy}
                   onChange={handlePolicyTextChange}
                 />
-                <Button variant='contained' onClick={handleAddPolicy}>
+                <Button variant="contained" onClick={handleAddPolicy}>
                   Add
                 </Button>
               </Box>
@@ -225,8 +225,8 @@ export default function RequestForm({
                   <ListItem key={index}>
                     <ListItemText primary={item} />
                     <IconButton
-                      edge='end'
-                      aria-label='delete'
+                      edge="end"
+                      aria-label="delete"
                       onClick={() => handleDeletePolicy(index)}
                     >
                       <DeleteIcon />
@@ -237,18 +237,18 @@ export default function RequestForm({
             </Box>
           </Grid2>
           <Grid2 size={{ xs: 6, md: 4 }}>
-            <Typography variant='subtitle1' gutterBottom>
+            <Typography variant="subtitle1" gutterBottom>
               List any related projects
             </Typography>
-            <Box display='flex' flexDirection='column' gap={2}>
-              <Box display='flex' flexDirection='row' gap={2}>
+            <Box display="flex" flexDirection="column" gap={2}>
+              <Box display="flex" flexDirection="row" gap={2}>
                 <TextField
-                  label='Related Projects'
-                  id='relatedProjects'
+                  label="Related Projects"
+                  id="relatedProjects"
                   value={newProject}
                   onChange={handleProjectTextChange}
                 />
-                <Button variant='contained' onClick={handleAddProject}>
+                <Button variant="contained" onClick={handleAddProject}>
                   Add
                 </Button>
               </Box>
@@ -258,8 +258,8 @@ export default function RequestForm({
                     key={index}
                     secondaryAction={
                       <IconButton
-                        edge='end'
-                        aria-label='delete'
+                        edge="end"
+                        aria-label="delete"
                         onClick={() => handleDeleteProject(index)}
                       >
                         <DeleteIcon />
@@ -274,9 +274,9 @@ export default function RequestForm({
           </Grid2>
           <Grid2 size={{ xs: 12 }}>
             <Box
-              display='flex'
-              flexDirection='row'
-              justifyContent='end'
+              display="flex"
+              flexDirection="row"
+              justifyContent="end"
               gap={2}
             ></Box>
           </Grid2>

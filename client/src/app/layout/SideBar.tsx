@@ -9,6 +9,12 @@ import BorderColorIcon from '@mui/icons-material/BorderColor';
 import WorkspacesIcon from '@mui/icons-material/Workspaces';
 import { Link } from 'react-router-dom';
 
+/**
+ * Sidebar component
+ * @type {React.FC}
+ * @description Displays a sidebar with navigation links
+ * @returns {JSX.Element}
+ */
 export default function SideBar() {
   return (
     <Paper sx={{ width: 220, maxWidth: '100%', height: '100%', pt: 1 }}>

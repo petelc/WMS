@@ -1,6 +1,6 @@
 import { Box, Button, Paper } from '@mui/material';
 import Search from './Search';
-import RadioButtonGroup from '../../app/store/shared/components/RadioButtonGroup';
+import RadioButtonGroup from '../../app/shared/components/RadioButtonGroup';
 import { useAppDispatch, useAppSelector } from '../../app/store/store';
 import {
   setOrderBy,
@@ -8,7 +8,7 @@ import {
   setRequestType,
   resetParams,
 } from './requestSlice';
-import CheckboxButtons from '../../app/store/shared/components/CheckboxButtons';
+import CheckboxButtons from '../../app/shared/components/CheckboxButtons';
 
 const sortOptions = [
   { value: 'name', label: 'Alphabetical' },

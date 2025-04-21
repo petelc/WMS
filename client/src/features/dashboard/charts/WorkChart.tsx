@@ -7,16 +7,16 @@ import {
   CardMedia,
   IconButton,
   Typography,
-} from '@mui/material';
-import { blueGrey } from '@mui/material/colors';
-import RefreshRounded from '@mui/icons-material/RefreshRounded';
-import ShareIcon from '@mui/icons-material/Share';
-import AccountTreeIcon from '@mui/icons-material/AccountTree';
-import { LineChart } from '@mui/x-charts';
+} from "@mui/material";
+import { blueGrey } from "@mui/material/colors";
+import RefreshRounded from "@mui/icons-material/RefreshRounded";
+import ShareIcon from "@mui/icons-material/Share";
+import AccountTreeIcon from "@mui/icons-material/AccountTree";
+import { LineChart } from "@mui/x-charts";
 
 const cData = [40, 27]; // Changes
 const pData = [24, 39]; // Projects
-const xLabels = ['Projects', 'Changes'];
+const xLabels = ["Projects", "Changes"];
 
 export default function WorkChart() {
   return (
@@ -24,35 +24,35 @@ export default function WorkChart() {
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: blueGrey[500] }}>
-            <AccountTreeIcon fontSize='small' />
+            <AccountTreeIcon fontSize="small" />
           </Avatar>
         }
-        action={<IconButton aria-label='settings'></IconButton>}
-        title='Projects to Changes'
-        subheader='Last 30 days'
+        action={<IconButton aria-label="settings"></IconButton>}
+        title="Projects to Changes"
+        subheader="Last 30 days"
       />
       <CardMedia sx={{ p: 2 }}>
         <LineChart
           series={[
             {
               data: cData,
-              label: 'changes',
+              label: "changes",
               area: true,
-              stack: 'total',
+              stack: "total",
               showMark: false,
             },
             {
               data: pData,
-              label: 'projects',
+              label: "projects",
               area: true,
-              stack: 'total',
+              stack: "total",
               showMark: false,
             },
           ]}
           xAxis={[
             {
               data: xLabels,
-              scaleType: 'point',
+              scaleType: "point",
             },
           ]}
           grid={{ vertical: true, horizontal: true }}
@@ -60,15 +60,15 @@ export default function WorkChart() {
         />
       </CardMedia>
       <CardContent>
-        <Typography variant='body2' sx={{ color: 'text.secondary' }}>
+        <Typography variant="body2" sx={{ color: "text.secondary" }}>
           Displays the percentage of requests by type.
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label='refresh'>
+        <IconButton aria-label="refresh">
           <RefreshRounded />
         </IconButton>
-        <IconButton aria-label='share'>
+        <IconButton aria-label="share">
           <ShareIcon />
         </IconButton>
       </CardActions>

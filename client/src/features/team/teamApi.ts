@@ -1,10 +1,10 @@
-import { createApi } from '@reduxjs/toolkit/query/react';
-import { baseQueryWithErrorHandling } from '../../app/api/baseApi';
+import { createApi } from "@reduxjs/toolkit/query/react";
+import { baseQueryWithErrorHandling } from "../../app/api/baseApi";
 
-import { RequestParams } from '../../app/models/requestParams';
-import { Pagination } from '../../app/models/pagination';
-import { Request } from '../../app/models/request';
-import { filterEmptyValues } from '../../lib/util';
+import { RequestParams } from "../../app/models/requestParams";
+import { Pagination } from "../../app/models/pagination";
+import { Request } from "../../app/models/request";
+import { filterEmptyValues } from "../../lib/util";
 
 // TODO : Create endpoints for
 // TODO :     1. Fetching all requests by team manager
@@ -34,20 +34,20 @@ import { filterEmptyValues } from '../../lib/util';
 // ! TODO :   24. Fetching team boards
 
 export const teamApi = createApi({
-  reducerPath: 'teamApi',
+  reducerPath: "teamApi",
   baseQuery: baseQueryWithErrorHandling,
-  tagTypes: ['Team'],
+  tagTypes: ["Team"],
   endpoints: (builder) => ({
     fetchTeamRequests: builder.query<
       { items: Request[]; pagination: Pagination },
       RequestParams
     >({
       query: (requestParams) => ({
-        url: '/team/requests/team-managers',
+        url: "/team/requests/team-managers",
         params: filterEmptyValues(requestParams),
       }),
       transformResponse: (items: Request[], meta) => {
-        const paginationHeader = meta?.response?.headers.get('Pagination');
+        const paginationHeader = meta?.response?.headers.get("Pagination");
         const pagination = paginationHeader
           ? JSON.parse(paginationHeader)
           : null;

@@ -1,33 +1,33 @@
 export const divisions = [
   {
-    label: 'AppDev',
+    label: "AppDev",
     value: 42.72,
-    color: '#0088FE',
+    color: "#0088FE",
   },
   {
-    label: 'Server',
+    label: "Server",
     value: 36.38,
-    color: '#00C49F',
+    color: "#00C49F",
   },
   {
-    label: 'Network',
+    label: "Network",
     value: 24.98,
-    color: '#00D52D',
+    color: "#00D52D",
   },
   {
-    label: 'Telecom',
+    label: "Telecom",
     value: 10.83,
-    color: '#FFBB28',
+    color: "#FFBB28",
   },
   {
-    label: 'Security',
+    label: "Security",
     value: 12.42,
-    color: '#FF8042',
+    color: "#FF8042",
   },
   {
-    label: 'Video',
+    label: "Video",
     value: 9.65,
-    color: '#EB5021',
+    color: "#EB5021",
   },
 ];
 
@@ -37,7 +37,7 @@ const normalize = (v: number, v2: number) =>
 export const divisionsDRC = [
   ...divisions.map((v) => ({
     ...v,
-    label: v.label === 'Other' ? 'Other (Division)' : v.label,
+    label: v.label === "Other" ? "Other (Division)" : v.label,
     value: normalize(v.value, 1),
   })),
 ];

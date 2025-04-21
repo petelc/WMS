@@ -17,9 +17,6 @@ import SideBar from './SideBar';
  * @description Main application layout component
  * @constructs ThemeProvider, CssBaseline, NavBar, Outlet
  * @returns {JSX.Element}
- * @example
- * <App />
- *
  */
 function App() {
   const { darkMode } = useAppSelector((state) => state.ui);

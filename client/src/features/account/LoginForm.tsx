@@ -1,4 +1,4 @@
-import { LockOutlined } from '@mui/icons-material';
+import { LockOutlined } from "@mui/icons-material";
 import {
   Box,
   Button,
@@ -6,13 +6,13 @@ import {
   Paper,
   TextField,
   Typography,
-} from '@mui/material';
-import { useForm } from 'react-hook-form';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+} from "@mui/material";
+import { useForm } from "react-hook-form";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useLazyUserInfoQuery, useLoginMutation } from './accountApi';
-import { loginSchema, LoginSchema } from '../../lib/schemas/loginSchema';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useLazyUserInfoQuery, useLoginMutation } from "./accountApi";
+import { loginSchema, LoginSchema } from "../../lib/schemas/loginSchema";
 
 export default function LoginForm() {
   const [login, { isLoading }] = useLoginMutation();
@@ -25,67 +25,67 @@ export default function LoginForm() {
     handleSubmit,
     formState: { errors },
   } = useForm<LoginSchema>({
-    mode: 'onTouched',
+    mode: "onTouched",
     resolver: zodResolver(loginSchema),
   });
 
   const onSubmit = async (data: LoginSchema) => {
     await login(data);
     await fetchUserInfo();
-    navigate(location.state?.from || '/dashboard');
+    navigate(location.state?.from || "/dashboard");
   };
 
   return (
-    <Container component={Paper} maxWidth='sm' sx={{ borderRadius: 3 }}>
+    <Container component={Paper} maxWidth="sm" sx={{ borderRadius: 3 }}>
       <Box
-        display='flex'
-        flexDirection='column'
-        alignItems='center'
-        marginTop='8'
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        marginTop="8"
       >
-        <LockOutlined sx={{ mt: 3, color: 'secondary.main', fontSize: 40 }} />
-        <Typography variant='h5'>Sign in</Typography>
+        <LockOutlined sx={{ mt: 3, color: "secondary.main", fontSize: 40 }} />
+        <Typography variant="h5">Sign in</Typography>
         <Box
-          component='form'
+          component="form"
           onSubmit={handleSubmit(onSubmit)}
-          width='100%'
-          display='flex'
-          flexDirection='column'
+          width="100%"
+          display="flex"
+          flexDirection="column"
           gap={3}
           marginY={3}
         >
           <TextField
-            label='Email'
-            type='email'
+            label="Email"
+            type="email"
             fullWidth
             autoFocus
-            {...register('email')}
+            {...register("email")}
             error={!!errors.email}
             helperText={errors.email?.message}
           />
           <TextField
             fullWidth
-            label='Password'
-            type='password'
-            {...register('password')}
+            label="Password"
+            type="password"
+            {...register("password")}
             error={!!errors.password}
             helperText={errors.password?.message}
           />
           <Button
-            variant='contained'
-            color='primary'
-            type='submit'
+            variant="contained"
+            color="primary"
+            type="submit"
             disabled={isLoading}
           >
             Sign in
           </Button>
-          <Typography sx={{ textAlign: 'center' }}>
+          <Typography sx={{ textAlign: "center" }}>
             Don't have an account?
             <Typography
               component={Link}
-              to='/register'
-              color='primary'
-              sx={{ cursor: 'pointer', ml: 2 }}
+              to="/register"
+              color="primary"
+              sx={{ cursor: "pointer", ml: 2 }}
             >
               Sign up
             </Typography>

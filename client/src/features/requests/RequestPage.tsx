@@ -1,9 +1,9 @@
 import { Grid2, Paper, Typography } from '@mui/material';
 
-import { useFetchFiltersQuery, useFetchRequestsQuery } from './requestsApi';
+import { useFetchRequestsQuery } from './requestsApi';
 //import Filters from './Filters';
 import { useAppSelector } from '../../app/store/store';
-import { EnhancedTable as RequestTable } from '../../app/store/shared/components/enhancedtable/enhancedTable';
+import { EnhancedTable as RequestTable } from '../../app/shared/components/enhancedtable/enhancedTable';
 
 export default function RequestPage() {
   const requestParams = useAppSelector((state) => state.request);
@@ -12,11 +12,8 @@ export default function RequestPage() {
     isLoading: requestsLoading,
     refetch,
   } = useFetchRequestsQuery(requestParams);
-  //const { data: filtersData, isLoading: filtersLoading } =
-  useFetchFiltersQuery();
 
   if (requestsLoading) return <div>Loading...</div>;
-  //const defaultFiltersData = { priority: [], requestType: [] };
 
   return (
     <Paper

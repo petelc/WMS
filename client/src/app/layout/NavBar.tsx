@@ -19,15 +19,6 @@ import { midLinks, rightLinks } from '../../lib/menus';
 import UserMenu from './UserMenu';
 import { useUserInfoQuery } from '../../features/account/accountApi';
 
-// const navStyles = {
-//   color: 'inherit',
-//   typography: 'h6',
-//   textDecoration: 'none',
-//   width: '13.5rem',
-//   '&:hover': { color: 'grey.500' },
-//   '&.active': { color: '#baecf9' },
-// };
-
 const navRightStyles = {
   color: 'inherit',
   typography: 'h6',
@@ -36,6 +27,11 @@ const navRightStyles = {
   '&.active': { color: '#baecf9' },
 };
 
+/**
+ * Navigation bar component
+ * @type {React.FC}
+ * @returns {JSX.Element}
+ */
 export default function NavBar() {
   const { data: user } = useUserInfoQuery();
   const { isLoading, darkMode } = useAppSelector((state) => state.ui);

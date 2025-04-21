@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { accountApi } from '../../features/account/accountApi';
 import { requestsApi } from '../../features/requests/requestsApi';
 import { requestSlice } from '../../features/requests/requestSlice';
-import { lookupApi } from './shared/api/lookupApi';
+import { lookupApi } from '../shared/api/lookupApi';
 import { teamApi } from '../../features/team/teamApi';
 
 export const store = configureStore({

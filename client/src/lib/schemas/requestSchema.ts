@@ -1,26 +1,26 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 export const RequestSchema = z.object({
   requestTitle: z.string().min(3, {
-    message: 'Title must be at least 3 characters',
+    message: "Title must be at least 3 characters",
   }),
   explainImpact: z.string().min(10, {
-    message: 'Please explain the impact of not doing this project',
+    message: "Please explain the impact of not doing this project",
   }),
   requestedBy: z
     .string()
     .min(3, {
-      message: 'Requester name must be at least 3 characters',
+      message: "Requester name must be at least 3 characters",
     })
     .max(50, {
-      message: 'Requester name must be less than 50 characters',
+      message: "Requester name must be less than 50 characters",
     }),
   department: z.string().min(2, {
-    message: 'Department must be at least 2 characters',
+    message: "Department must be at least 2 characters",
   }),
 
   stakeHolders: z.string().min(10, {
-    message: 'Please list the stakeholders',
+    message: "Please list the stakeholders",
   }),
   requestDate: z.date(),
   proposedImpDate: z.date(),

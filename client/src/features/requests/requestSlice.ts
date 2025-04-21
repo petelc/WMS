@@ -1,9 +1,9 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { RequestParams } from '../../app/models/requestParams';
+import { createSlice } from "@reduxjs/toolkit";
+import { RequestParams } from "../../app/models/requestParams";
 
 const initialState: RequestParams = {
-  orderBy: '',
-  searchTerm: '',
+  orderBy: "",
+  searchTerm: "",
   priority: [] as string[],
   requestType: [] as string[],
   pageNumber: 1,
@@ -11,7 +11,7 @@ const initialState: RequestParams = {
 };
 
 export const requestSlice = createSlice({
-  name: 'request',
+  name: "request",
   initialState,
   reducers: {
     setPageNumber(state, action) {

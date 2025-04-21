@@ -1,6 +1,6 @@
-import { FieldValues, Path, UseFormSetError } from 'react-hook-form';
+import { FieldValues, Path, UseFormSetError } from "react-hook-form";
 
-type Order = 'asc' | 'desc';
+type Order = "asc" | "desc";
 
 /**
  * Formats a currency amount in dollars.
@@ -20,8 +20,11 @@ export function filterEmptyValues(values: object) {
   return Object.fromEntries(
     Object.entries(values).filter(
       ([, value]) =>
-        value != '' && value != null && value != undefined && value.length !== 0
-    )
+        value != "" &&
+        value != null &&
+        value != undefined &&
+        value.length !== 0,
+    ),
   );
 }
 
@@ -34,16 +37,16 @@ export function filterEmptyValues(values: object) {
 export function handleApiError<T extends FieldValues>(
   error: unknown,
   setError: UseFormSetError<T>,
-  fieldNames: Path<T>[]
+  fieldNames: Path<T>[],
 ) {
   const apiError = (error as { message: string }) || {};
 
-  if (apiError.message && typeof apiError.message === 'string') {
-    const errorArray = apiError.message.split(',');
+  if (apiError.message && typeof apiError.message === "string") {
+    const errorArray = apiError.message.split(",");
 
     errorArray.forEach((e) => {
       const matchedField = fieldNames.find((fieldName) =>
-        e.toLowerCase().includes(fieldName.toString().toLowerCase())
+        e.toLowerCase().includes(fieldName.toString().toLowerCase()),
       );
 
       if (matchedField) setError(matchedField, { message: e.trim() });
@@ -67,13 +70,13 @@ export function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
 
 export function getComparator<Key extends keyof string>(
   order: Order,
-  orderBy: Key
+  orderBy: Key,
 ): (
   a: { [key in Key]: number | string },
-  b: { [key in Key]: number | string }
+  b: { [key in Key]: number | string },
 ) => number {
   return (a, b) =>
-    order === 'desc'
+    order === "desc"
       ? descendingComparator(a, b, orderBy)
       : -descendingComparator(a, b, orderBy);
 }
