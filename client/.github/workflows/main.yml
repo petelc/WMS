@@ -1,4 +1,4 @@
-name: ./client/Publish-WMS-Documentation
+name: Publish-WMS-Documentation
 on: [push]
 jobs:
   publish-docs:
@@ -6,8 +6,8 @@ jobs:
     steps:
       - uses: erikyo/tsdoc-action@v1
         with:
-          source_dir: ./client/*
-          output_dir: ./client/docs
+          source_dir: ./*
+          output_dir: ./docs
           front_page: README.md
 
   
