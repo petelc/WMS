@@ -14,6 +14,7 @@ import BoardPage from '../../features/board/BoardPage';
 import ChangePage from '../../features/changes/ChangePage';
 import ProjectPage from '../../features/projects/ProjectPage';
 import WorkPage from '../../features/work/WorkPage';
+import TeamPage from '../../features/team/TeamPage';
 
 export const router = createBrowserRouter([
   {
@@ -30,6 +31,7 @@ export const router = createBrowserRouter([
           { path: 'changes', element: <ChangePage /> },
           { path: 'projects', element: <ProjectPage /> },
           { path: 'work', element: <WorkPage /> },
+          { path: 'team', element: <TeamPage /> },
         ],
       },
       { path: '', element: <LoginForm /> },

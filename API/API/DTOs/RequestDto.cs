@@ -1,10 +1,10 @@
 using System;
+using API.Entities;
 
-namespace API.Entities;
+namespace API.DTOs;
 
-public class Request
+public class RequestDto
 {
-    // request fields
     public int Id  { get; set; }
     public DateTime RequestedDate { get; set; }
     public required string RequestTitle { get; set; }

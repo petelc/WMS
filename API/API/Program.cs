@@ -1,3 +1,14 @@
+/// <summary>
+/// The entry point for the Work Management System (WMS) API application.
+/// Configures services, middleware, and the HTTP request pipeline.
+/// </summary>
+/// <remarks>
+/// This file sets up the application by:
+/// - Adding services to the dependency injection container, such as controllers, database context, CORS, AutoMapper, and Identity.
+/// - Configuring middleware for exception handling, CORS, authentication, and authorization.
+/// - Mapping API endpoints, including Identity API endpoints.
+/// - Initializing the database using the <see cref="DbInitializer.InitDb"/> method.
+/// </remarks>
 using Microsoft.EntityFrameworkCore;
 using API.Entities;
 using API.Data;

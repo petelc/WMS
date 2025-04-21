@@ -64,7 +64,7 @@ public class LookupController(WMSContext context) : BaseApiController
             e.Notes,
             e.ReportsTo,
             e.TeamId,
-            UserGroupId = e.EmployeeUserGroups.FirstOrDefault(eug => eug.UserGroupId == 1)!.UserGroupId, // Safely access UserGroupId
+            TeamName = e.Team!.TeamName,
             UserGroupName = e.EmployeeUserGroups.FirstOrDefault(eug => eug.UserGroupId == 1)!.UserGroup.GroupName // Access GroupName
         })
         .ToListAsync();
@@ -73,11 +73,42 @@ public class LookupController(WMSContext context) : BaseApiController
         
     }
 
-   
+    [HttpGet("team-employees")]
+    public async Task<ActionResult<List<EmployeeDto>>> GetTeamEmployees(int employeeId)
+    {
+        var team = await context.Employees
+            .Include(e => e.Team)
+            .Where(e => e.Id == employeeId)
+            .Select(e => e.Team)
+            .FirstOrDefaultAsync();
+
+        if (team == null)
+        {
+            return NotFound("Team not found");
+        }
 
 
+        var employees = await context.Employees
+            .Include(e => e.Team)
+            .Include(e => e.EmployeeUserGroups)
+            .ThenInclude(eug => eug.UserGroup) // Include UserGroup for access to GroupName
+            .Where(e => e.TeamId == team.Id)
+            .Select(e => new EmployeeDto
+            {
+                Id = e.Id,
+                FirstName = e.FirstName,
+                LastName = e.LastName,
+                DisplayName = e.DisplayName,
+                Team = e.Team,
+                EmployeeUserGroups = e.EmployeeUserGroups.Select(eug => new EmployeeUserGroupDto
+                {
+                    UserGroupId = eug.UserGroupId,
+                    GroupName = eug.UserGroup.GroupName
+                }).ToList()
+            })
+            .ToListAsync();
 
-
-   
+        return Ok(employees);
+    }
 
 }
