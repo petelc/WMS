@@ -6,7 +6,7 @@ jobs:
     steps:
       - uses: erikyo/tsdoc-action@v1
         with:
-          source_dir: ./client/src/*
+          source_dir: ./client/*
           output_dir: ./client/docs
           front_page: README.md
 
