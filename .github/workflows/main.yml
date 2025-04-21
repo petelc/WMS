@@ -1,7 +1,13 @@
-- name: Build
-  uses: erikyo/tsdoc-action@v1
-  with:
-    source_dir: ./src/*
-    output_dir: ./docs
-    front_page: README.md
-  githubPages: true
+name: Publish-WMS-Documentation
+on: [push]
+jobs:
+  publish-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: erikyo/tsdoc-action@v1
+        with:
+          source_dir: ./src/*
+          output_dir: ./docs
+          front_page: README.md
+
+  
