@@ -82,11 +82,12 @@ export default function TeamManagerDialog({
                 MenuProps={MenuProps}
               >
                 {teamManagers?.map((name) => {
-                  const { id, email } = name; // Destructure the id and email from the team manager object
+                  const { id, displayName } = name; // Destructure the id and email from the team manager object
+
                   return (
-                    <MenuItem key={id} value={email}>
-                      <Checkbox checked={manager.includes(email)} />
-                      {name.email}
+                    <MenuItem key={id} value={displayName}>
+                      <Checkbox checked={manager.includes(displayName)} />
+                      {name.displayName}
                     </MenuItem>
                   );
                 })}

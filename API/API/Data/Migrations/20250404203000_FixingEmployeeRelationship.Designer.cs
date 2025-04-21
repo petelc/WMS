@@ -3,6 +3,7 @@ using System;
 using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Data.Migrations
 {
     [DbContext(typeof(WMSContext))]
-    partial class WMSContextModelSnapshot : ModelSnapshot
+    [Migration("20250404203000_FixingEmployeeRelationship")]
+    partial class FixingEmployeeRelationship
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.1");
@@ -51,7 +54,7 @@ namespace API.Data.Migrations
 
             modelBuilder.Entity("API.Entities.Division", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("DivisionId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -62,41 +65,9 @@ namespace API.Data.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Id");
+                    b.HasKey("DivisionId");
 
                     b.ToTable("Divisions");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            DivisionDescription = "Business Information Technology Services",
-                            DivisionName = "BITS"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            DivisionDescription = "Office of Prisons",
-                            DivisionName = "OOP"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            DivisionDescription = "Education",
-                            DivisionName = "EDU"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            DivisionDescription = "Medical",
-                            DivisionName = "MED"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            DivisionDescription = "Mental Health",
-                            DivisionName = "MH"
-                        });
                 });
 
             modelBuilder.Entity("API.Entities.Employee", b =>
@@ -132,188 +103,9 @@ namespace API.Data.Migrations
                     b.Property<int?>("ReportsTo")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("TeamId")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("TeamId");
-
                     b.ToTable("Employees");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            DisplayName = "Logan Bently",
-                            Extension = "1234",
-                            FirstName = "Logan",
-                            Institution = "Institution 1",
-                            LastName = "Bently",
-                            Notes = "Notes 1",
-                            Region = "Region 1",
-                            ReportsTo = 2,
-                            TeamId = 2
-                        },
-                        new
-                        {
-                            Id = 2,
-                            DisplayName = "Bob Newhart",
-                            Extension = "5678",
-                            FirstName = "Bob",
-                            Institution = "Institution 2",
-                            LastName = "Newhart",
-                            Notes = "Notes 2",
-                            Region = "Region 2",
-                            ReportsTo = 6,
-                            TeamId = 3
-                        },
-                        new
-                        {
-                            Id = 3,
-                            DisplayName = "Steve Marshal",
-                            Extension = "9101",
-                            FirstName = "Steve",
-                            Institution = "Institution 3",
-                            LastName = "Marshal",
-                            Notes = "Notes 3",
-                            Region = "Region 3",
-                            ReportsTo = 5,
-                            TeamId = 2
-                        },
-                        new
-                        {
-                            Id = 4,
-                            DisplayName = "Michelle Rodriguez",
-                            Extension = "1235",
-                            FirstName = "Michelle",
-                            Institution = "Institution 1",
-                            LastName = "Rodriguez",
-                            Notes = "Notes 1",
-                            Region = "Region 1",
-                            ReportsTo = 6,
-                            TeamId = 4
-                        },
-                        new
-                        {
-                            Id = 5,
-                            DisplayName = "Kathy Renalds",
-                            Extension = "5677",
-                            FirstName = "Kathy",
-                            Institution = "Institution 2",
-                            LastName = "Renalds",
-                            Notes = "Notes 2",
-                            Region = "Region 2",
-                            ReportsTo = 6,
-                            TeamId = 4
-                        },
-                        new
-                        {
-                            Id = 6,
-                            DisplayName = "Dave Pennyworth",
-                            Extension = "9102",
-                            FirstName = "Dave",
-                            Institution = "Institution 3",
-                            LastName = "Pennyworth",
-                            Notes = "Notes 3",
-                            Region = "Region 3"
-                        },
-                        new
-                        {
-                            Id = 7,
-                            DisplayName = "Lucy Lawless",
-                            Extension = "1236",
-                            FirstName = "Lucy",
-                            Institution = "Institution 1",
-                            LastName = "Lawless",
-                            Notes = "Notes 1",
-                            Region = "Region 1",
-                            ReportsTo = 3,
-                            TeamId = 1
-                        },
-                        new
-                        {
-                            Id = 8,
-                            DisplayName = "Pete Rose",
-                            Extension = "5679",
-                            FirstName = "Pete",
-                            Institution = "Institution 2",
-                            LastName = "Rose",
-                            Notes = "Notes 2",
-                            Region = "Region 2",
-                            ReportsTo = 2,
-                            TeamId = 4
-                        },
-                        new
-                        {
-                            Id = 9,
-                            DisplayName = "Ben Boss",
-                            Extension = "9103",
-                            FirstName = "Ben",
-                            Institution = "Institution 3",
-                            LastName = "Boss",
-                            Notes = "Notes 3",
-                            Region = "Region 3",
-                            ReportsTo = 5,
-                            TeamId = 1
-                        });
-                });
-
-            modelBuilder.Entity("API.Entities.EmployeeUserGroup", b =>
-                {
-                    b.Property<int>("EmployeeId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("UserGroupId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("EmployeeId", "UserGroupId");
-
-                    b.HasIndex("UserGroupId");
-
-                    b.ToTable("EmployeeUserGroups");
-
-                    b.HasData(
-                        new
-                        {
-                            EmployeeId = 2,
-                            UserGroupId = 1
-                        },
-                        new
-                        {
-                            EmployeeId = 3,
-                            UserGroupId = 2
-                        },
-                        new
-                        {
-                            EmployeeId = 3,
-                            UserGroupId = 1
-                        },
-                        new
-                        {
-                            EmployeeId = 4,
-                            UserGroupId = 3
-                        },
-                        new
-                        {
-                            EmployeeId = 5,
-                            UserGroupId = 4
-                        },
-                        new
-                        {
-                            EmployeeId = 5,
-                            UserGroupId = 1
-                        },
-                        new
-                        {
-                            EmployeeId = 6,
-                            UserGroupId = 5
-                        },
-                        new
-                        {
-                            EmployeeId = 9,
-                            UserGroupId = 1
-                        });
                 });
 
             modelBuilder.Entity("API.Entities.Priority", b =>
@@ -393,9 +185,6 @@ namespace API.Data.Migrations
                     b.Property<int>("ExternalUserCount")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("GroupId")
-                        .HasColumnType("INTEGER");
-
                     b.PrimitiveCollection<string>("ImpactedClassifications")
                         .HasColumnType("TEXT");
 
@@ -424,9 +213,6 @@ namespace API.Data.Migrations
                     b.Property<string>("Objectives")
                         .IsRequired()
                         .HasColumnType("TEXT");
-
-                    b.Property<int?>("OwnerId")
-                        .HasColumnType("INTEGER");
 
                     b.PrimitiveCollection<string>("Policies")
                         .HasColumnType("TEXT");
@@ -482,10 +268,6 @@ namespace API.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ApprovalStatusId");
-
-                    b.HasIndex("GroupId");
-
-                    b.HasIndex("OwnerId");
 
                     b.HasIndex("PriorityId");
 
@@ -567,7 +349,7 @@ namespace API.Data.Migrations
 
             modelBuilder.Entity("API.Entities.Section", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("SectionId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -581,41 +363,11 @@ namespace API.Data.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Id");
+                    b.HasKey("SectionId");
 
                     b.HasIndex("DivisionId");
 
                     b.ToTable("Sections");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            DivisionId = 1,
-                            SectionDescription = "Infrastructure and Operations",
-                            SectionName = "Infrastructure"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            DivisionId = 1,
-                            SectionDescription = "Networking and Communications",
-                            SectionName = "Networking"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            DivisionId = 1,
-                            SectionDescription = "Security Operations",
-                            SectionName = "Security"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            DivisionId = 1,
-                            SectionDescription = "Application Development",
-                            SectionName = "AppDev"
-                        });
                 });
 
             modelBuilder.Entity("API.Entities.Step", b =>
@@ -647,8 +399,11 @@ namespace API.Data.Migrations
 
             modelBuilder.Entity("API.Entities.Team", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("TeamId")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("EmployeeId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("SectionId")
@@ -661,41 +416,13 @@ namespace API.Data.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Id");
+                    b.HasKey("TeamId");
+
+                    b.HasIndex("EmployeeId");
 
                     b.HasIndex("SectionId");
 
                     b.ToTable("Teams");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            SectionId = 4,
-                            TeamDescription = "Maintenance",
-                            TeamName = "Maintenance Team"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            SectionId = 4,
-                            TeamDescription = "Cloud Services",
-                            TeamName = "Cloud Team"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            SectionId = 4,
-                            TeamDescription = "ORAS",
-                            TeamName = "ORAS Team"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            SectionId = 4,
-                            TeamDescription = "Forms",
-                            TeamName = "Forms Team"
-                        });
                 });
 
             modelBuilder.Entity("API.Entities.User", b =>
@@ -765,56 +492,6 @@ namespace API.Data.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers", (string)null);
-                });
-
-            modelBuilder.Entity("API.Entities.UserGroup", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("GroupDescription")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("GroupName")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("UserGroups");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            GroupDescription = "Team Managers",
-                            GroupName = "TeamManager"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            GroupDescription = "Board Members",
-                            GroupName = "BoardMember"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            GroupDescription = "Project Managers",
-                            GroupName = "ProjectManager"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            GroupDescription = "Change Managers",
-                            GroupName = "ChangeManager"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            GroupDescription = "Change Coordinators",
-                            GroupName = "ChangeCoordinator"
-                        });
                 });
 
             modelBuilder.Entity("API.Entities.Work", b =>
@@ -1091,47 +768,11 @@ namespace API.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("API.Entities.Employee", b =>
-                {
-                    b.HasOne("API.Entities.Team", "Team")
-                        .WithMany()
-                        .HasForeignKey("TeamId");
-
-                    b.Navigation("Team");
-                });
-
-            modelBuilder.Entity("API.Entities.EmployeeUserGroup", b =>
-                {
-                    b.HasOne("API.Entities.Employee", "Employee")
-                        .WithMany("EmployeeUserGroups")
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("API.Entities.UserGroup", "UserGroup")
-                        .WithMany("EmployeeUserGroups")
-                        .HasForeignKey("UserGroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Employee");
-
-                    b.Navigation("UserGroup");
-                });
-
             modelBuilder.Entity("API.Entities.Request", b =>
                 {
                     b.HasOne("API.Entities.ApprovalStatus", "ApprovalStatus")
                         .WithMany()
                         .HasForeignKey("ApprovalStatusId");
-
-                    b.HasOne("API.Entities.UserGroup", "group")
-                        .WithMany()
-                        .HasForeignKey("GroupId");
-
-                    b.HasOne("API.Entities.Employee", "owner")
-                        .WithMany()
-                        .HasForeignKey("OwnerId");
 
                     b.HasOne("API.Entities.Priority", "Priority")
                         .WithMany()
@@ -1152,10 +793,6 @@ namespace API.Data.Migrations
                     b.Navigation("RequestStatus");
 
                     b.Navigation("RequestType");
-
-                    b.Navigation("group");
-
-                    b.Navigation("owner");
                 });
 
             modelBuilder.Entity("API.Entities.Section", b =>
@@ -1178,11 +815,17 @@ namespace API.Data.Migrations
 
             modelBuilder.Entity("API.Entities.Team", b =>
                 {
+                    b.HasOne("API.Entities.Employee", "Employee")
+                        .WithMany("Teams")
+                        .HasForeignKey("EmployeeId");
+
                     b.HasOne("API.Entities.Section", "Section")
                         .WithMany("Teams")
                         .HasForeignKey("SectionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Employee");
 
                     b.Navigation("Section");
                 });
@@ -1276,17 +919,12 @@ namespace API.Data.Migrations
 
             modelBuilder.Entity("API.Entities.Employee", b =>
                 {
-                    b.Navigation("EmployeeUserGroups");
+                    b.Navigation("Teams");
                 });
 
             modelBuilder.Entity("API.Entities.Section", b =>
                 {
                     b.Navigation("Teams");
-                });
-
-            modelBuilder.Entity("API.Entities.UserGroup", b =>
-                {
-                    b.Navigation("EmployeeUserGroups");
                 });
 
             modelBuilder.Entity("API.Entities.Work", b =>

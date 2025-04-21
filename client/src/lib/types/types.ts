@@ -21,8 +21,13 @@ export type RequestType = {
 
 export type TeamManager = {
   id: string;
-  userName: string;
-  email: string;
+  firstName: string;
+  lastName: string;
+  displayName: string;
+  region: string;
+  reportsTo: string;
+  teamName: string;
+  userGroupName: string;
 };
 
 export interface IRequest {

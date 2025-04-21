@@ -3,6 +3,7 @@ using System;
 using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Data.Migrations
 {
     [DbContext(typeof(WMSContext))]
-    partial class WMSContextModelSnapshot : ModelSnapshot
+    [Migration("20250405105909_AddedUserGroups")]
+    partial class AddedUserGroups
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.1");
@@ -135,9 +138,14 @@ namespace API.Data.Migrations
                     b.Property<int?>("TeamId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int?>("UserGroupId")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id");
 
                     b.HasIndex("TeamId");
+
+                    b.HasIndex("UserGroupId");
 
                     b.ToTable("Employees");
 
@@ -166,7 +174,8 @@ namespace API.Data.Migrations
                             Notes = "Notes 2",
                             Region = "Region 2",
                             ReportsTo = 6,
-                            TeamId = 3
+                            TeamId = 3,
+                            UserGroupId = 1
                         },
                         new
                         {
@@ -179,7 +188,8 @@ namespace API.Data.Migrations
                             Notes = "Notes 3",
                             Region = "Region 3",
                             ReportsTo = 5,
-                            TeamId = 2
+                            TeamId = 2,
+                            UserGroupId = 1
                         },
                         new
                         {
@@ -205,7 +215,8 @@ namespace API.Data.Migrations
                             Notes = "Notes 2",
                             Region = "Region 2",
                             ReportsTo = 6,
-                            TeamId = 4
+                            TeamId = 4,
+                            UserGroupId = 1
                         },
                         new
                         {
@@ -255,63 +266,7 @@ namespace API.Data.Migrations
                             Notes = "Notes 3",
                             Region = "Region 3",
                             ReportsTo = 5,
-                            TeamId = 1
-                        });
-                });
-
-            modelBuilder.Entity("API.Entities.EmployeeUserGroup", b =>
-                {
-                    b.Property<int>("EmployeeId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("UserGroupId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("EmployeeId", "UserGroupId");
-
-                    b.HasIndex("UserGroupId");
-
-                    b.ToTable("EmployeeUserGroups");
-
-                    b.HasData(
-                        new
-                        {
-                            EmployeeId = 2,
-                            UserGroupId = 1
-                        },
-                        new
-                        {
-                            EmployeeId = 3,
-                            UserGroupId = 2
-                        },
-                        new
-                        {
-                            EmployeeId = 3,
-                            UserGroupId = 1
-                        },
-                        new
-                        {
-                            EmployeeId = 4,
-                            UserGroupId = 3
-                        },
-                        new
-                        {
-                            EmployeeId = 5,
-                            UserGroupId = 4
-                        },
-                        new
-                        {
-                            EmployeeId = 5,
-                            UserGroupId = 1
-                        },
-                        new
-                        {
-                            EmployeeId = 6,
-                            UserGroupId = 5
-                        },
-                        new
-                        {
-                            EmployeeId = 9,
+                            TeamId = 1,
                             UserGroupId = 1
                         });
                 });
@@ -393,9 +348,6 @@ namespace API.Data.Migrations
                     b.Property<int>("ExternalUserCount")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("GroupId")
-                        .HasColumnType("INTEGER");
-
                     b.PrimitiveCollection<string>("ImpactedClassifications")
                         .HasColumnType("TEXT");
 
@@ -424,9 +376,6 @@ namespace API.Data.Migrations
                     b.Property<string>("Objectives")
                         .IsRequired()
                         .HasColumnType("TEXT");
-
-                    b.Property<int?>("OwnerId")
-                        .HasColumnType("INTEGER");
 
                     b.PrimitiveCollection<string>("Policies")
                         .HasColumnType("TEXT");
@@ -482,10 +431,6 @@ namespace API.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ApprovalStatusId");
-
-                    b.HasIndex("GroupId");
-
-                    b.HasIndex("OwnerId");
 
                     b.HasIndex("PriorityId");
 
@@ -790,30 +735,6 @@ namespace API.Data.Migrations
                             Id = 1,
                             GroupDescription = "Team Managers",
                             GroupName = "TeamManager"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            GroupDescription = "Board Members",
-                            GroupName = "BoardMember"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            GroupDescription = "Project Managers",
-                            GroupName = "ProjectManager"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            GroupDescription = "Change Managers",
-                            GroupName = "ChangeManager"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            GroupDescription = "Change Coordinators",
-                            GroupName = "ChangeCoordinator"
                         });
                 });
 
@@ -1097,24 +1018,12 @@ namespace API.Data.Migrations
                         .WithMany()
                         .HasForeignKey("TeamId");
 
-                    b.Navigation("Team");
-                });
-
-            modelBuilder.Entity("API.Entities.EmployeeUserGroup", b =>
-                {
-                    b.HasOne("API.Entities.Employee", "Employee")
-                        .WithMany("EmployeeUserGroups")
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("API.Entities.UserGroup", "UserGroup")
-                        .WithMany("EmployeeUserGroups")
+                        .WithMany("Employees")
                         .HasForeignKey("UserGroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
 
-                    b.Navigation("Employee");
+                    b.Navigation("Team");
 
                     b.Navigation("UserGroup");
                 });
@@ -1124,14 +1033,6 @@ namespace API.Data.Migrations
                     b.HasOne("API.Entities.ApprovalStatus", "ApprovalStatus")
                         .WithMany()
                         .HasForeignKey("ApprovalStatusId");
-
-                    b.HasOne("API.Entities.UserGroup", "group")
-                        .WithMany()
-                        .HasForeignKey("GroupId");
-
-                    b.HasOne("API.Entities.Employee", "owner")
-                        .WithMany()
-                        .HasForeignKey("OwnerId");
 
                     b.HasOne("API.Entities.Priority", "Priority")
                         .WithMany()
@@ -1152,10 +1053,6 @@ namespace API.Data.Migrations
                     b.Navigation("RequestStatus");
 
                     b.Navigation("RequestType");
-
-                    b.Navigation("group");
-
-                    b.Navigation("owner");
                 });
 
             modelBuilder.Entity("API.Entities.Section", b =>
@@ -1274,11 +1171,6 @@ namespace API.Data.Migrations
                     b.Navigation("Sections");
                 });
 
-            modelBuilder.Entity("API.Entities.Employee", b =>
-                {
-                    b.Navigation("EmployeeUserGroups");
-                });
-
             modelBuilder.Entity("API.Entities.Section", b =>
                 {
                     b.Navigation("Teams");
@@ -1286,7 +1178,7 @@ namespace API.Data.Migrations
 
             modelBuilder.Entity("API.Entities.UserGroup", b =>
                 {
-                    b.Navigation("EmployeeUserGroups");
+                    b.Navigation("Employees");
                 });
 
             modelBuilder.Entity("API.Entities.Work", b =>
