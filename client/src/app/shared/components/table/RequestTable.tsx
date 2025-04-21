@@ -16,7 +16,7 @@ export default function RequestTable({ requests, children }: Props) {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const { data: teamManagers } = useFetchTeamManagersQuery();
 
-  const handleChangePage = (event: unknown, newPage: number) => {
+  const handleChangePage = (_: unknown, newPage: number) => {
     setPage(newPage);
   };
 

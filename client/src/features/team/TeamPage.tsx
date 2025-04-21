@@ -35,7 +35,7 @@ export default function TeamPage() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
-  const handleChangePage = (event: unknown, newPage: number) => {
+  const handleChangePage = (_: unknown, newPage: number) => {
     setPage(newPage);
   };
 
@@ -47,7 +47,7 @@ export default function TeamPage() {
   };
 
   const handleRequestSort = (
-    event: React.MouseEvent<unknown>,
+    _: React.MouseEvent<unknown>,
     property: string | number | symbol
   ) => {
     const isAsc = orderBy === property && order === 'asc';

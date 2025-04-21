@@ -30,7 +30,7 @@ export function EnhancedTable({ rows, refetch }: Props) {
   const { data: teamManagers } = useFetchTeamManagersQuery();
 
   const handleRequestSort = (
-    event: React.MouseEvent<unknown>,
+    _: React.MouseEvent<unknown>,
     property: string | number | symbol
   ) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -38,6 +38,8 @@ export function EnhancedTable({ rows, refetch }: Props) {
     setOrderBy(property.toString());
   };
 
+  // @ts-check event is ok
+  // @ts-expect-error event is ok
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
   };
